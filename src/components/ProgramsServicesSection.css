@@ -16,6 +16,13 @@
   margin-bottom: 32px;
 }
 
+/* Explicitly left-align the section intro — beats the generic `.home h2`
+   centered rule on the homepage */
+.programs-services .programs-services__intro h2,
+.programs-services .programs-services__intro p {
+  text-align: left;
+}
+
 .programs-services__intro h2 {
   font-size: 48px;
   font-weight: 600;
