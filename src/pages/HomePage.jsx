@@ -26,9 +26,19 @@ function HomePage() {
 
       <ImpactSection />
 
-      <ProgramsServicesSection />
+      <AboutMissionSection />
 
-      <AboutMissionSection placeholderCopy />
+      <section className="home-donate-cta">
+        <div className="home-donate-cta__inner">
+          <h2>We can create a better tomorrow</h2>
+          <p>Donations to Good Shepherd Manor stay on campus, directly supporting our men's health, programs, and homes.</p>
+          <Link to="/ways-to-give" className="home-btn home-btn--blue">
+            Donate Now
+          </Link>
+        </div>
+      </section>
+
+      <ProgramsServicesSection />
 
       <section className="home-stories" aria-label="Stories">
         <div className="home-stories__inner">

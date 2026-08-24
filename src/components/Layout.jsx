@@ -31,7 +31,13 @@ function HeaderNav({ mobileOpen, onClose }) {
   const location = useLocation()
   const navId = useId()
   const navRef = useRef(null)
+  const drawerCloseRef = useRef(null)
   const [openKey, setOpenKey] = useState(null)
+
+  /* Move focus into the drawer when it opens */
+  useEffect(() => {
+    if (mobileOpen) drawerCloseRef.current?.focus()
+  }, [mobileOpen])
 
   /* Close desktop dropdowns on route change */
   useEffect(() => {
@@ -71,6 +77,7 @@ function HeaderNav({ mobileOpen, onClose }) {
           className="header__drawer-close"
           onClick={onClose}
           aria-label="Close menu"
+          ref={drawerCloseRef}
         >
           &times;
         </button>
@@ -232,6 +239,10 @@ function Layout() {
         hiringDismissed ? 'layout--banner-off' : '',
       ].filter(Boolean).join(' ')}
     >
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
+
       {!hiringDismissed && (
         <div className="hiring-banner">
           <span className="hiring-banner__text">
@@ -286,7 +297,7 @@ function Layout() {
         )}
       </header>
 
-      <main className="layout__main">
+      <main className="layout__main" id="main-content">
         <Outlet />
       </main>
 

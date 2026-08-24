@@ -4,6 +4,48 @@
   overflow: visible;
 }
 
+/* Donate CTA band — standalone section between About and Programs */
+.home-donate-cta {
+  background: var(--ast-color-5);
+  padding: 80px 24px;
+  text-align: center;
+}
+
+.home-donate-cta__inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.home-donate-cta h2 {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--ast-color-2);
+  margin: 0 0 16px;
+}
+
+.home-donate-cta p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ast-color-3);
+  margin: 0 0 32px;
+}
+
+@media (max-width: 900px) {
+  .home-donate-cta {
+    padding: 64px 24px;
+  }
+
+  .home-donate-cta h2 {
+    font-size: 32px;
+  }
+
+  .home-donate-cta p {
+    font-size: 16px;
+  }
+}
+
 .home-wrap {
   max-width: 1100px;
   margin: 0 auto;
@@ -179,8 +221,9 @@
 
 .home-impact__header {
   display: grid;
-  grid-template-columns: 550px 1fr;
-  gap: 100px;
+  /* Flexible so 900–1100px viewports don't squeeze the intro copy */
+  grid-template-columns: minmax(0, 550px) minmax(0, 1fr);
+  gap: clamp(24px, 6vw, 100px);
 }
 
 .home-impact__col h2 {
@@ -291,6 +334,17 @@
 
   .home-impact__stats {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 2-up stats: drop the edge border on even items so the divider
+     only appears between the pair */
+  .home-impact__stat:nth-child(even) {
+    border-right: none;
+    padding-left: 24px;
+  }
+
+  .home-impact__stat:nth-child(odd) {
+    padding-right: 24px;
   }
 }
 
