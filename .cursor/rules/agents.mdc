@@ -8,4 +8,6 @@ alwaysApply: true
 
 - Read `AGENTS.md` before any work. It is the canonical source for IA, slugs, stack, and hard rules.
 - Read `FIGMA.md` before implementing from a Figma URL.
+- **Get Involved landing** (`/support-gsm`): Figma `9179:32` — hero + `HomeIntroStrip` + four stacked `SplitSection` blocks from `src/data/getInvolved.js`. No horizontal tabs.
+- **Reusable modules:** prefer `SplitSection`, `AboutMissionSection`, `HistoryTimelineSection`, `AffiliationsSection`, `HomeIntroStrip` over new layout CSS.
 - On conflicts: `AGENTS.md` wins over chat history; `src/pages/SitemapPage.jsx` wins over `design/sitemap-structure.md`.

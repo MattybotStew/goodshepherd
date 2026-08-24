@@ -1,3 +1,4 @@
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
@@ -20,6 +21,8 @@ function NewslettersPage() {
         title="Newsletters & Family Resources"
         lede={LOREM_LONG}
       />
+
+      <HomeIntroStrip variant="page" />
 
       <div className="page-body">
         <section className="rte">

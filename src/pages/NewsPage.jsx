@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import { newsItems } from '../data/site'
 import { LOREM_LONG } from '../data/placeholders'
@@ -12,6 +13,8 @@ function NewsPage() {
         title="News & Updates"
         lede={LOREM_LONG}
       />
+
+      <HomeIntroStrip variant="page" />
 
       <div className="page-body">
         <section className="rte">

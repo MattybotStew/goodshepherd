@@ -1,47 +1,51 @@
-import { Link } from 'react-router-dom'
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
-import { LOREM, LOREM_LONG } from '../data/placeholders'
+import SectionTabs from '../components/SectionTabs'
+import SplitSection from '../components/SplitSection'
+import { getInvolvedSections } from '../data/getInvolved'
+import { LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
-
-const paths = [
-  { title: 'Ways to Give', path: '/ways-to-give' },
-  { title: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
-  { title: 'Events', path: '/events' },
-]
 
 function FoundationPage() {
   return (
     <article>
       <PageHero
-        crumbs={[{ label: 'Support GSM' }]}
+        crumbs={[{ label: 'Get Involved' }]}
         title="GSM Foundation"
         lede={LOREM_LONG}
       />
 
-      <div className="page-body">
-        <section className="rte">
-          <h2>How the Foundation serves the Manor</h2>
-          <p>{LOREM_LONG}</p>
-          <p>{LOREM}</p>
-        </section>
+      <HomeIntroStrip variant="involved" />
 
-        <section className="rte">
-          <h2>Ways to support</h2>
-          <ul className="rte-links">
-            {paths.map((p) => (
-              <li key={p.path}>
-                <h3>{p.title}</h3>
-                <p>{LOREM}</p>
-                <Link to={p.path} className="text-link">
-                  {p.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
+      {/* Jump bar — tabs scroll to the stacked anchor sections below */}
+      <SectionTabs sections={getInvolvedSections} />
+
+      {getInvolvedSections.map((section) => (
+        <SplitSection
+          key={section.id}
+          id={section.id}
+          eyebrow={section.eyebrow}
+          title={section.title}
+          flip={section.flip}
+          softImage={section.softImage}
+          linkTo={section.linkTo}
+          linkLabel={section.linkLabel}
+        >
+          {section.paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+          ))}
+          {section.listItems && (
+            <ul>
+              {section.listItems.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          )}
+        </SplitSection>
+      ))}
     </article>
   )
 }
 
 export default FoundationPage
+

@@ -8,8 +8,8 @@ const HOME_COPY = [
 ]
 
 const ABOUT_COPY = [
-  'Good Shepherd Manor is home to 124 men with developmental disabilities on our campus in Momence, Illinois, about 45 miles south of Chicago. The Brothers of the Good Shepherd and our professional staff have provided high standards of care.',
-  'Our programs stimulate the body, mind, and spirit through health care, life-skills instruction, vocational training, recreation, and Special Olympics. From accessible group homes to a 7,000 square foot infirmary, we continue to grow so every man we serve can live with dignity and security.',
+  LOREM_LONG,
+  LOREM_EXTRA,
 ]
 
 export default function AboutMissionSection({
@@ -17,6 +17,10 @@ export default function AboutMissionSection({
   overlapHero = false,
   compactBottom = false,
   placeholderCopy = false,
+  eyebrow = 'About Us',
+  title = 'A community of care, growth, and dignity for over 50 years.',
+  paragraphs,
+  id,
 }) {
   const sectionClass = [
     'home-mission',
@@ -26,15 +30,15 @@ export default function AboutMissionSection({
     .filter(Boolean)
     .join(' ')
 
-  const paragraphs = placeholderCopy ? HOME_COPY : ABOUT_COPY
+  const copy = paragraphs || (placeholderCopy ? HOME_COPY : ABOUT_COPY)
 
   return (
-    <section className={sectionClass}>
+    <section className={sectionClass} id={id || undefined}>
       <div className="home-mission__inner">
         <div className="home-mission__copy">
-          <p className="home-mission__eyebrow">About Us</p>
-          <h2>A community of care, growth, and dignity for over 50 years.</h2>
-          {paragraphs.map((text) => (
+          <p className="home-mission__eyebrow">{eyebrow}</p>
+          <h2>{title}</h2>
+          {copy.map((text) => (
             <p key={text.slice(0, 24)}>{text}</p>
           ))}
           {showReadMore && (

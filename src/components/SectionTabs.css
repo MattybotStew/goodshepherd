@@ -1,0 +1,71 @@
+/* Anchor jump-bar (Get Involved landing) — sticky under the header, scrolls to stacked sections */
+
+/* Keep anchored sections clear of the sticky header + sticky jump bar */
+.section-tabs .anchor,
+.anchor {
+  scroll-margin-top: 140px;
+}
+
+.section-tabs {
+  position: sticky;
+  top: 80px; /* just below the sticky header */
+  z-index: 50;
+  background: #f1f5f9; /* opaque so content scrolls under cleanly */
+  padding: 8px 0 0;
+  box-shadow: 0 4px 12px rgba(0, 42, 78, 0.08);
+}
+
+.section-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: var(--ast-container);
+  margin: 0 auto;
+  padding: 0 40px;
+  border-bottom: 2px solid var(--ast-color-6);
+}
+
+.section-tabs__tab {
+  display: inline-block;
+  text-decoration: none;
+  padding: 14px 20px;
+  margin-bottom: -2px;
+  font-family: var(--ast-font);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ast-color-3);
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+}
+
+.section-tabs__tab:hover {
+  color: var(--ast-color-0);
+}
+
+.section-tabs__tab:focus-visible {
+  outline: 2px solid var(--ast-color-0);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.section-tabs__tab.is-active {
+  color: var(--ast-color-0);
+  border-bottom-color: var(--ast-color-0);
+}
+
+@media (max-width: 921px) {
+  .section-tabs {
+    top: 64px;
+  }
+
+  .section-tabs__list {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-tabs__tab {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}

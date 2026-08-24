@@ -23,6 +23,24 @@
   margin-top: -48px;
 }
 
+/* Inner pages: same hero overlap as the homepage */
+.home-intro--involved,
+.home-intro--page {
+  margin-top: -140px;
+}
+
+.home-intro--involved::before,
+.home-intro--page::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 140px;
+  bottom: 0;
+  background: #f1f5f9;
+  z-index: -1;
+}
+
 .home-intro__card {
   max-width: 1200px;
   margin: 0 auto;
@@ -88,6 +106,16 @@
 
   .home-intro--about {
     margin-top: 0;
+  }
+
+  .home-intro--involved,
+  .home-intro--page {
+    margin-top: -72px;
+  }
+
+  .home-intro--involved::before,
+  .home-intro--page::before {
+    top: 72px;
   }
 
   .home-intro__card {

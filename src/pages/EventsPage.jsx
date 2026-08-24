@@ -1,3 +1,4 @@
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import { LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
@@ -16,6 +17,8 @@ function EventsPage() {
         title="Events"
         lede={LOREM_LONG}
       />
+
+      <HomeIntroStrip variant="involved" />
 
       <div className="page-body">
         {events.map((e) => (

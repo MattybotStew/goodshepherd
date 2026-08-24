@@ -94,9 +94,9 @@ Canonical source in this repo: `src/pages/SitemapPage.jsx`.
 | 5 | Vocational Program | `/programs/vocational` | Client TBD — cheapest scope cut |
 | 6 | Residential Living | `/programs/residential-living` | |
 | 7 | Health & Well Being | `/programs/health-well-being` | Sections: nursing, clinic, pharmacy, supports, transportation |
-| 8 | GSM Foundation | `/support-gsm` | |
+| 8 | GSM Foundation | `/support-gsm` | Get Involved landing — Figma `9179:32`; see **Get Involved wire** below |
 | 9 | Ways to Give / Donate | `/ways-to-give` | Header Donate target |
-| 10 | Shepherd Endowment Society | `/shepherd-endowment-society` | |
+| 10 | Shepherd Endowment Society | `/shepherd-endowment-society` | Real copy in `src/data/endowment.js` (from production site) |
 | 11 | Events | `/events` | Sections: Fall Festival, Golf Invitational, Family Events |
 | 12 | News & Updates | `/news` | Blog hub (counts as a page) |
 | 13 | Newsletters & Family Resources | `/newsletters` | Archive + signup |
@@ -142,6 +142,44 @@ The Get Involved split card and Upcoming Event block are **not** on the current 
 
 Header nav on the wire: About, Programs & Services, Get Involved, News, Careers, Contact + Donate.
 
+## Get Involved wire (`/support-gsm`)
+
+Figma file **gS-Design** — frame node `9179:32` (canvas `6:124`). Export: `design/figma-node-6-124.png`.
+
+**Client direction:** the intro cards are followed by a **tab-style jump bar** that scrolls to **stacked anchor sections** (not hidden tab panels). The `SectionTabs` component (`src/components/SectionTabs.jsx`) renders four jump links labelled from each section’s `eyebrow`; clicking smooth-scrolls to the matching `#id` anchor and the active tab highlights via scroll-spy. Content is fully stacked via `SplitSection` (all sections visible), so nothing is hidden. Section data lives in `src/data/getInvolved.js`.
+
+Section order (after hero + intro cards):
+
+1. **Hero** — breadcrumb “Get Involved”, title **GSM Foundation**, lorem lede. `PageHero` + transparent header.
+2. **Intro strip** — `HomeIntroStrip variant="involved"`: 01 Donate → `/ways-to-give`, 02 Volunteer → `/events`, 03 Give for Good → `/shepherd-endowment-society`. Overlaps hero on `#f1f5f9`.
+3. **Jump bar** — `SectionTabs` directly under the intro cards; **sticky** just below the header once you scroll. Four scroll-to links: GSM Foundation, Ways to Give, Shepherd Endowment Society, Events. Active link gets a blue underline; the bar sits on the `#f1f5f9` band.
+4. **GSM Foundation** — `SplitSection` `#foundation`: copy left, image right. Eyebrow + title “Supporting the Manor for over 40 years”. No read-more link (this is the landing page).
+5. **Ways to Give** — `#ways-to-give`, **flipped** (image left). Link → `/ways-to-give`.
+6. **Shepherd Endowment Society** — `#endowment`, normal split. Title “Stewardship that outlives a gift” on landing; link → `/shepherd-endowment-society`. Uses real copy from `src/data/endowment.js`.
+7. **Events** — `#events`, **flipped**, soft image placeholder. Bullets: Fall Festival, Golf Invitational, Family Events. Link → `/events`.
+8. **Global Get Involved CTA** — `GetInvolvedCta` in `Layout.jsx` (blue band before footer newsletter). Not duplicated on the page canvas.
+
+Child pages (9–11) keep their own heroes + `HomeIntroStrip variant="involved"` where wired; body copy mostly lorem except Endowment.
+
+### Reusable section modules (React wires)
+
+Extracted from About and reused on inner pages — **do not** invent new layout patterns when these fit:
+
+| Component | Use for |
+|---|---|
+| `PageHero` | Shared photo-overlay hero on all pages in `HERO_HEADER_PATHS` |
+| `HomeIntroStrip` | Overlapping 3-card strip (`home` / `about` / `involved` / `page` variants) |
+| `AboutMissionSection` | Photo mosaic + copy (About hero overlap; optional eyebrow/title props) |
+| `SplitSection` | Eyebrow + h2 + copy + image placeholder; `flip`, `alt`, `softImage`, optional link |
+| `SectionTabs` | Sticky tab-style jump bar that scrolls to stacked anchor sections + scroll-spy (Get Involved landing) |
+| `HistoryTimelineSection` | Horizontal scroll timeline (`src/data/history.js`) |
+| `AffiliationsSection` | Partner pills split |
+| `ProgramsIntroSection` / `ProgramsServicesSection` | Programs landing |
+| `ImpactSection` | Home impact counters |
+| `GetInvolvedCta` | Site-wide blue CTA band in `Layout` |
+
+Data files: `src/data/getInvolved.js` (landing jump-bar sections), `src/data/endowment.js` (Endowment page copy), `src/data/history.js`, `src/data/placeholders.js` (lorem), `src/data/header.js` (nav + hero-header slugs).
+
 ## URLs that must not be used
 
 The React prototype has leftover hash URLs. They are wrong. Use the table above.
@@ -156,7 +194,7 @@ The React prototype has leftover hash URLs. They are wrong. Use the table above.
 
 ## Global chrome
 
-Header nav (6 items): About, Programs & Services, Support GSM, News, Careers, Contact. Plus Donate button.
+Header nav (6 items): About, Programs & Services, **Get Involved** (dropdown → Foundation, Ways to Give, Endowment, Events), News, Careers, Contact. Plus Donate button → `/ways-to-give`.
 
 Footer: phone `(815) 472-3700`, P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954; quick links; newsletter (real list, labeled field); real GSM Facebook URL; Privacy; Accessibility; `© 2026 The Good Shepherd Manor`.
 
@@ -190,15 +228,21 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | `src/pages/SitemapPage.jsx` | 15-page IA, sections, SOW notes |
 | `src/pages/HomePage.jsx` | Homepage wire — Figma `9009:2` |
 | `design/node-9009-2.png` | Shared homepage wireframe export |
+| `design/figma-node-6-124.png` | Get Involved landing wire export |
+| `src/pages/FoundationPage.jsx` | Get Involved landing (`/support-gsm`) |
 | `src/pages/*.jsx` | Remaining 15-page wires (About through Contact) |
+| `src/data/getInvolved.js` | Get Involved landing split-section content + IDs |
+| `src/data/endowment.js` | Shepherd Endowment Society page copy (real) |
+| `src/data/history.js` | About timeline entries |
 | `src/data/site.js` | Shared stats, program cards, news, jobs |
 | `src/data/programs.js` / `src/data/health.js` | Program page copy and section IDs |
+| `src/data/header.js` | Nav items, hero-header slug list, active-state helpers |
 | `src/styles/starter.css` | Shared 04-style layout classes (not a WP spec) |
-| `src/components/Layout.jsx` | Nav labels, footer contact, hiring banner, Donate |
+| `src/components/Layout.jsx` | Nav labels, footer contact, hiring banner, Donate, `GetInvolvedCta` |
 | `src/components/ProgramPage.jsx` | Program page **section order** only |
 | `design/sitemap-structure.md` | Figma extract (older; SitemapPage wins on conflicts) |
 
-> **Current state (client review round):** Home retains real, reviewed copy. All subpage body copy, program data (`programs.js` / `health.js`), news/job excerpts, and the global Get Involved CTA are placeholder **lorem ipsum** pending client copy review. Keep headings, titles, slugs, eyebrow labels, and IA as-is; only descriptive body copy is placeholder.
+> **Current state (client review round):** All descriptive body copy is placeholder **lorem ipsum** (Home, About, Endowment, Get Involved landing, programs, news, careers, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review.
 
 Health & Well Being is the first program to build. Its section IDs: `nursing`, `clinic`, `pharmacy`, `supports`, `transportation`.
 
@@ -225,7 +269,7 @@ This app is a clickable wire. Further React work is optional and should stay thi
 - `/sitemap` is for stakeholders. Production will not have it.
 - Do not commit `.env` secrets or copy them into docs.
 
-Local: `npm install` then `npm run dev` (http://localhost:5173).
+Local: `npm install` then `npm run dev` (default http://localhost:5173). Use `npm run dev -- --port 5174` if the preview is stuck on stale HMR.
 
 ## Hard rules
 
@@ -235,6 +279,8 @@ Local: `npm install` then `npm run dev` (http://localhost:5173).
 - No Elementor Theme Builder header/footer.
 - No new plugins without a concrete need (donations, jobs board, events calendar). Events is **one page with sections**, not The Events Calendar, unless the client will run many dated events.
 - Do not invent pages, slugs, or nav items.
+- Do not add a fifth Get Involved page or turn dropdown items into extra routes — they are four of the 15 SOW pages plus sections on `/support-gsm`.
+- Get Involved landing uses a `SectionTabs` jump bar above stacked `SplitSection`s (client direction) — tabs scroll to anchors, all content stays visible. Do not replace the stacked content with hidden tab panels.
 - Vocational is the approved scope cut if the build runs long.
 - Purge WP Engine cache after Elementor edits.
 

@@ -1,3 +1,4 @@
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
@@ -14,6 +15,8 @@ function ContactPage() {
         title="Contact Us"
         lede={LOREM_LONG}
       />
+
+      <HomeIntroStrip variant="page" />
 
       <div className="page-body">
         <div className="form-grid">

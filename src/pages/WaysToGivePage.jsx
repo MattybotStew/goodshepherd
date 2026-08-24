@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
@@ -11,6 +12,8 @@ function WaysToGivePage() {
         title="Ways to Give"
         lede={LOREM_LONG}
       />
+
+      <HomeIntroStrip variant="involved" />
 
       <div className="page-body">
         <section className="rte">
