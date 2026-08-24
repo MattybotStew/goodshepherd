@@ -63,6 +63,14 @@ export const newsItems = [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
     path: "/events#golf",
   },
+  {
+    date: "May 2026",
+    tag: "Community",
+    title: "Family Cookouts and campus gatherings",
+    excerpt:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    path: "/events#family",
+  },
 ];
 
 export const affiliations = [
