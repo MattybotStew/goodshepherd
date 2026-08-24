@@ -45,7 +45,7 @@ export const newsItems = [
     title: "GSM's 35th Annual Fall Festival",
     excerpt:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    path: "/events#fall-festival",
+    path: "/news/35th-annual-fall-festival",
   },
   {
     date: "Jul 2026",
@@ -53,7 +53,7 @@ export const newsItems = [
     title: "GSM's New Digital Den in Community Day Services",
     excerpt:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    path: "/programs/community-day-services#digital-den",
+    path: "/news/digital-den-community-day",
   },
   {
     date: "Jun 2026",
@@ -61,7 +61,7 @@ export const newsItems = [
     title: "30th Anniversary Golf Invitational Sponsors",
     excerpt:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-    path: "/events#golf",
+    path: "/news/30th-golf-invitational",
   },
   {
     date: "May 2026",

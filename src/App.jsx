@@ -13,6 +13,7 @@ import WaysToGivePage from './pages/WaysToGivePage'
 import EndowmentPage from './pages/EndowmentPage'
 import EventsPage from './pages/EventsPage'
 import NewsPage from './pages/NewsPage'
+import NewsArticlePage from './pages/NewsArticlePage'
 import NewslettersPage from './pages/NewslettersPage'
 import CareersPage from './pages/CareersPage'
 import ContactPage from './pages/ContactPage'
@@ -37,6 +38,7 @@ function App() {
           <Route path="/shepherd-endowment-society" element={<EndowmentPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/news" element={<NewsPage />} />
+          <Route path="/news/:slug" element={<NewsArticlePage />} />
           <Route path="/newsletters" element={<NewslettersPage />} />
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact" element={<ContactPage />} />

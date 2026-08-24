@@ -1,0 +1,286 @@
+@import '../styles/tokens.css';
+
+.contact-bar {
+  position: relative;
+  z-index: 3;
+  padding: 0 24px 56px;
+  margin-top: -140px;
+}
+
+.contact-bar::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 140px;
+  bottom: 0;
+  background: #f1f5f9;
+  z-index: -1;
+}
+
+.contact-bar__card {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(0, 42, 78, 0.12);
+}
+
+.contact-bar__col {
+  padding: 40px 36px;
+  border-right: 1px solid #e8edf2;
+}
+
+.contact-bar__col:last-child {
+  border-right: none;
+}
+
+.contact-bar__label {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.contact-bar__value {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ast-color-2);
+}
+
+.contact-bar__value a {
+  color: inherit;
+}
+
+.contact-bar__value a:hover {
+  color: var(--ast-color-0);
+}
+
+.contact-touch {
+  background: #f1f5f9;
+  padding: 40px 24px 100px;
+}
+
+.contact-touch--thank {
+  background: var(--ast-color-5);
+  padding: 100px 24px;
+}
+
+.contact-touch__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-touch__eyebrow,
+.contact-map__eyebrow {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b7280;
+}
+
+.contact-touch__copy h2 {
+  margin: 0 0 16px;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  color: var(--ast-color-2);
+}
+
+.contact-touch__copy > p {
+  margin: 0 0 40px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ast-color-3);
+}
+
+.contact-offices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 40px;
+  margin-bottom: 32px;
+}
+
+.contact-office h3,
+.contact-follow h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ast-color-2);
+}
+
+.contact-office p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ast-color-3);
+}
+
+.contact-office__link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ast-color-2);
+}
+
+.contact-office__link:hover {
+  color: var(--ast-color-0);
+}
+
+.contact-follow__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ast-color-2);
+}
+
+.contact-follow__link img {
+  width: 20px;
+  height: 20px;
+}
+
+.contact-follow__link:hover {
+  color: var(--ast-color-0);
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.contact-field label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ast-color-2);
+}
+
+.contact-field label span {
+  color: #d92d20;
+}
+
+.contact-field input,
+.contact-field textarea {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 16px 18px;
+  border: 1px solid #e8edf2;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: var(--ast-color-2);
+}
+
+.contact-touch--thank .contact-field input,
+.contact-touch--thank .contact-field textarea {
+  background: #f1f5f9;
+}
+
+.contact-field textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-form .btn {
+  margin-top: 8px;
+}
+
+.contact-map {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.contact-map__photo {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(0, 42, 78, 0.45), rgba(0, 137, 223, 0.28)),
+    #c8d4e0;
+}
+
+.contact-map__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  width: 100%;
+}
+
+.contact-map__copy .contact-map__eyebrow {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.contact-map__copy h2 {
+  max-width: 640px;
+  margin: 0;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .contact-bar {
+    margin-top: -72px;
+  }
+
+  .contact-bar::before {
+    top: 72px;
+  }
+
+  .contact-bar__card {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-bar__col {
+    border-right: none;
+    border-bottom: 1px solid #e8edf2;
+  }
+
+  .contact-bar__col:last-child {
+    border-bottom: none;
+  }
+
+  .contact-touch__inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .contact-touch__copy h2 {
+    font-size: 36px;
+  }
+
+  .contact-offices {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-map {
+    min-height: 360px;
+  }
+
+  .contact-map__copy h2 {
+    font-size: 32px;
+  }
+}
