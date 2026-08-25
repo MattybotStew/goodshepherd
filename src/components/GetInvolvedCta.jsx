@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import ctaPhoto from '../assets/theme04/home-bg.jpg'
+import { lifeImages } from '../data/lifeImages'
 import './GetInvolvedCta.css'
 
 const PATHWAYS = [
@@ -30,7 +30,7 @@ export default function GetInvolvedCta() {
     <section className="global-cta" aria-labelledby="global-cta-heading">
       <div
         className="global-cta__inner"
-        style={{ '--cta-photo': `url(${ctaPhoto})` }}
+        style={{ '--cta-photo': `url(${lifeImages.globalCta})` }}
       >
         <header className="global-cta__header">
           <h2 id="global-cta-heading">Get Involved</h2>

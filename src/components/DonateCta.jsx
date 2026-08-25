@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { LOREM } from '../data/placeholders'
-import ctaPhoto from '../assets/theme04/home-05.jpg'
+import { lifeImages } from '../data/lifeImages'
 import './DonateCta.css'
 
 export default function DonateCta({
@@ -14,7 +14,7 @@ export default function DonateCta({
     <section className={`home-donate-cta${split ? ' home-donate-cta--split' : ''}`}>
       <div
         className="home-donate-cta__inner"
-        style={{ '--cta-photo': `url(${ctaPhoto})` }}
+        style={{ '--cta-photo': `url(${lifeImages.donate})` }}
       >
         <div className="home-donate-cta__copy">
           <h2>{title}</h2>

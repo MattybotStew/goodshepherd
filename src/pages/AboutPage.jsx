@@ -4,6 +4,7 @@ import HistoryTimelineSection from '../components/HistoryTimelineSection'
 import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import SplitSection from '../components/SplitSection'
+import { lifeImages } from '../data/lifeImages'
 import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
 
@@ -17,7 +18,13 @@ function AboutPage() {
         lede="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi."
       />
 
-      <AboutMissionSection showReadMore={false} overlapHero compactBottom placeholderCopy />
+      <AboutMissionSection
+        showReadMore={false}
+        overlapHero
+        compactBottom
+        placeholderCopy
+        mosaicImages={lifeImages.aboutMosaic}
+      />
 
       <HomeIntroStrip variant="about" />
 

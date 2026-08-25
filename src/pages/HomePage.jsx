@@ -13,12 +13,12 @@ import {
   theme04Impact,
   theme04Stories,
 } from "../data/theme04Home";
-import { theme04Images } from "../data/theme04Images";
+import { lifeImages } from "../data/lifeImages";
 import "./HomePage.css";
 
 const storyItems = theme04Stories.items.map((item, index) => ({
   ...item,
-  image: theme04Images.stories[index],
+  image: lifeImages.stories[index],
 }));
 
 function HomePage() {
@@ -27,7 +27,7 @@ function HomePage() {
       <section className="home-hero">
         <div
           className="home-hero__photo home-hero__photo--image"
-          style={{ "--hero-photo": `url(${theme04Images.hero})` }}
+          style={{ "--hero-photo": `url(${lifeImages.hero})` }}
           aria-hidden="true"
         />
         <div className="home-hero__inner">
@@ -46,7 +46,7 @@ function HomePage() {
         eyebrow={theme04About.eyebrow}
         title={theme04About.title}
         paragraphs={theme04About.paragraphs}
-        mosaicImages={theme04Images.aboutMosaic}
+        mosaicImages={lifeImages.aboutMosaic}
       />
 
       <ImpactSection
@@ -62,7 +62,7 @@ function HomePage() {
         eyebrow={theme04GetInvolved.eyebrow}
         title={theme04GetInvolved.title}
         flip
-        imageSrc={theme04Images.getInvolved}
+        imageSrc={lifeImages.getInvolved}
         linkTo={theme04GetInvolved.linkPath}
         linkLabel={`${theme04GetInvolved.linkLabel} →`}
       >
