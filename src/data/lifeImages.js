@@ -1,16 +1,13 @@
 /**
- * Adobe Stock comps (1000px previews) of adult men in community, work, home, and recreation.
- * License the originals on stock.adobe.com before production. File numbers:
- *   hero              546456873
- *   mosaic-workshop   229113684
- *   mosaic-kitchen    320793293
- *   mosaic-garden     219036747
- *   mosaic-porch      680452499
- *   involved-art      200746843
- *   donate            383620177
- *   story-work        614843776
- *   story-recreation  765214175
- *   globalCta         530691361
+ * GSM Facebook photos (goodshepherdmanormomence/photos), downloaded for the wire.
+ * Mosaic + event/story cards use real campus photos. Other slots still Adobe Stock
+ * comps until swapped — license those originals on stock.adobe.com before production.
+ *   hero              Figma 9195:10 (art studio embrace)
+ *   mosaic-*          Facebook (gym, outdoor picnic, campus gathering)
+ *   involved-art      Adobe 200746843
+ *   donate            Adobe 383620177
+ *   stories           Facebook (gym activity, pavilion cookout)
+ *   globalCta         GSM stadium outing (DDAN 2025)
  */
 
 import hero from '../assets/life/hero.jpg'
