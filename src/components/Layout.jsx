@@ -311,10 +311,15 @@ function Layout() {
       <GetInvolvedCta />
 
       <section className="signup-band" aria-labelledby="signup-band-heading">
+        <div className="signup-band__glow" aria-hidden="true" />
         <div className="signup-band__inner">
           <div className="signup-band__copy">
+            <p className="signup-band__eyebrow">Stay Connected</p>
             <h2 id="signup-band-heading">Newsletter</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+            <p className="signup-band__lede">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </p>
           </div>
           <form
             className="signup-band__form"
@@ -327,12 +332,16 @@ function Layout() {
                 type="email"
                 name="email"
                 autoComplete="email"
+                placeholder="you@example.com"
                 required
               />
               <button type="submit" className="signup-band__btn">
                 Sign Up
               </button>
             </div>
+            <p className="signup-band__note">
+              No spam — just campus news and event invitations.
+            </p>
           </form>
         </div>
       </section>
