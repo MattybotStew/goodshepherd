@@ -160,23 +160,13 @@ a {
 .header__logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex-shrink: 0;
 }
 
-.header__logo-mark {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: var(--ast-color-0);
-}
-
-.header__logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--ast-color-2);
-  line-height: 1.2;
-  letter-spacing: -0.25px;
+.header__logo-img {
+  display: block;
+  width: auto;
+  height: 72px;
 }
 
 .header__nav {
@@ -315,7 +305,7 @@ a {
 .home-hero {
   position: relative;
   z-index: 1;
-  min-height: 864px;
+  min-height: 868px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -331,6 +321,16 @@ a {
   background: var(--hero-bg);
 }
 
+.home-hero__photo--image {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 20, 36, 0.45) 0%,
+      rgba(0, 20, 36, 0.62) 100%
+    ),
+    var(--hero-photo) center / cover no-repeat;
+}
+
 .home-hero__inner {
   position: relative;
   z-index: 1;
@@ -338,20 +338,26 @@ a {
 }
 
 .home-hero h1 {
-  font-size: 72px;
+  font-size: clamp(40px, 5.2vw, 64px);
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -1px;
+  letter-spacing: -1.5px;
   color: #ffffff;
-  margin: 0 0 20px;
+  max-width: 15ch;
+  margin: 0 auto 20px;
+  text-wrap: balance;
+}
+
+.home-hero--left h1 {
+  margin-left: 0;
 }
 
 .home-hero p {
-  font-size: 20px;
-  color: #ffffff;
-  line-height: 1.5;
-  max-width: 740px;
-  margin: 0 auto 28px;
+  font-size: 19px;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.6;
+  max-width: 660px;
+  margin: 0 auto 32px;
 }
 
 /* Breadcrumb on the hero (Home has none; hero-header pages do) */
@@ -417,6 +423,11 @@ a {
     padding: 96px 24px 64px;
   }
 
+  .layout--hero-header .home > .home-hero {
+    padding-top: var(--header-h, 72px);
+    padding-bottom: 80px;
+  }
+
   .home-hero h1 {
     font-size: 40px;
   }
@@ -450,16 +461,17 @@ a {
   padding-top: 160px;
 }
 
+/* Home: center copy between header bottom and intro-card top */
+.layout--hero-header .home > .home-hero {
+  padding-top: var(--header-h, 88px);
+  padding-bottom: 160px;
+}
+
 .layout--hero-header .header:not(.is-solid) {
   background: transparent;
   box-shadow: none;
 }
 
-.layout--hero-header .header:not(.is-solid) .header__logo-mark {
-  background: var(--ast-color-5);
-}
-
-.layout--hero-header .header:not(.is-solid) .header__logo-text,
 .layout--hero-header .header:not(.is-solid) .header__nav-link,
 .layout--hero-header .header:not(.is-solid) .header__nav-toggle {
   color: var(--ast-color-5);
@@ -611,37 +623,30 @@ a {
 .footer__logo {
   display: flex;
   align-items: center;
-  gap: 10px;
 }
 
-.footer__logo-mark {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  background: var(--ast-color-5);
-}
-
-.footer__logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.25px;
-  color: var(--ast-color-5);
+.footer__logo-img {
+  display: block;
+  width: auto;
+  height: 72px;
 }
 
 .footer__tagline {
-  margin-top: 20px;
-  font-size: 16px;
+  margin-top: 18px;
+  max-width: 30ch;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 25.6px;
+  line-height: 1.7;
   color: var(--ast-color-6);
+  text-wrap: pretty;
 }
 
 .footer__heading {
-  font-size: 22px;
-  font-weight: 600;
-  line-height: 35.2px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--ast-color-5);
 }
 
@@ -649,20 +654,35 @@ a {
   list-style: none;
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
+  gap: 10px;
+  margin-top: 22px;
 }
 
 .footer__links a,
 .footer__contact {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 400;
-  line-height: 25.6px;
+  line-height: 1.55;
   color: var(--ast-color-6);
+}
+
+.footer__links a {
+  transition: color 0.15s ease;
+}
+
+.footer__contact-col .footer__contact:first-of-type {
+  margin-top: 22px;
+}
+
+.footer__contact + .footer__contact {
+  margin-top: 6px;
 }
 
 .footer__links a:hover,
 .footer__copy a:hover {
   color: var(--ast-color-5);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .footer__bottom {
@@ -681,14 +701,15 @@ a {
 }
 
 .footer__copy {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 25.6px;
-  color: var(--ast-color-5);
+  line-height: 1.6;
+  color: var(--ast-color-6);
 }
 
 .footer__copy a {
-  color: var(--ast-color-6);
+  color: var(--ast-color-5);
+  transition: color 0.15s ease;
 }
 
 .footer__socials {

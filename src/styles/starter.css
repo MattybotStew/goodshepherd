@@ -18,7 +18,7 @@
 
 .img-ph {
   min-height: 280px;
-  border-radius: 8px;
+  border-radius: 16px;
   background:
     linear-gradient(160deg, rgba(0, 42, 78, 0.15), rgba(0, 137, 223, 0.25)),
     var(--ast-color-6);
@@ -32,6 +32,12 @@
 
 .img-ph--tall {
   min-height: 420px;
+}
+
+.img-ph--photo {
+  object-fit: cover;
+  width: 100%;
+  display: block;
 }
 
 /* Inner titles — Astra/Elementor page header, not a navy band */
@@ -66,12 +72,13 @@
 .split h2,
 .band h2,
 .impact h2 {
-  font-size: 48px;
+  font-size: clamp(32px, 3.4vw, 44px);
   font-weight: 600;
   color: var(--ast-color-2);
   line-height: 1.2;
-  letter-spacing: -1px;
+  letter-spacing: -0.8px;
   margin-bottom: 16px;
+  text-wrap: balance;
 }
 
 .split p {

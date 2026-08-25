@@ -1,15 +1,15 @@
 .home-mission {
   background: #f1f5f9;
-  padding: 80px 24px 96px;
+  padding: 96px 24px;
 }
 
 .home-mission__inner {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 409px 1fr;
-  gap: 72px;
-  align-items: start;
+  grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: center;
 }
 
 .home-mission__eyebrow {
@@ -22,22 +22,21 @@
 }
 
 .home-mission__copy h2 {
-  font-size: 48px;
+  font-size: clamp(32px, 3.4vw, 44px);
   font-weight: 600;
   line-height: 1.15;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.8px;
   color: #002a4e;
   text-align: left;
-  margin: 0 0 24px;
-  max-width: 409px;
+  margin: 0 0 20px;
+  text-wrap: balance;
 }
 
 .home-mission__copy p {
   font-size: 16px;
   color: #4b4d50;
-  line-height: 1.6;
+  line-height: 1.7;
   margin: 0 0 16px;
-  max-width: 409px;
 }
 
 .home-mission__btn {
@@ -77,6 +76,9 @@
   background:
     linear-gradient(160deg, rgba(0, 42, 78, 0.12), rgba(0, 137, 223, 0.22)),
     #c8d4e0;
+  object-fit: cover;
+  width: 100%;
+  display: block;
 }
 
 .home-mission__ph--tall {
@@ -113,6 +115,7 @@
 
 .home-mission--overlap .home-mission__inner {
   padding-bottom: 120px;
+  align-items: start;
 }
 
 .home-mission--overlap .home-mission__mosaic {

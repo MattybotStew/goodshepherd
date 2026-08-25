@@ -20,6 +20,7 @@ export default function AboutMissionSection({
   eyebrow = 'About Us',
   title = 'A community of care, growth, and dignity for over 50 years.',
   paragraphs,
+  mosaicImages,
   id,
 }) {
   const sectionClass = [
@@ -31,6 +32,20 @@ export default function AboutMissionSection({
     .join(' ')
 
   const copy = paragraphs || (placeholderCopy ? HOME_COPY : ABOUT_COPY)
+  const mosaicCells = [
+    { className: 'home-mission__ph--tall', src: mosaicImages?.[0] },
+    { className: 'home-mission__ph--short', src: mosaicImages?.[1] },
+    { className: 'home-mission__ph--short', src: mosaicImages?.[2] },
+    { className: 'home-mission__ph--tall', src: mosaicImages?.[3] },
+  ]
+
+  function MosaicCell({ className, src }) {
+    return src ? (
+      <img src={src} alt="" className={`home-mission__ph ${className}`} />
+    ) : (
+      <div className={`home-mission__ph ${className}`} />
+    )
+  }
 
   return (
     <section className={sectionClass} id={id || undefined}>
@@ -49,12 +64,12 @@ export default function AboutMissionSection({
         </div>
         <div className="home-mission__mosaic" aria-hidden="true">
           <div className="home-mission__col">
-            <div className="home-mission__ph home-mission__ph--tall" />
-            <div className="home-mission__ph home-mission__ph--short" />
+            <MosaicCell className="home-mission__ph--tall" src={mosaicCells[0].src} />
+            <MosaicCell className="home-mission__ph--short" src={mosaicCells[1].src} />
           </div>
           <div className="home-mission__col home-mission__col--offset">
-            <div className="home-mission__ph home-mission__ph--short" />
-            <div className="home-mission__ph home-mission__ph--tall" />
+            <MosaicCell className="home-mission__ph--short" src={mosaicCells[2].src} />
+            <MosaicCell className="home-mission__ph--tall" src={mosaicCells[3].src} />
           </div>
         </div>
       </div>

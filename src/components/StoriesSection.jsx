@@ -16,7 +16,11 @@ function StoryCard({ item, side }) {
   return (
     <article className={`home-stories__card home-stories__card--${side}`}>
       <div className="home-stories__card-inner">
-        <div className="home-stories__photo" aria-hidden="true" />
+        {item.image ? (
+          <img src={item.image} alt="" className="home-stories__photo" />
+        ) : (
+          <div className="home-stories__photo" aria-hidden="true" />
+        )}
         <div className="home-stories__copy">
           <h3>{item.title}</h3>
           <p>{item.excerpt || LOREM_SHORT}</p>

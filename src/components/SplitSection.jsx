@@ -9,12 +9,13 @@ export default function SplitSection({
   flip = false,
   alt = false,
   softImage = false,
+  imageSrc,
   linkTo,
   linkLabel,
 }) {
   const sectionClass = ['split', 'anchor', alt && 'band--alt'].filter(Boolean).join(' ')
   const innerClass = ['wrap', 'split__inner', flip && 'split--flip'].filter(Boolean).join(' ')
-  const imageClass = ['img-ph', 'img-ph--tall', softImage && 'img-ph--soft']
+  const imageClass = ['img-ph', 'img-ph--tall', softImage && 'img-ph--soft', imageSrc && 'img-ph--photo']
     .filter(Boolean)
     .join(' ')
 
@@ -31,7 +32,11 @@ export default function SplitSection({
             </Link>
           )}
         </div>
-        <div className={imageClass} aria-hidden="true" />
+        {imageSrc ? (
+          <img src={imageSrc} alt="" className={imageClass} />
+        ) : (
+          <div className={imageClass} aria-hidden="true" />
+        )}
       </div>
     </section>
   )

@@ -6,8 +6,11 @@ export default function ImpactSection({
   variant = 'home',
   eyebrow,
   title = 'Our Mission & Vision: Serving with Dignity',
+  lede,
+  stats = impactStats,
 }) {
   const stories = variant === 'stories'
+  const body = lede || LOREM_LONG
 
   return (
     <section className={`home-impact${stories ? ' home-impact--stories' : ''}`}>
@@ -18,16 +21,17 @@ export default function ImpactSection({
               <p className="home-impact__label">{eyebrow || 'Our Impact'}</p>
               <div className="home-impact__col">
                 <h2>{title}</h2>
-                <p>{LOREM_LONG}</p>
+                <p>{body}</p>
               </div>
             </div>
           ) : (
-            <div className="home-impact__header">
+            <div className={`home-impact__header${eyebrow ? ' home-impact__header--labeled' : ''}`}>
+              {eyebrow && <p className="home-impact__label">{eyebrow}</p>}
               <div className="home-impact__col">
                 <h2>{title}</h2>
               </div>
               <div className="home-impact__col">
-                <p>{LOREM_LONG}</p>
+                <p>{body}</p>
               </div>
             </div>
           )}
@@ -42,7 +46,7 @@ export default function ImpactSection({
         )}
 
         <div className="home-impact__stats">
-          {impactStats.map((stat, idx) => (
+          {stats.map((stat, idx) => (
             <div className="home-impact__stat" key={idx}>
               <p className="home-impact__value">{stat.value}</p>
               <p className="home-impact__stat-label">{stat.label}</p>

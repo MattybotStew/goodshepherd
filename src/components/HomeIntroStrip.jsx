@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { theme04IntroColumns } from '../data/theme04Home'
 import './HomeIntroStrip.css'
 
 const HOME_COLUMNS = [
@@ -51,13 +52,14 @@ const INVOLVED_COLUMNS = [
 
 const COLUMNS_BY_VARIANT = {
   home: HOME_COLUMNS,
+  theme04: theme04IntroColumns,
   about: HOME_COLUMNS,
   page: HOME_COLUMNS,
   involved: INVOLVED_COLUMNS,
 }
 
-export default function HomeIntroStrip({ variant = 'home' }) {
-  const columns = COLUMNS_BY_VARIANT[variant] || HOME_COLUMNS
+export default function HomeIntroStrip({ variant = 'home', columns: columnsProp }) {
+  const columns = columnsProp || COLUMNS_BY_VARIANT[variant] || HOME_COLUMNS
 
   return (
     <section
@@ -70,7 +72,9 @@ export default function HomeIntroStrip({ variant = 'home' }) {
             <p className="home-intro__num">{col.num}</p>
             <h2>{col.title}</h2>
             <p>{col.description}</p>
-            <Link to={col.path}>Learn more &rarr;</Link>
+            <Link to={col.path}>
+              {col.linkLabel ? `${col.linkLabel} \u2192` : 'Learn more \u2192'}
+            </Link>
           </article>
         ))}
       </div>

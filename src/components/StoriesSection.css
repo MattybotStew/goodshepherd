@@ -101,6 +101,7 @@
   width: 100%;
   aspect-ratio: 486 / 299;
   border-radius: 16px;
+  object-fit: cover;
   background:
     linear-gradient(160deg, rgba(0, 42, 78, 0.12), rgba(0, 137, 223, 0.22)),
     #c8d4e0;

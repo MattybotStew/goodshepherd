@@ -3,6 +3,8 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { HERO_HEADER_PATHS, NAV_ITEMS, isChildActive, isNavItemActive } from '../data/header'
 import GetInvolvedCta from './GetInvolvedCta'
 import facebookIcon from '../assets/footer/facebook.svg'
+import logoColor from '../assets/logo-color.svg'
+import logoWhite from '../assets/logo-white.svg'
 import './Layout.css'
 
 const FOOTER_ABOUT = [
@@ -262,8 +264,13 @@ function Layout() {
       <header ref={headerRef} className={headerSolid ? 'header is-solid' : 'header'}>
         <div className="header__inner">
           <Link to="/" className="header__logo">
-            <span className="header__logo-mark" aria-hidden="true" />
-            <span className="header__logo-text">Good Shepherd Manor</span>
+            <img
+              className="header__logo-img"
+              src={heroHeader && !headerSolid ? logoWhite : logoColor}
+              alt="Good Shepherd Manor"
+              width={178}
+              height={108}
+            />
           </Link>
           <HeaderNav
             mobileOpen={mobileMenuOpen}
@@ -334,8 +341,13 @@ function Layout() {
         <div className="footer__inner">
           <div className="footer__brand">
             <Link to="/" className="footer__logo">
-              <span className="footer__logo-mark" aria-hidden="true" />
-              <span className="footer__logo-text">Good Shepherd Manor</span>
+              <img
+                className="footer__logo-img"
+                src={logoWhite}
+                alt="Good Shepherd Manor"
+                width={178}
+                height={108}
+              />
             </Link>
             <p className="footer__tagline">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.

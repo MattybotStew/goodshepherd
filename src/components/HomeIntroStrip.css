@@ -4,11 +4,13 @@
   padding: 0 24px 56px;
 }
 
-.home-intro--home {
+.home-intro--home,
+.home-intro--theme04 {
   margin-top: -160px;
 }
 
-.home-intro--home::before {
+.home-intro--home::before,
+.home-intro--theme04::before {
   content: "";
   position: absolute;
   left: 0;
@@ -96,11 +98,13 @@
 }
 
 @media (max-width: 900px) {
-  .home-intro--home {
+  .home-intro--home,
+  .home-intro--theme04 {
     margin-top: -80px;
   }
 
-  .home-intro--home::before {
+  .home-intro--home::before,
+  .home-intro--theme04::before {
     top: 80px;
   }
 
