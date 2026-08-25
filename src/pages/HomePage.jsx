@@ -1,14 +1,11 @@
 import { Link } from "react-router-dom";
 import AboutMissionSection from "../components/AboutMissionSection";
-import DonateCta from "../components/DonateCta";
 import HomeIntroStrip from "../components/HomeIntroStrip";
 import ImpactSection from "../components/ImpactSection";
-import SplitSection from "../components/SplitSection";
+import ProgramsServicesSection from "../components/ProgramsServicesSection";
 import StoriesSection from "../components/StoriesSection";
 import {
   theme04About,
-  theme04DonateCta,
-  theme04GetInvolved,
   theme04Hero,
   theme04Impact,
   theme04Stories,
@@ -39,7 +36,11 @@ function HomePage() {
         </div>
       </section>
 
-      <HomeIntroStrip variant="theme04" />
+      <HomeIntroStrip variant="home" />
+
+      <ImpactSection title={theme04Impact.title} lede={theme04Impact.lede} />
+
+      <ProgramsServicesSection />
 
       <AboutMissionSection
         showReadMore
@@ -49,33 +50,12 @@ function HomePage() {
         mosaicImages={lifeImages.aboutMosaic}
       />
 
-      <ImpactSection
-        eyebrow={theme04Impact.eyebrow}
-        title={theme04Impact.title}
-        lede={theme04Impact.lede}
-        stats={theme04Impact.stats}
-      />
-
-      <DonateCta title={theme04DonateCta.title} lede="" />
-
-      <SplitSection
-        eyebrow={theme04GetInvolved.eyebrow}
-        title={theme04GetInvolved.title}
-        flip
-        imageSrc={lifeImages.getInvolved}
-        linkTo={theme04GetInvolved.linkPath}
-        linkLabel={`${theme04GetInvolved.linkLabel} →`}
-      >
-        {theme04GetInvolved.paragraphs.map((text) => (
-          <p key={text.slice(0, 24)}>{text}</p>
-        ))}
-      </SplitSection>
-
       <StoriesSection
         items={storyItems}
         title={theme04Stories.title}
         lede={theme04Stories.lede}
-        align="center"
+        moreTo={theme04Stories.moreTo}
+        moreLabel={theme04Stories.moreLabel}
       />
     </div>
   );

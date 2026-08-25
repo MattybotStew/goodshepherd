@@ -1,82 +1,64 @@
-/** Non-Profit Organization 04 demo structure — body copy is placeholder lorem. */
+/** Homepage wireframe (Figma 9137:3182) — body copy is placeholder lorem. */
 
 import { LOREM, LOREM_EXTRA, LOREM_LONG, LOREM_SHORT } from './placeholders'
 
 export const theme04Hero = {
-  title: 'Empowering Change, One Step at a Time',
+  title: 'A Community of Compassion, Dignity, and Purpose.',
   lede: LOREM,
-  ctaLabel: 'Donate Now',
-  ctaPath: '/ways-to-give',
+  ctaLabel: 'Now Hiring! Apply Today',
+  ctaPath: '/careers',
 }
 
 export const theme04IntroColumns = [
   {
     num: '01.',
-    title: 'Causes',
+    title: 'Projects',
     description: LOREM_SHORT,
     path: '/programs',
-    linkLabel: 'See Proof',
+    linkLabel: 'Learn more',
   },
   {
     num: '02.',
-    title: 'Get involved',
+    title: 'Get Involved',
     description: LOREM_SHORT,
     path: '/support-gsm',
-    linkLabel: 'Learn More',
+    linkLabel: 'Learn more',
   },
   {
     num: '03.',
-    title: 'Donation',
+    title: 'Donate',
     description: LOREM_SHORT,
     path: '/ways-to-give',
-    linkLabel: 'Donate Now',
+    linkLabel: 'Learn more',
   },
 ]
 
 export const theme04About = {
   eyebrow: 'About Us',
-  title: 'Our journey of compassion and hope',
+  title: 'A community of care, growth, and dignity for over 50 years.',
   paragraphs: [LOREM_LONG, LOREM_EXTRA],
 }
 
 export const theme04Impact = {
-  eyebrow: 'Our Impact',
-  title: 'The impact we have made in our community',
+  title: 'Our Mission & Vision: Serving with Dignity',
   lede: LOREM_LONG,
-  stats: [
-    { value: '2M+', label: 'People served worldwide' },
-    { value: '500+', label: 'Projects funded' },
-    { value: '1M', label: 'People to take action' },
-    { value: '50+', label: 'Partner organizations' },
-  ],
-}
-
-export const theme04GetInvolved = {
-  eyebrow: 'Get Involved',
-  title: 'Join our movement for change',
-  paragraphs: [LOREM_LONG, LOREM],
-  linkPath: '/events',
-  linkLabel: 'Register Now',
 }
 
 export const theme04Stories = {
-  title: 'Inspiring tales of transformation',
+  title: "What's Happening at GSM",
   lede: LOREM,
+  moreTo: '/events',
+  moreLabel: 'See all events \u2192',
   items: [
     {
-      title: 'The Special One',
-      excerpt: LOREM,
-      path: '/news',
+      title: "GSM's 35th Annual Fall Festival",
+      excerpt: LOREM_SHORT,
+      path: '/events#fall-festival',
     },
     {
-      title: 'A Better Education for Everyone',
-      excerpt: LOREM,
-      path: '/news',
+      title: 'GSM Family Cookouts & MORE — Join us!',
+      excerpt: LOREM_SHORT,
+      path: '/events#family',
     },
   ],
-}
-
-export const theme04DonateCta = {
-  title: 'We can create a better tomorrow',
-  lede: LOREM,
 }
