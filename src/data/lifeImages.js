@@ -2,12 +2,12 @@
  * GSM Facebook photos (goodshepherdmanormomence/photos), downloaded for the wire.
  * Mosaic + event/story cards use real campus photos. Other slots still Adobe Stock
  * comps until swapped — license those originals on stock.adobe.com before production.
- *   hero              Figma 9195:10 (art studio embrace)
+ *   hero              Figma 9195:584 (stadium crop)
  *   mosaic-*          Facebook (gym, outdoor picnic, campus gathering)
  *   involved-art      Adobe 200746843
  *   donate            Adobe 383620177
  *   stories           Facebook (gym activity, pavilion cookout)
- *   globalCta         GSM stadium outing (DDAN 2025)
+ *   globalCta         Figma 9195:1352 (two men outdoors)
  */
 
 import hero from '../assets/life/hero.jpg'

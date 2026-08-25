@@ -318,17 +318,34 @@ a {
 .home-hero__photo {
   position: absolute;
   inset: 0;
+  overflow: hidden;
   background: var(--hero-bg);
 }
 
+/* Figma 9195:584 — zoomed stadium crop (faces fill the frame) */
 .home-hero__photo--image {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0, 20, 36, 0.45) 0%,
-      rgba(0, 20, 36, 0.62) 100%
-    ),
-    var(--hero-photo) center / cover no-repeat;
+  background: none;
+}
+
+.home-hero__photo--image::before {
+  content: "";
+  position: absolute;
+  width: 113.75%;
+  height: 141.53%;
+  left: -6.87%;
+  top: -41.54%;
+  background: var(--hero-photo) center / 100% 100% no-repeat;
+}
+
+.home-hero__photo--image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 20, 36, 0.55) 0%,
+    rgba(0, 20, 36, 0.72) 100%
+  );
 }
 
 .home-hero__inner {
