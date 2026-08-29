@@ -9,30 +9,3 @@
   margin: 0 auto;
   padding: 0 24px;
 }
-
-/* Home-style full-bleed hero lives in Layout.css (shared with hero-header pages). */
-.home-btn {
-  display: inline-block;
-  padding: 18px 28px;
-  font-size: 16px;
-  font-weight: 700;
-  border-radius: 8px;
-  line-height: 1;
-  transition: background-color 0.15s ease;
-}
-
-.home-btn--blue {
-  background: var(--ast-color-0);
-  color: var(--ast-color-5);
-}
-
-.home-btn--blue:hover {
-  background: var(--ast-color-1);
-}
-
-@media (max-width: 600px) {
-  .home-btn {
-    width: 100%;
-    text-align: center;
-  }
-}

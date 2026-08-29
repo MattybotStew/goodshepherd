@@ -8,11 +8,11 @@
 
 .eyebrow {
   display: block;
-  font-size: 14px;
+  font-size: var(--type-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--type-eyebrow-track);
   text-transform: uppercase;
-  color: var(--ast-color-0);
+  color: var(--ast-color-2);
   margin-bottom: 12px;
 }
 
@@ -72,19 +72,19 @@
 .split h2,
 .band h2,
 .impact h2 {
-  font-size: clamp(32px, 3.4vw, 44px);
+  font-size: var(--type-section);
   font-weight: 600;
   color: var(--ast-color-2);
-  line-height: 1.2;
+  line-height: 1.15;
   letter-spacing: -0.8px;
   margin-bottom: 16px;
   text-wrap: balance;
 }
 
 .split p {
-  font-size: 16px;
+  font-size: var(--type-body-size);
   color: var(--ast-color-3);
-  line-height: 1.7;
+  line-height: var(--type-body-leading);
   margin-bottom: 12px;
 }
 

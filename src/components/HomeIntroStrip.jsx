@@ -70,7 +70,7 @@ export default function HomeIntroStrip({ variant = 'home', columns: columnsProp 
         {columns.map((col) => (
           <article className="home-intro__col" key={col.num}>
             <p className="home-intro__num">{col.num}</p>
-            <h2>{col.title}</h2>
+            <h3>{col.title}</h3>
             <p>{col.description}</p>
             <Link to={col.path}>
               {col.linkLabel ? `${col.linkLabel} \u2192` : 'Learn more \u2192'}

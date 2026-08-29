@@ -37,29 +37,30 @@
 
 .home-stories__intro h2,
 .home .home-stories__intro h2 {
-  font-size: 48px;
+  font-size: var(--type-section);
   font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -1px;
+  line-height: 1.15;
+  letter-spacing: -0.8px;
   color: var(--ast-color-2);
   margin: 0 0 16px;
   text-align: left;
+  text-wrap: balance;
 }
 
 .home-stories__intro p {
   max-width: 744px;
   margin: 0;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
   color: var(--ast-color-3);
   text-align: left;
 }
 
 .home-stories__more {
   flex-shrink: 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
-  color: #0089df;
+  color: var(--ast-color-0);
 }
 
 .home-stories__rows {
@@ -116,8 +117,8 @@
 }
 
 .home-stories__copy p {
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
   color: var(--ast-color-3);
   margin: 0;
 }
@@ -126,7 +127,7 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1;
   color: var(--ast-color-2);

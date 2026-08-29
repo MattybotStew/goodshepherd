@@ -7,15 +7,16 @@
   font-weight: 700;
   border-radius: 8px;
   line-height: 1;
+  transition: background-color 0.15s ease;
 }
 
 .home-btn--blue {
-  background: #0089df;
-  color: #ffffff;
+  background: var(--ast-color-0);
+  color: var(--ast-color-5);
 }
 
 .home-btn--blue:hover {
-  background: #006bb3;
+  background: var(--ast-color-1);
 }
 
 .home-donate-cta {
@@ -62,10 +63,10 @@
 }
 
 .home-donate-cta h2 {
-  font-size: clamp(44px, 6vw, 84px);
+  font-size: var(--type-display);
   font-weight: 600;
-  line-height: 0.98;
-  letter-spacing: -2.5px;
+  line-height: 1.06;
+  letter-spacing: -1.8px;
   color: #ffffff;
   margin: 0 0 36px;
   text-wrap: balance;
@@ -126,6 +127,18 @@
 
 .home-btn--white:hover {
   background: #f1f5f9;
+}
+
+.home-btn--white:focus-visible {
+  outline: 3px solid var(--ast-color-5);
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .home-btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 @media (max-width: 900px) {

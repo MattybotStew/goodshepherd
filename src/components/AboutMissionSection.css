@@ -1,3 +1,5 @@
+@import '../styles/tokens.css';
+
 .home-mission {
   background: #f1f5f9;
   padding: 96px 24px;
@@ -13,29 +15,29 @@
 }
 
 .home-mission__eyebrow {
-  font-size: 13px;
+  font-size: var(--type-eyebrow-size);
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--type-eyebrow-track);
   text-transform: uppercase;
-  color: #002a4e;
+  color: var(--ast-color-2);
   margin: 0 0 16px;
 }
 
 .home-mission__copy h2 {
-  font-size: clamp(32px, 3.4vw, 44px);
+  font-size: var(--type-section);
   font-weight: 600;
   line-height: 1.15;
   letter-spacing: -0.8px;
-  color: #002a4e;
+  color: var(--ast-color-2);
   text-align: left;
   margin: 0 0 20px;
   text-wrap: balance;
 }
 
 .home-mission__copy p {
-  font-size: 16px;
-  color: #4b4d50;
-  line-height: 1.7;
+  font-size: var(--type-body-size);
+  color: var(--ast-color-3);
+  line-height: var(--type-body-leading);
   margin: 0 0 16px;
 }
 

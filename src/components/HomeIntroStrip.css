@@ -1,3 +1,5 @@
+@import '../styles/tokens.css';
+
 .home-intro {
   position: relative;
   z-index: 3;
@@ -65,32 +67,33 @@
 
 .home-intro__num {
   font-size: 40px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.2;
+  letter-spacing: -0.04em;
   color: #c8d4e0;
   margin: 0 0 16px;
 }
 
-.home-intro__col h2,
-.home .home-intro__col h2 {
+.home-intro__col h3,
+.home .home-intro__col h3 {
   font-size: 22px;
   font-weight: 700;
-  color: #002a4e;
+  color: var(--ast-color-2);
   text-align: left;
   margin: 0 0 10px;
 }
 
 .home-intro__col p:not(.home-intro__num) {
-  font-size: 16px;
-  color: #4b4d50;
-  line-height: 1.5;
+  font-size: var(--type-body-size);
+  color: var(--ast-color-3);
+  line-height: var(--type-body-leading);
   margin: 0 0 20px;
 }
 
 .home-intro__col a {
   font-size: 16px;
   font-weight: 700;
-  color: #002a4e;
+  color: var(--ast-color-2);
 }
 
 .home-intro__col a:hover {

@@ -15,7 +15,7 @@ export const HERO_HEADER_PATHS = [
   '/newsletters',
   '/careers',
   '/contact',
-  '/privacy',
+  '/privacy' // Remove from HERO_HEADER_PATHS - this page should have solid white header
 ]
 
 /**

@@ -19,7 +19,7 @@ export const getInvolvedSections = [
     linkLabel: 'Ways to Give →',
   },
   {
-    id: 'endowment',
+    id: 'endowment-society',
     eyebrow: 'Shepherd Endowment Society',
     title: 'Stewardship that outlives a gift',
     paragraphs: [LOREM_LONG, LOREM],

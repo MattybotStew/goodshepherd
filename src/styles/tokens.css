@@ -11,6 +11,13 @@
   --ast-color-7: #000000;
   --ast-container: 1200px;
   --ast-font: 'DM Sans', sans-serif;
+  --type-display: clamp(44px, 6vw, 84px);
+  --type-hero: clamp(40px, 5.2vw, 64px);
+  --type-section: clamp(32px, 3.4vw, 44px);
+  --type-eyebrow-size: 13px;
+  --type-eyebrow-track: 0.12em;
+  --type-body-size: 16px;
+  --type-body-leading: 1.65;
   --hero-bg:
     linear-gradient(
       180deg,

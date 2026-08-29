@@ -1,3 +1,5 @@
+@import '../styles/tokens.css';
+
 .global-cta {
   background: #fafcfe;
   padding: 72px 24px;
@@ -54,10 +56,10 @@
 }
 
 .global-cta__header h2 {
-  font-size: clamp(44px, 6vw, 84px);
+  font-size: var(--type-display);
   font-weight: 600;
-  line-height: 0.98;
-  letter-spacing: -2.5px;
+  line-height: 1.06;
+  letter-spacing: -1.8px;
   color: #ffffff;
   margin: 0;
   text-wrap: balance;
@@ -117,10 +119,10 @@
 
 .global-cta__card p {
   flex: 1;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
   margin: 0;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.82);
   text-wrap: pretty;
 }
 
