@@ -148,3 +148,31 @@ export const residential = {
   },
   sections: [],
 }
+
+export const specialOlympics = {
+  name: 'Special Olympics',
+  tagline: LOREM_SHORT,
+  overview: {
+    blocks: [
+      { type: 'p', text: LOREM_XXL },
+      { type: 'p', text: LOREM_XL },
+      {
+        type: 'callout',
+        title: 'Program in development',
+        text: 'Special Olympics programming is being planned. This page structure will be updated with final details.',
+      },
+      { type: 'h3', text: 'Athletic programs' },
+      { type: 'p', text: LOREM_LONG },
+      {
+        type: 'ul',
+        items: [LOREM_SHORT, LOREM, LOREM_EXTRA],
+      },
+      {
+        type: 'figure',
+        caption: 'Placeholder photo — athletics and community events.',
+      },
+      { type: 'p', text: LOREM_XL },
+    ],
+  },
+  sections: [],
+}

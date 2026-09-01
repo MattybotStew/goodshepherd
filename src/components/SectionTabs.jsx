@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import './SectionTabs.css'
 
+function idFromHash(sections) {
+  const hashId = window.location.hash.replace(/^#/, '')
+  return sections.some((section) => section.id === hashId) ? hashId : null
+}
+
 /**
  * Tab-style jump bar that scrolls to stacked anchor sections instead of
  * hiding content. All sections stay visible; the active tab highlights as
@@ -8,13 +13,24 @@ import './SectionTabs.css'
  * to its `#id` target via a native anchor link (CSS scroll-behavior + scroll-margin).
  */
 export default function SectionTabs({ sections }) {
-  const [activeId, setActiveId] = useState(sections[0]?.id)
+  const [activeId, setActiveId] = useState(
+    () => idFromHash(sections) ?? sections[0]?.id
+  )
 
   useEffect(() => {
+    const hashed = idFromHash(sections)
+    if (hashed) setActiveId(hashed)
+
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter((entry) => entry.isIntersecting)
         if (!visible.length) return
+        const hashId = window.location.hash.replace(/^#/, '')
+        const hashedVisible = visible.find((entry) => entry.target.id === hashId)
+        if (hashedVisible) {
+          setActiveId(hashedVisible.target.id)
+          return
+        }
         // Active = the visible section closest to the top of the viewport.
         const top = visible.reduce((a, b) =>
           a.boundingClientRect.top <= b.boundingClientRect.top ? a : b
@@ -32,7 +48,7 @@ export default function SectionTabs({ sections }) {
   }, [sections])
 
   return (
-    <nav className="section-tabs" aria-label="Ways to get involved">
+    <nav className="section-tabs" aria-label="Support GSM Foundation sections">
       <div className="section-tabs__list">
         {sections.map((section) => (
           <a
@@ -44,7 +60,7 @@ export default function SectionTabs({ sections }) {
                 : 'section-tabs__tab'
             }
             onClick={() => setActiveId(section.id)}
-            aria-current={activeId === section.id ? 'true' : undefined}
+            aria-current={activeId === section.id ? 'location' : undefined}
           >
             {section.eyebrow}
           </a>

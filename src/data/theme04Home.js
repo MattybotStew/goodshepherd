@@ -19,7 +19,7 @@ export const theme04IntroColumns = [
   },
   {
     num: '02.',
-    title: 'Get Involved',
+    title: 'Support GSM',
     description: LOREM_SHORT,
     path: '/support-gsm',
     linkLabel: 'Learn more',
@@ -28,7 +28,7 @@ export const theme04IntroColumns = [
     num: '03.',
     title: 'Donate',
     description: LOREM_SHORT,
-    path: '/ways-to-give',
+    path: '/support-gsm',
     linkLabel: 'Learn more',
   },
 ]

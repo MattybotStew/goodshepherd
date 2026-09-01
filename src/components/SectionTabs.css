@@ -1,4 +1,4 @@
-/* Anchor jump-bar (Get Involved landing) — sticky under the header, scrolls to stacked sections */
+/* Anchor jump-bar (Support GSM Foundation landing) — sticky under the header, scrolls to stacked sections */
 
 /* Keep anchored sections clear of the sticky header + sticky jump bar */
 .section-tabs .anchor,
@@ -17,15 +17,28 @@
 
 .section-tabs__list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   max-width: var(--ast-container);
   margin: 0 auto;
   padding: 0 40px;
   border-bottom: 2px solid var(--ast-color-6);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ast-color-0) transparent;
+}
+
+.section-tabs__list::-webkit-scrollbar {
+  height: 6px;
+}
+
+.section-tabs__list::-webkit-scrollbar-thumb {
+  background: var(--ast-color-6);
+  border-radius: 3px;
 }
 
 .section-tabs__tab {
+  flex: 0 0 auto;
   display: inline-block;
   text-decoration: none;
   padding: 14px 20px;
@@ -36,6 +49,7 @@
   color: var(--ast-color-3);
   border-bottom: 3px solid transparent;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .section-tabs__tab:hover {
@@ -65,7 +79,6 @@
 
 @media (max-width: 480px) {
   .section-tabs__tab {
-    flex: 1 1 auto;
     text-align: center;
   }
 }

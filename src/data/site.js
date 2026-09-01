@@ -1,7 +1,7 @@
 export const impactStats = [
   { value: "55", label: "Years serving our community" },
   { value: "100+", label: "Men supported daily" },
-  { value: "4", label: "Core programs offered" },
+  { value: "5", label: "Core programs offered" },
   { value: "1971", label: "Founded in Momence, IL" },
 ];
 
@@ -14,6 +14,10 @@ export const programs = [
     name: "Vocational Program",
     homeName: "TBD Vocational Program",
     path: "/programs/vocational",
+  },
+  {
+    name: "Special Olympics",
+    path: "/programs/special-olympics",
   },
   {
     name: "Residential Living",
@@ -60,7 +64,7 @@ export const newsItems = [
     tag: "Events",
     title: "30th Anniversary Golf Invitational Sponsors",
     excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     path: "/news/30th-golf-invitational",
   },
   {

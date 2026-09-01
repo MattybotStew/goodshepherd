@@ -15,10 +15,10 @@ const FOOTER_ABOUT = [
 ]
 
 const FOOTER_GIVE = [
-  { label: 'Ways to Give', path: '/ways-to-give' },
   { label: 'GSM Foundation', path: '/support-gsm' },
   { label: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
   { label: 'Events', path: '/events' },
+  { label: 'Memorial or Tribute', path: '/support-gsm#memorial-tribute' },
 ]
 
 const FOOTER_SOCIALS = [
@@ -150,11 +150,11 @@ function HeaderNav({ mobileOpen, onClose }) {
         })}
       </ul>
       <Link
-        to="/ways-to-give"
+        to="/support-gsm"
         className="header__donate header__donate--drawer"
         onClick={onClose}
       >
-        Donate
+        Support GSM
       </Link>
     </nav>
   )
@@ -276,8 +276,8 @@ function Layout() {
             mobileOpen={mobileMenuOpen}
             onClose={() => setMobileMenuOpen(false)}
           />
-          <Link to="/ways-to-give" className="header__donate">
-            Donate
+          <Link to="/support-gsm" className="header__donate">
+            Support GSM
           </Link>
           <button
             type="button"

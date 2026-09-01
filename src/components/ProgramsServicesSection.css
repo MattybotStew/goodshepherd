@@ -48,24 +48,34 @@
   color: #0089df;
 }
 
+.programs-services__scroll-bar {
+  margin-top: 16px;
+}
+
 .programs-services__grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  background: #ffffff;
+  /* Horizontal scroll: four full cards + a peek of the fifth at desktop. */
+  --programs-cards-visible: 4.25;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 1px;
+  background: #e8edf2;
   border-radius: 16px;
-  overflow: hidden;
+  overflow-y: hidden;
   box-shadow: 0 12px 32px rgba(0, 42, 78, 0.12);
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
 }
 
 .programs-services__card {
+  flex: 0 0 calc(100% / var(--programs-cards-visible));
+  flex-shrink: 0;
+  min-width: 260px;
+  scroll-snap-align: start;
+  background: #ffffff;
   padding: 32px 28px 36px;
-  border-right: 1px solid #e8edf2;
   display: flex;
   flex-direction: column;
-}
-
-.programs-services__card:last-child {
-  border-right: none;
 }
 
 .programs-services__icon {
@@ -113,16 +123,7 @@
 
 @media (max-width: 900px) {
   .programs-services__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .programs-services__card {
-    border-right: none;
-    border-bottom: 1px solid #e8edf2;
-  }
-
-  .programs-services__card:last-child {
-    border-bottom: none;
+    --programs-cards-visible: 2.2;
   }
 
   .programs-services__header {
@@ -132,5 +133,17 @@
 
   .programs-services__intro h2 {
     font-size: 36px;
+  }
+}
+
+@media (max-width: 560px) {
+  .programs-services__grid {
+    --programs-cards-visible: 1.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .programs-services__grid {
+    scroll-behavior: auto;
   }
 }

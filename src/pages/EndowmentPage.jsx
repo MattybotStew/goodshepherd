@@ -18,7 +18,7 @@ function EndowmentPage() {
     <article>
       <PageHero
         crumbs={[
-          { label: 'Get Involved', to: '/support-gsm' },
+          { label: 'Support GSM', to: '/support-gsm' },
           { label: 'Shepherd Endowment Society' },
         ]}
         title="Shepherd Endowment Society"

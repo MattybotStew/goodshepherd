@@ -1,3 +1,12 @@
+> **LEGACY** — This is an old Figma extract (node 3:5094). It predates Erin's September 2026 feedback. The canonical source of truth is `src/pages/SitemapPage.jsx` and `AGENTS.md`. This file is preserved as a historical artifact.
+>
+> Key differences from current sitemap:
+> - Lists **GSM Foundation** and **Ways to Give / Donate** as separate pages (merged into `/support-gsm`)
+> - No **Special Olympics** program page
+> - No **Brunch Auction** event section
+> - Uses old nav name "Get Involved" instead of "Support GSM"
+> - Page numbering is off (old file: Foundation=9, Ways to Give=10; current: merged Support GSM Foundation=9)
+>
 # Figma node 3:5094 — extracted structure
 
 Root: FRAME “SITEMAP”

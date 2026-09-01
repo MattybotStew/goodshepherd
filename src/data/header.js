@@ -5,10 +5,10 @@ export const HERO_HEADER_PATHS = [
   '/programs',
   '/programs/community-day-services',
   '/programs/vocational',
+  '/programs/special-olympics',
   '/programs/residential-living',
   '/programs/health-well-being',
   '/support-gsm',
-  '/ways-to-give',
   '/shepherd-endowment-society',
   '/events',
   '/news',
@@ -19,8 +19,8 @@ export const HERO_HEADER_PATHS = [
 ]
 
 /**
- * Header nav — 6 items from AGENTS.md / SitemapPage.jsx.
- * Children are locked pages or documented About section hashes. Do not invent slugs.
+ * Header nav — updated per Erin's feedback:
+ * "Get Involved" → "Support GSM", combined with Foundation + Ways to Give.
  */
 export const NAV_ITEMS = [
   {
@@ -41,18 +41,19 @@ export const NAV_ITEMS = [
       { label: 'Programs & Services', path: '/programs' },
       { label: 'Community Day Services', path: '/programs/community-day-services' },
       { label: 'Vocational Program', path: '/programs/vocational' },
+      { label: 'Special Olympics', path: '/programs/special-olympics' },
       { label: 'Residential Living', path: '/programs/residential-living' },
       { label: 'Health & Well Being', path: '/programs/health-well-being' },
     ],
   },
   {
-    label: 'Get Involved',
+    label: 'Support GSM',
     path: '/support-gsm',
     children: [
       { label: 'GSM Foundation', path: '/support-gsm' },
-      { label: 'Ways to Give', path: '/ways-to-give' },
-      { label: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
       { label: 'Events', path: '/events' },
+      { label: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
+      { label: 'Memorial or Tribute', path: '/support-gsm#memorial-tribute' },
     ],
   },
   {

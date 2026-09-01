@@ -12,7 +12,7 @@ const HOME_COLUMNS = [
   },
   {
     num: '02.',
-    title: 'Get Involved',
+    title: 'Support GSM',
     description:
       'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
     path: '/support-gsm',
@@ -21,18 +21,18 @@ const HOME_COLUMNS = [
     num: '03.',
     title: 'Donate',
     description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-    path: '/ways-to-give',
+      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla pariatur.',
+    path: '/support-gsm',
   },
 ]
 
 const INVOLVED_COLUMNS = [
   {
     num: '01.',
-    title: 'Donate',
+    title: 'Support GSM',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-    path: '/ways-to-give',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    path: '/support-gsm',
   },
   {
     num: '02.',
@@ -43,9 +43,9 @@ const INVOLVED_COLUMNS = [
   },
   {
     num: '03.',
-    title: 'Give for Good',
+    title: 'Shepherd Endowment Society',
     description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
+      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla pariatur.',
     path: '/shepherd-endowment-society',
   },
 ]

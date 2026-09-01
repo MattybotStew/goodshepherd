@@ -6,10 +6,10 @@ import AboutPage from './pages/AboutPage'
 import ProgramsPage from './pages/ProgramsPage'
 import CommunityDayPage from './pages/CommunityDayPage'
 import VocationalPage from './pages/VocationalPage'
+import SpecialOlympicsPage from './pages/SpecialOlympicsPage'
 import ResidentialPage from './pages/ResidentialPage'
 import HealthWellBeingPage from './pages/HealthWellBeingPage'
 import FoundationPage from './pages/FoundationPage'
-import WaysToGivePage from './pages/WaysToGivePage'
 import EndowmentPage from './pages/EndowmentPage'
 import EventsPage from './pages/EventsPage'
 import NewsPage from './pages/NewsPage'
@@ -31,10 +31,10 @@ function App() {
           <Route path="/programs" element={<ProgramsPage />} />
           <Route path="/programs/community-day-services" element={<CommunityDayPage />} />
           <Route path="/programs/vocational" element={<VocationalPage />} />
+          <Route path="/programs/special-olympics" element={<SpecialOlympicsPage />} />
           <Route path="/programs/residential-living" element={<ResidentialPage />} />
           <Route path="/programs/health-well-being" element={<HealthWellBeingPage />} />
           <Route path="/support-gsm" element={<FoundationPage />} />
-          <Route path="/ways-to-give" element={<WaysToGivePage />} />
           <Route path="/shepherd-endowment-society" element={<EndowmentPage />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/news" element={<NewsPage />} />

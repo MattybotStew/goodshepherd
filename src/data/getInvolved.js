@@ -14,9 +14,8 @@ export const getInvolvedSections = [
     eyebrow: 'Ways to Give',
     title: 'Every gift stays on campus',
     paragraphs: [LOREM_LONG, LOREM],
+    listItems: ['One-time gift', 'Monthly giving', 'Planned & memorial gifts'],
     flip: true,
-    linkTo: '/ways-to-give',
-    linkLabel: 'Ways to Give →',
   },
   {
     id: 'endowment-society',
@@ -29,16 +28,21 @@ export const getInvolvedSections = [
   {
     id: 'events',
     eyebrow: 'Events',
-    title: 'Fall Festival, Golf Invitational, and family events',
+    title: 'Fall Festival, Brunch Auction, Golf Invitational, and family events',
     paragraphs: [LOREM_LONG],
-    listItems: ['Fall Festival', 'Golf Invitational', 'Family Events'],
+    listItems: ['Fall Festival', 'Brunch Auction', 'Golf Invitational', 'Family Events'],
     flip: true,
     softImage: true,
     linkTo: '/events',
     linkLabel: 'See all events →',
   },
+  {
+    id: 'memorial-tribute',
+    eyebrow: 'Memorial or Tribute',
+    title: 'Honor a loved one through giving',
+    paragraphs: [LOREM_LONG, LOREM],
+  },
 ]
 
 /** Short endowment teaser copy for other pages if needed */
 export const endowmentTeaser = endowmentIntro
-

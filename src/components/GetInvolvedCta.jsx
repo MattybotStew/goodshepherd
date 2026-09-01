@@ -7,7 +7,7 @@ const PATHWAYS = [
     title: 'Donate',
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.',
     linkLabel: 'Give now \u2192',
-    path: '/ways-to-give',
+    path: '/support-gsm',
   },
   {
     title: 'Volunteer',
@@ -33,7 +33,7 @@ export default function GetInvolvedCta() {
         style={{ '--cta-photo': `url(${lifeImages.globalCta})` }}
       >
         <header className="global-cta__header">
-          <h2 id="global-cta-heading">Get Involved</h2>
+          <h2 id="global-cta-heading">Support GSM Foundation</h2>
         </header>
         <div className="global-cta__grid">
           {PATHWAYS.map((item) => (

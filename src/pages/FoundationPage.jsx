@@ -1,4 +1,3 @@
-import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import SectionTabs from '../components/SectionTabs'
 import SplitSection from '../components/SplitSection'
@@ -10,12 +9,10 @@ function FoundationPage() {
   return (
     <article>
       <PageHero
-        crumbs={[{ label: 'Get Involved' }]}
-        title="GSM Foundation"
+        crumbs={[{ label: 'Support GSM' }]}
+        title="Support GSM Foundation"
         lede={LOREM_LONG}
       />
-
-      <HomeIntroStrip variant="involved" />
 
       {/* Jump bar — tabs scroll to the stacked anchor sections below */}
       <SectionTabs sections={getInvolvedSections} />
@@ -48,4 +45,3 @@ function FoundationPage() {
 }
 
 export default FoundationPage
-

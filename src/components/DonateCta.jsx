@@ -20,8 +20,8 @@ export default function DonateCta({
           <h2>{title}</h2>
           {lede ? <p>{lede}</p> : null}
         </div>
-        <Link to="/ways-to-give" className="home-btn home-btn--white">
-          Donate Now
+        <Link to="/support-gsm" className="home-btn home-btn--white">
+          Support GSM
         </Link>
       </div>
     </section>

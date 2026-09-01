@@ -5,6 +5,7 @@ import '../styles/starter.css'
 
 const events = [
   { id: 'fall-festival', title: 'Fall Festival', when: 'October 2026' },
+  { id: 'brunch-auction', title: 'Brunch Auction', when: 'Spring' },
   { id: 'golf', title: 'Golf Invitational', when: 'Summer' },
   { id: 'family', title: 'Family Events', when: 'Year-round' },
 ]

@@ -58,7 +58,7 @@ Chosen as the production starter. It ships Home, About Us, Our Work, Stories, Do
 **Astra Customizer (once, site-wide)**
 
 - Colors, typography, container width
-- Header: logo + nav + Donate button → `/ways-to-give`
+- Header: logo + nav + Support GSM button → `/support-gsm`
 - Above-header bar: “Now Hiring — Direct Service Providers. Apply Today →” `/careers`
 - Footer: contact, quick links, newsletter, Facebook, Privacy, Accessibility, copyright
 - Sticky header
@@ -92,12 +92,12 @@ Canonical source in this repo: `src/pages/SitemapPage.jsx`.
 | 3 | Programs & Services | `/programs` | Landing |
 | 4 | Community Day Services | `/programs/community-day-services` | Section: Digital Den |
 | 5 | Vocational Program | `/programs/vocational` | Client TBD — cheapest scope cut |
-| 6 | Residential Living | `/programs/residential-living` | |
-| 7 | Health & Well Being | `/programs/health-well-being` | Sections: nursing, clinic, pharmacy, supports, transportation |
-| 8 | GSM Foundation | `/support-gsm` | Get Involved landing — Figma `9179:32`; see **Get Involved wire** below |
-| 9 | Ways to Give / Donate | `/ways-to-give` | Header Donate target |
+| 6 | Special Olympics | `/programs/special-olympics` | New per Erin feedback |
+| 7 | Residential Living | `/programs/residential-living` | |
+| 8 | Health & Well Being | `/programs/health-well-being` | Sections: nursing, clinic, pharmacy, supports, transportation |
+| 9 | Support GSM Foundation | `/support-gsm` | Merged: GSM Foundation + Ways to Give (Erin feedback). Jump-bar with sections for Foundation, Ways to Give, Endowment, Events, Memorial/Tribute. |
 | 10 | Shepherd Endowment Society | `/shepherd-endowment-society` | Real copy in `src/data/endowment.js` (from production site) |
-| 11 | Events | `/events` | Sections: Fall Festival, Golf Invitational, Family Events |
+| 11 | Events | `/events` | Sections: Fall Festival, Brunch Auction, Golf Invitational, Family Events |
 | 12 | News & Updates | `/news` | Blog hub (counts as a page) |
 | 13 | Newsletters & Family Resources | `/newsletters` | Archive + signup |
 | 14 | Careers | `/careers` | Job openings + benefits |
@@ -105,7 +105,7 @@ Canonical source in this repo: `src/pages/SitemapPage.jsx`.
 
 Utility (not in the 15): `/privacy`. Accessibility lives on About (`/about#accessibility`) and in the footer.
 
-Programs is a **parent page** with four children so breadcrumbs read `Home › Programs › Health & Well Being`.
+Programs is a **parent page** with five children (added Special Olympics) so breadcrumbs read `Home › Programs › Health & Well Being`.
 
 Do **not** publish the React `/sitemap` diagram. It is a project artifact.
 
@@ -131,36 +131,31 @@ Duplicate those same layouts for GSM Foundation, Endowment, Events, Newsletters,
 Homepage wire is Figma node `9009:2` (`design/node-9009-2.png`). Section order:
 
 1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” Sub-headline: hands-on programs, caring services, and a supportive home. CTA: “Now Hiring! Apply Today” → `/careers`. Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
-2. Intro strip — Figma `9046:813` overlapping the hero: 01 Projects / 02 Get Involved / 03 Donate, greek body, Learn more.
+2. Intro strip — Figma `9046:813` overlapping the hero: 01 Projects / 02 Support GSM / 03 Donate, greek body, Learn more.
 3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (55 years / 100+ men / 4 programs / 1971 founded). No donate band in this section.
 4. About Us / Mission — Figma `9046:901`: “A community of care, growth, and dignity for over 50 years.” + four paragraphs of real GSM copy + Read More, staggered photo mosaic. Shares `#f1f5f9` background with Our Impact (no gradient seam).
-5. Donate CTA band — standalone section below About: “We can create a better tomorrow” + Donate Now → `/ways-to-give`.
+5. Support GSM Foundation CTA band — standalone section below About: "We can create a better tomorrow" + Support GSM → `/support-gsm`.
 6. Our Programs & Services — 4 icon-placeholder cards + View all.
 7. Stories — “Inspiring tales of transformation” + 3 story cards (`#f1f5f9` background).
 
 The Get Involved split card and Upcoming Event block are **not** on the current wire. Do not replace this Home layout with the 04 01/02/03 / stories / partners pattern.
 
-Header nav on the wire: About, Programs & Services, Get Involved, News, Careers, Contact + Donate.
+Header nav on the wire: About, Programs & Services, Support GSM, News, Careers, Contact + Support GSM.
 
-## Get Involved wire (`/support-gsm`)
+## Support GSM Foundation wire (`/support-gsm`)
 
-Figma file **gS-Design** — frame node `9179:32` (canvas `6:124`). Export: `design/figma-node-6-124.png`.
+**Merged page:** GSM Foundation + Ways to Give combined into one page per Erin feedback. The page uses a **tab-style jump bar** that scrolls to **stacked anchor sections**. The `SectionTabs` component renders five jump links labelled from each section's `eyebrow`; clicking smooth-scrolls to the matching `#id` anchor and the active tab highlights via scroll-spy. Content is fully stacked via `SplitSection`. Section data lives in `src/data/getInvolved.js`.
 
-**Client direction:** the intro cards are followed by a **tab-style jump bar** that scrolls to **stacked anchor sections** (not hidden tab panels). The `SectionTabs` component (`src/components/SectionTabs.jsx`) renders four jump links labelled from each section’s `eyebrow`; clicking smooth-scrolls to the matching `#id` anchor and the active tab highlights via scroll-spy. Content is fully stacked via `SplitSection` (all sections visible), so nothing is hidden. Section data lives in `src/data/getInvolved.js`.
+Section order:
 
-Section order (after hero + intro cards):
-
-1. **Hero** — breadcrumb “Get Involved”, title **GSM Foundation**, lorem lede. `PageHero` + transparent header.
-2. **Intro strip** — `HomeIntroStrip variant="involved"`: 01 Donate → `/ways-to-give`, 02 Volunteer → `/events`, 03 Give for Good → `/shepherd-endowment-society`. Overlaps hero on `#f1f5f9`.
-3. **Jump bar** — `SectionTabs` directly under the intro cards; **sticky** just below the header once you scroll. Four scroll-to links: GSM Foundation, Ways to Give, Shepherd Endowment Society, Events. Active link gets a blue underline; the bar sits on the `#f1f5f9` band.
-4. **GSM Foundation** — `SplitSection` `#foundation`: copy left, image right. Eyebrow + title “Supporting the Manor for over 40 years”. No read-more link (this is the landing page).
-5. **Ways to Give** — `#ways-to-give`, **flipped** (image left). Link → `/ways-to-give`.
-6. **Shepherd Endowment Society** — `#endowment`, normal split. Title “Stewardship that outlives a gift” on landing; link → `/shepherd-endowment-society`. Uses real copy from `src/data/endowment.js`.
-7. **Events** — `#events`, **flipped**, soft image placeholder. Bullets: Fall Festival, Golf Invitational, Family Events. Link → `/events`.
-8. **Global Get Involved CTA** — `GetInvolvedCta` in `Layout.jsx` (blue band before footer newsletter). Not duplicated on the page canvas.
-
-Child pages (9–11) keep their own heroes + `HomeIntroStrip variant="involved"` where wired; body copy mostly lorem except Endowment.
-
+1. **Hero** — breadcrumb "Support GSM", title **Support GSM Foundation**, lorem lede. `PageHero` + transparent header.
+2. **Jump bar** — `SectionTabs` directly under hero; **sticky** just below the header once you scroll. Five scroll-to links: GSM Foundation, Ways to Give, Shepherd Endowment Society, Events, Memorial or Tribute. Active link gets a blue underline.
+3. **GSM Foundation** — `SplitSection` `#foundation`: copy left, image right. Eyebrow + title "Supporting the Manor for over 40 years".
+4. **Ways to Give** — `#ways-to-give`, **flipped** (image left). Details: one-time gift, monthly giving, planned/memorial gifts. Link stays on same page at `#ways-to-give-details`.
+5. **Shepherd Endowment Society** — `#endowment-society`, normal split. Title "Stewardship that outlives a gift"; link → `/shepherd-endowment-society`. Uses real copy from `src/data/endowment.js`.
+6. **Events** — `#events`, **flipped**, soft image placeholder. Bullets: Fall Festival, Brunch Auction, Golf Invitational, Family Events. Link → `/events`.
+7. **Memorial or Tribute** — `#memorial-tribute`, normal split. Title "Honor a loved one through giving".
+8. **Global Support GSM CTA** — `GetInvolvedCta` in `Layout.jsx` (blue band before footer newsletter, title updated to "Support GSM Foundation"). Not duplicated on the page canvas.
 ### Reusable section modules (React wires)
 
 Extracted from About and reused on inner pages — **do not** invent new layout patterns when these fit:
@@ -171,14 +166,14 @@ Extracted from About and reused on inner pages — **do not** invent new layout 
 | `HomeIntroStrip` | Overlapping 3-card strip (`home` / `about` / `involved` / `page` variants) |
 | `AboutMissionSection` | Photo mosaic + copy (About hero overlap; optional eyebrow/title props) |
 | `SplitSection` | Eyebrow + h2 + copy + image placeholder; `flip`, `alt`, `softImage`, optional link |
-| `SectionTabs` | Sticky tab-style jump bar that scrolls to stacked anchor sections + scroll-spy (Get Involved landing) |
+| `SectionTabs` | Sticky tab-style jump bar that scrolls to stacked anchor sections + scroll-spy (Support GSM Foundation landing) |
 | `HistoryTimelineSection` | Horizontal scroll timeline (`src/data/history.js`) |
 | `AffiliationsSection` | Partner pills split |
 | `ProgramsIntroSection` / `ProgramsServicesSection` | Programs landing |
 | `ImpactSection` | Home impact counters |
 | `GetInvolvedCta` | Site-wide blue CTA band in `Layout` |
 
-Data files: `src/data/getInvolved.js` (landing jump-bar sections), `src/data/endowment.js` (Endowment page copy), `src/data/history.js`, `src/data/placeholders.js` (lorem), `src/data/header.js` (nav + hero-header slugs).
+Data files: `src/data/getInvolved.js` (Support GSM landing jump-bar sections), `src/data/endowment.js` (Endowment page copy), `src/data/history.js`, `src/data/placeholders.js` (lorem), `src/data/header.js` (nav + hero-header slugs).
 
 ## URLs that must not be used
 
@@ -189,12 +184,13 @@ The React prototype has leftover hash URLs. They are wrong. Use the table above.
 | `/programs#health` | `/programs/health-well-being` |
 | `/programs#community-day` | `/programs/community-day-services` |
 | `/programs#vocational` | `/programs/vocational` |
+| `/programs/special-olympics` (new) | `/programs/special-olympics` |
 | `/programs#residential` | `/programs/residential-living` |
 | `/support-gsm#events` | `/events` |
 
 ## Global chrome
 
-Header nav (6 items): About, Programs & Services, **Get Involved** (dropdown → Foundation, Ways to Give, Endowment, Events), News, Careers, Contact. Plus Donate button → `/ways-to-give`.
+Header nav (6 items): About, Programs & Services, **Support GSM** (dropdown → Foundation, Events, Endowment, Memorial or Tribute), News, Careers, Contact. Plus Support GSM button → `/support-gsm`.
 
 Footer: phone `(815) 472-3700`, P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954; quick links; newsletter (real list, labeled field); real GSM Facebook URL; Privacy; Accessibility; `© 2026 The Good Shepherd Manor`.
 
@@ -228,10 +224,10 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | `src/pages/SitemapPage.jsx` | 15-page IA, sections, SOW notes |
 | `src/pages/HomePage.jsx` | Homepage wire — Figma `9009:2` |
 | `design/node-9009-2.png` | Shared homepage wireframe export |
-| `design/figma-node-6-124.png` | Get Involved landing wire export |
-| `src/pages/FoundationPage.jsx` | Get Involved landing (`/support-gsm`) |
+| `design/figma-node-6-124.png` | Support GSM Foundation wire export (legacy Figma node) |
+| `src/pages/FoundationPage.jsx` | Support GSM Foundation merged page (`/support-gsm`) — combined GSM Foundation + Ways to Give |
 | `src/pages/*.jsx` | Remaining 15-page wires (About through Contact) |
-| `src/data/getInvolved.js` | Get Involved landing split-section content + IDs |
+| `src/data/getInvolved.js` | Support GSM landing split-section content + IDs |
 | `src/data/endowment.js` | Shepherd Endowment Society page copy (real) |
 | `src/data/history.js` | About timeline entries |
 | `src/data/site.js` | Shared stats, program cards, news, jobs |
@@ -242,7 +238,7 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | `src/components/ProgramPage.jsx` | Program page **section order** only |
 | `design/sitemap-structure.md` | Figma extract (older; SitemapPage wins on conflicts) |
 
-> **Current state (client review round):** All descriptive body copy is placeholder **lorem ipsum** (Home, About, Endowment, Get Involved landing, programs, news, careers, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review.
+> **Current state (client review round):** All descriptive body copy is placeholder **lorem ipsum** (Home, About, Endowment, Support GSM Foundation, programs, news, careers, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review.
 
 Health & Well Being is the first program to build. Its section IDs: `nursing`, `clinic`, `pharmacy`, `supports`, `transportation`.
 
@@ -279,8 +275,8 @@ Local: `npm install` then `npm run dev` (default http://localhost:5173). Use `np
 - No Elementor Theme Builder header/footer.
 - No new plugins without a concrete need (donations, jobs board, events calendar). Events is **one page with sections**, not The Events Calendar, unless the client will run many dated events.
 - Do not invent pages, slugs, or nav items.
-- Do not add a fifth Get Involved page or turn dropdown items into extra routes — they are four of the 15 SOW pages plus sections on `/support-gsm`.
-- Get Involved landing uses a `SectionTabs` jump bar above stacked `SplitSection`s (client direction) — tabs scroll to anchors, all content stays visible. Do not replace the stacked content with hidden tab panels.
+- Do not add extra pages beyond 15 or turn dropdown items into extra routes — they are four of the 15 SOW pages plus sections on `/support-gsm`.
+- Support GSM Foundation uses a `SectionTabs` jump bar above stacked `SplitSection`s (client direction) — tabs scroll to anchors, all content stays visible. Do not replace the stacked content with hidden tab panels.
 - Vocational is the approved scope cut if the build runs long.
 - Purge WP Engine cache after Elementor edits.
 
