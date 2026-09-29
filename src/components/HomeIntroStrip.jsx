@@ -1,3 +1,4 @@
+import { useId } from 'react'
 import { Link } from 'react-router-dom'
 import { theme04IntroColumns } from '../data/theme04Home'
 import './HomeIntroStrip.css'
@@ -60,12 +61,16 @@ const COLUMNS_BY_VARIANT = {
 
 export default function HomeIntroStrip({ variant = 'home', columns: columnsProp }) {
   const columns = columnsProp || COLUMNS_BY_VARIANT[variant] || HOME_COLUMNS
+  const headingId = useId()
 
   return (
     <section
       className={`home-intro home-intro--${variant}`}
-      aria-label="Ways to engage"
+      aria-labelledby={headingId}
     >
+      <h2 className="visually-hidden" id={headingId}>
+        Ways to engage
+      </h2>
       <div className="home-intro__card">
         {columns.map((col) => (
           <article className="home-intro__col" key={col.num}>
