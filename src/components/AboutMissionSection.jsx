@@ -54,7 +54,7 @@ export default function AboutMissionSection({
           <p className="home-mission__eyebrow">{eyebrow}</p>
           <h2>{title}</h2>
           {copy.map((text) => (
-            <p key={text.slice(0, 24)}>{text}</p>
+            <p key={text}>{text}</p>
           ))}
           {showReadMore && (
             <Link to="/about" className="home-mission__btn">

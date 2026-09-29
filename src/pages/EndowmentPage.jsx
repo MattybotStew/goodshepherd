@@ -33,7 +33,7 @@ function EndowmentPage() {
         title="Income for the Manor, in perpetuity"
       >
         {endowmentIntro.map((paragraph) => (
-          <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+          <p key={paragraph}>{paragraph}</p>
         ))}
         <p>{endowmentDisbursement}</p>
       </SplitSection>
