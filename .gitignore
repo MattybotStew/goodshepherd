@@ -27,3 +27,6 @@ dist-ssr
 # figma-pipeline generated artifacts
 figma-output.json
 src/figma/
+
+# WordPress plugin/theme zips (large binaries, install from these)
+wordpress/

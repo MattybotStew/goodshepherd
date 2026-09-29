@@ -192,7 +192,7 @@ The React prototype has leftover hash URLs. They are wrong. Use the table above.
 
 Header nav (6 items): About, Programs & Services, **Support GSM** (dropdown → Foundation, Events, Endowment, Memorial or Tribute), News, Careers, Contact. Plus Support GSM button → `/support-gsm`.
 
-Footer: phone `(815) 472-3700`, P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954; quick links; newsletter (real list, labeled field); real GSM Facebook URL; Privacy; Accessibility; `© 2026 The Good Shepherd Manor`.
+Footer: phone `(815) 472-3700`, P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954; quick links; newsletter (real list, labeled field); real GSM Facebook URL; Privacy; Accessibility; `© 2026 The Good Shepherd Manor`. In WordPress the footer is two columns — free Astra caps it there.
 
 ## Design tokens (Astra Customizer only)
 
@@ -266,6 +266,37 @@ This app is a clickable wire. Further React work is optional and should stay thi
 - Do not commit `.env` secrets or copy them into docs.
 
 Local: `npm install` then `npm run dev` (default http://localhost:5173). Use `npm run dev -- --port 5174` if the preview is stuck on stale HMR.
+
+## Deployment: Local is canonical
+
+**Local is the source of truth. Stage is a rebuilt copy — never edit stage directly.**
+Edits go into Local, get verified, then the database is pushed to WP Engine stage.
+
+| Env | URL |
+|---|---|
+| Local | https://goodshepherd.local |
+| WPE stage | https://goodshephe3dev.wpenginepowered.com |
+
+### Push sequence
+
+1. Export: `_tools/wp.sh db export /tmp/gsm_export.sql`
+2. Rewrite URLs: `LC_ALL=C sed -i '' 's#goodshepherd\.local#goodshephe3dev.wpenginepowered.com#g' /tmp/gsm_export.sql` (expect 26 replacements, 0 left)
+3. `gzip -9` into `_migration/stage-db-final.sql.gz`, then `gzip -t` to verify
+4. rsync to `/sites/goodshephe3dev/gsm-import.sql.gz`
+5. Import, then **`wp cache flush`**, then delete the dump from the webroot
+6. Verify all 16 routes
+
+### Environment gotchas (each one cost real debugging time)
+
+- **WP Engine has a persistent object cache. Flush it after every DB import, or stage will silently serve pre-import options.** This is the single most important step. Symptom: the database row is correct when inspected with raw SQL, but `get_option()` returns a stale/short value and the front end renders old markup.
+- **WP-CLI is available on stage** at `/usr/local/bin/wp`. Use `wp --path=/sites/goodshephe3dev --allow-root`.
+- **`scp` is blocked** for the `local+db+push+` user. Use an ssh config file for rsync (`IdentityFile` must be quoted — the key path has a space), and write remote scratch files over the shell instead of scp.
+- **WPE `/tmp` is ephemeral per SSH session.** Anything that must persist goes in `/sites/goodshephe3dev`.
+- **`sed` on the dump needs `LC_ALL=C`**, otherwise it dies with "illegal byte sequence".
+- **Astra settings live in the `astra-settings` option** (a large serialized array), not `astra_options`. Verify with `count(get_option('astra-settings'))` — a value far below the Local count means a stale cache, not a bad import.
+- **Free Astra has no 4-column footer.** The advanced footer (`footer-adv`, `advanced-footer-widget-1..4`) is Astra Pro. Free Astra renders only the small footer, which supports `footer-widget-1` and `footer-widget-2`. The GSM footer is consolidated into those two areas. Do not chase the 04 four-column layout.
+- Enable those areas with `footer-sml-section-1` / `footer-sml-section-2` = `widget` and `footer-sml-layout` = `layout-1`.
+- **Privacy lives at `/privacy/`**, not `/privacy-policy/`.
 
 ## Hard rules
 
