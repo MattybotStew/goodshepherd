@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
+import RouteMeta from './components/RouteMeta'
 import HomePage from './pages/HomePage'
 import SitemapPage from './pages/SitemapPage'
 import AboutPage from './pages/AboutPage'
@@ -23,6 +24,7 @@ import NotFoundPage from './pages/NotFoundPage'
 function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL}>
+      <RouteMeta />
       <Routes>
         <Route path="/sitemap" element={<SitemapPage />} />
         <Route element={<Layout />}>
