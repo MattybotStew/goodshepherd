@@ -332,18 +332,9 @@ JUMP_TABS = [
 # Pro's Custom CSS panel, per element. This is the smallest amount of CSS that
 # Elementor has no native control for: scroll-margin-top, horizontal overflow on
 # narrow screens, and the active-state underline the scroll-spy toggles.
-# Elementor Pro's own sticky control would be the visual way to do this, but on
-# this install it silently does nothing: the Pro files on disk are 3.29.2 while
-# core is 4.3.3, so Pro's asset loader never enqueues jquery.sticky and the
-# handler throws "this.$element.sticky is not a function". One CSS declaration
-# per element works and stays editable under Advanced -> Custom CSS.
-# Revisit if Elementor Pro is reinstalled at a matching version.
+# Sticky itself uses Pro's native sticky control (Motion Effects tab) now that
+# the licence is active and Pro is on 4.3.1, matching core 4.3.3.
 BAR_CUSTOM_CSS = """
-selector {
-  position: sticky;
-  top: 0;
-  z-index: 3;
-}
 selector .gsm-jump {
   scroll-behavior: smooth;
   overflow-x: auto;
@@ -405,7 +396,7 @@ def build_jump_bar():
     """Native Elementor: a container wrapping a row of heading widgets.
 
     No HTML widget, so labels, links and colours are all visual edits. Sticky
-    comes from BAR_CUSTOM_CSS rather than Pro's sticky control; see there.
+    uses Pro's native sticky control on the wrapper.
     """
     row = el(
         "gsmjumprow",
@@ -436,9 +427,15 @@ def build_jump_bar():
             "content_width": "full",
             "css_classes": "gsm-jump-wrap",
             "flex_direction": "column",
-            # Sticky is applied here because this is the element that sticks.
-            # See BAR_CUSTOM_CSS for why this is CSS and not Pro's sticky control.
+            # BAR_CUSTOM_CSS targets `selector .gsm-jump` and the tab classes,
+            # so it stays on this wrapper (the tabs' ancestor).
             "custom_css": BAR_CUSTOM_CSS.strip(),
+            # Pro's native sticky (Motion Effects tab). The bar sits at the top
+            # because the Astra header is not sticky on this page.
+            "sticky": "top",
+            "sticky_on": ["desktop", "tablet", "mobile"],
+            "sticky_offset": 0,
+            "z_index": 3,
             "background_background": "classic",
             "background_image": {"url": "", "id": "", "size": ""},
             "border_border": "solid",
