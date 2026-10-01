@@ -7,12 +7,24 @@ Emits JSON on stdout. Apply it with:
 
     python3 _tools/build_support_gsm.py > /tmp/sgsm.json
     ~/Local\\ Sites/goodshepherd/_tools/wp.sh post meta update 2092 _elementor_data "$(cat /tmp/sgsm.json)"
+
+The hero is loaded from _migration/support-gsm-hero.json (the shared photo-overlay
+hero's first container) unless a source path is passed as argv[1].
 """
 
 import json
+import os
 import sys
 
 PAGE_ID = 2092  # GSM Foundation (/support-gsm/)
+
+# Canonical hero source, committed so the builder does not depend on /tmp.
+HERO_SOURCE = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "..",
+    "_migration",
+    "support-gsm-hero.json",
+)
 
 LOREM = (
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod "
@@ -543,8 +555,8 @@ def retitle_hero(hero):
 
 
 def main():
-    source = sys.argv[1] if len(sys.argv) > 1 else None
-    if source:
+    source = sys.argv[1] if len(sys.argv) > 1 else HERO_SOURCE
+    if os.path.exists(source):
         with open(source) as handle:
             existing = json.load(handle)
     else:
