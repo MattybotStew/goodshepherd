@@ -2,6 +2,8 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { HERO_HEADER_PATHS, NAV_ITEMS, isChildActive, isNavItemActive } from '../data/header'
 import GetInvolvedCta from './GetInvolvedCta'
+import FormStatus from './FormStatus'
+import { useFormSubmit } from '../lib/forms'
 import facebookIcon from '../assets/footer/facebook.svg'
 import logoColor from '../assets/logo-color.svg'
 import logoWhite from '../assets/logo-white.svg'
@@ -164,6 +166,7 @@ function Layout() {
   const [hiringDismissed, setHiringDismissed] = useState(false)
   const [headerSolid, setHeaderSolid] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const signupForm = useFormSubmit()
   const headerRef = useRef(null)
   const layoutRef = useRef(null)
   const location = useLocation()
@@ -321,10 +324,7 @@ function Layout() {
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
-          <form
-            className="signup-band__form"
-            onSubmit={(event) => event.preventDefault()}
-          >
+          <form className="signup-band__form" onSubmit={signupForm.handleSubmit}>
             <label htmlFor="signup-email">Email address</label>
             <div className="signup-band__row">
               <input
@@ -332,16 +332,17 @@ function Layout() {
                 type="email"
                 name="email"
                 autoComplete="email"
-                placeholder="you@example.com"
                 required
               />
-              <button type="submit" className="signup-band__btn">
-                Sign Up
+              <button
+                type="submit"
+                className="signup-band__btn"
+                disabled={signupForm.status === 'submitting'}
+              >
+                {signupForm.status === 'submitting' ? 'Signing up…' : 'Sign Up'}
               </button>
             </div>
-            <p className="signup-band__note">
-              No spam — just campus news and event invitations.
-            </p>
+            <FormStatus {...signupForm} />
           </form>
         </div>
       </section>

@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
+import FormStatus from '../components/FormStatus'
 import PageHero from '../components/PageHero'
+import { useFormSubmit } from '../lib/forms'
 import facebookIcon from '../assets/footer/facebook.svg'
 import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
@@ -26,9 +28,8 @@ const STAFF = [
 ]
 
 function ContactPage() {
-  function onSubmit(event) {
-    event.preventDefault()
-  }
+  const contactForm = useFormSubmit()
+  const thankForm = useFormSubmit()
 
   return (
     <article className="contact-page">
@@ -102,7 +103,7 @@ function ContactPage() {
             </div>
           </div>
 
-          <form className="contact-form" onSubmit={onSubmit}>
+          <form className="contact-form" onSubmit={contactForm.handleSubmit}>
             <div className="contact-field">
               <label htmlFor="name">
                 Full Name <span aria-hidden="true">*</span>
@@ -125,9 +126,14 @@ function ContactPage() {
               <label htmlFor="message">Message</label>
               <textarea id="message" name="message" />
             </div>
-            <button type="submit" className="btn btn--primary">
-              Send Message
+            <button
+              type="submit"
+              className="btn btn--primary"
+              disabled={contactForm.status === 'submitting'}
+            >
+              {contactForm.status === 'submitting' ? 'Sending…' : 'Send Message'}
             </button>
+            <FormStatus {...contactForm} />
           </form>
         </div>
       </section>
@@ -147,7 +153,7 @@ function ContactPage() {
             <h2>Say thank you</h2>
             <p>{LOREM}</p>
           </div>
-          <form className="contact-form" onSubmit={onSubmit}>
+          <form className="contact-form" onSubmit={thankForm.handleSubmit}>
             <div className="contact-field">
               <label htmlFor="thank-from">
                 Your name <span aria-hidden="true">*</span>
@@ -166,9 +172,14 @@ function ContactPage() {
               </label>
               <textarea id="thank-note" name="note" required />
             </div>
-            <button type="submit" className="btn btn--primary">
-              Send thanks
+            <button
+              type="submit"
+              className="btn btn--primary"
+              disabled={thankForm.status === 'submitting'}
+            >
+              {thankForm.status === 'submitting' ? 'Sending…' : 'Send thanks'}
             </button>
+            <FormStatus {...thankForm} />
           </form>
         </div>
       </section>

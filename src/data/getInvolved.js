@@ -1,4 +1,3 @@
-import { endowmentIntro } from './endowment'
 import { LOREM, LOREM_LONG } from './placeholders'
 
 /** Get Involved landing jump-bar sections — Figma node 9179:32 */
@@ -43,6 +42,3 @@ export const getInvolvedSections = [
     paragraphs: [LOREM_LONG, LOREM],
   },
 ]
-
-/** Short endowment teaser copy for other pages if needed */
-export const endowmentTeaser = endowmentIntro

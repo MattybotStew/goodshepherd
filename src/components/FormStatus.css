@@ -1,0 +1,22 @@
+.form-status {
+  margin: 12px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.form-status--success {
+  color: #0f6b3d;
+}
+
+.form-status--error {
+  color: #b3261e;
+}
+
+/* On dark bands (newsletter signup) the success text needs to stay legible */
+.signup-band .form-status--success {
+  color: #b8f2cf;
+}
+
+.signup-band .form-status--error {
+  color: #ffd3cf;
+}
