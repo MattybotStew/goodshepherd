@@ -31,6 +31,10 @@ MUTED = "globals/colors?id=astglobalcolor6"
 ACCENT = "globals/colors?id=astglobalcolor0"
 ACCENT_HOVER = "globals/colors?id=astglobalcolor1"
 
+# Same two Astra colours as literals, for controls that cannot take a global
+# token. Keep in sync with the token table in AGENTS.md.
+ACCENT_HOVER_VALUE = "#006BB3"
+
 UPLOADS = "https://goodshepherd.local/wp-content/uploads/2023/06/"
 
 # Split sections, in wire order. `flip` puts the image on the left.
@@ -273,12 +277,13 @@ def build_split(index, section):
         "container",
         {
             "content_width": "full",
-            # Copy is first in the DOM, so the row inverts to put the image on
-            # the left for non-flipped splits. Pin the mobile direction to
-            # column: Elementor would otherwise carry row-reverse down as
-            # column-reverse and render image-first, breaking both the wire and
-            # the jump-bar anchor offset.
-            "flex_direction": "row" if flip else "row-reverse",
+            # Copy is first in the DOM, matching the wire's markup. Flipped
+            # sections want the image on the left (.split--flip .split__copy
+            # gets order: 2), which is row-reverse given this DOM order.
+            # Pin the mobile direction to column: Elementor would otherwise
+            # carry row-reverse down as column-reverse and render image-first,
+            # breaking both the wire and the jump-bar anchor offset.
+            "flex_direction": "row-reverse" if flip else "row",
             "flex_direction_mobile": "column",
             "flex_align_items": "stretch",
             "flex_gap": {"column": "20", "row": "20", "isLinked": True, "unit": "px", "size": 20},
@@ -297,6 +302,7 @@ def build_split(index, section):
             # what the jump bar's hrefs and the scroll-spy both target.
             "_element_id": section["id"],
             "css_classes": "gsm-anchor",
+            "custom_css": ANCHOR_CUSTOM_CSS,
             "flex_direction": "column",
             "background_background": "classic",
             "padding": px("100", "40", "100", "40"),
@@ -309,77 +315,221 @@ def build_split(index, section):
     )
 
 
-JUMP_BAR_HTML = """
-<nav class="gsm-jump" aria-label="Support GSM Foundation sections">
-  <ul class="gsm-jump__list">
-    <li><a class="gsm-jump__tab" href="#foundation">GSM Foundation</a></li>
-    <li><a class="gsm-jump__tab" href="#ways-to-give">Ways to Give</a></li>
-    <li><a class="gsm-jump__tab" href="#endowment-society">Shepherd Endowment Society</a></li>
-    <li><a class="gsm-jump__tab" href="#events">Events</a></li>
-    <li><a class="gsm-jump__tab" href="#memorial-tribute">Memorial or Tribute</a></li>
-  </ul>
-</nav>
-<style>
-  .gsm-jump-wrap { position: sticky; top: 0; z-index: 3; background: var(--ast-global-color-5, #fff); border-bottom: 1px solid var(--ast-global-color-7, #000); }
-  .gsm-jump { overflow-x: auto; }
-  .gsm-jump__list { display: flex; gap: 32px; list-style: none; margin: 0 auto; padding: 0 40px; max-width: 1200px; }
-  .gsm-jump__tab { display: block; padding: 18px 0; white-space: nowrap; font-size: 15px; font-weight: 600; color: var(--ast-global-color-2, #002A4E); text-decoration: none; border-bottom: 3px solid transparent; }
-  .gsm-jump__tab:hover { color: var(--ast-global-color-1, #006BB3); }
-  .gsm-jump__tab.is-active { color: var(--ast-global-color-0, #0089DF); border-bottom-color: var(--ast-global-color-0, #0089DF); }
-  @media (max-width: 921px) { .gsm-jump__list { gap: 24px; padding: 0 24px; } }
-  html { scroll-behavior: smooth; }
-  .gsm-anchor { scroll-margin-top: 72px; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-</style>
-<script>
-(function () {
-  var ids = ["foundation", "ways-to-give", "endowment-society", "events", "memorial-tribute"];
-  var tabs = Array.prototype.slice.call(document.querySelectorAll(".gsm-jump__tab"));
-  function activate(id) {
-    tabs.forEach(function (tab) {
-      var on = tab.getAttribute("href") === "#" + id;
-      tab.classList.toggle("is-active", on);
-      if (on) { tab.setAttribute("aria-current", "location"); } else { tab.removeAttribute("aria-current"); }
-    });
-  }
-  if (!("IntersectionObserver" in window) || !tabs.length) { return; }
-  var seen = {};
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) { seen[entry.target.id] = entry.isIntersecting ? entry.boundingClientRect.top : null; });
-    var best = null;
-    ids.forEach(function (id) {
-      var top = seen[id];
-      if (top === null || top === undefined) { return; }
-      if (best === null || top < best.top) { best = { id: id, top: top }; }
-    });
-    if (best) { activate(best.id); }
-  }, { rootMargin: "-72px 0px -55% 0px", threshold: 0 });
-  ids.forEach(function (id) {
-    var target = document.getElementById(id);
-    if (target) { observer.observe(target); }
-  });
-  tabs.forEach(function (tab) {
-    tab.addEventListener("click", function () { activate(tab.getAttribute("href").slice(1)); });
-  });
-  activate(ids[0]);
-})();
-</script>
-""".strip()
+# The sticky offset that anchors must clear. Matches the bar's own height, which
+# Pro's sticky control reports to the front end as `sticky_anchor_link_offset`.
+JUMP_OFFSET = 72
+
+# Jump bar labels, in wire order. Kept next to SECTIONS so a new section means
+# adding one row in two adjacent tables rather than hunting through markup.
+JUMP_TABS = [
+    ("foundation", "GSM Foundation"),
+    ("ways-to-give", "Ways to Give"),
+    ("endowment-society", "Shepherd Endowment Society"),
+    ("events", "Events"),
+    ("memorial-tribute", "Memorial or Tribute"),
+]
+
+# Pro's Custom CSS panel, per element. This is the smallest amount of CSS that
+# Elementor has no native control for: scroll-margin-top, horizontal overflow on
+# narrow screens, and the active-state underline the scroll-spy toggles.
+# Elementor Pro's own sticky control would be the visual way to do this, but on
+# this install it silently does nothing: the Pro files on disk are 3.29.2 while
+# core is 4.3.3, so Pro's asset loader never enqueues jquery.sticky and the
+# handler throws "this.$element.sticky is not a function". One CSS declaration
+# per element works and stays editable under Advanced -> Custom CSS.
+# Revisit if Elementor Pro is reinstalled at a matching version.
+BAR_CUSTOM_CSS = """
+selector {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+selector .gsm-jump {
+  scroll-behavior: smooth;
+  overflow-x: auto;
+}
+selector .gsm-jump__tab {
+  border-bottom: 3px solid transparent;
+  transition: color .15s ease, border-color .15s ease;
+  /* Keep every label on one line so the bar stays a single row on mobile.
+     Without this the tabs wrap and the sticky bar grows past the
+     scroll-margin-top, hiding the top of the section it just scrolled to. */
+  white-space: nowrap;
+  /* Do not let the row squeeze labels; the row scrolls horizontally instead. */
+  flex: 0 0 auto;
+}
+selector .gsm-jump__tab:hover,
+selector .gsm-jump__tab:focus-visible {
+  color: var(--ast-global-color-1);
+}
+selector .gsm-jump__tab.is-active {
+  color: var(--ast-global-color-0);
+  border-bottom-color: var(--ast-global-color-0);
+}
+@media (prefers-reduced-motion: reduce) {
+  selector .gsm-jump { scroll-behavior: auto; }
+}
+"""
+
+ANCHOR_CUSTOM_CSS = f"selector {{ scroll-margin-top: {JUMP_OFFSET}px; }}"
+
+
+def jump_tab_widget(node_id, anchor, label):
+    """A heading styled as a tab. The link target and the text are both editable
+    in the Elementor panel, so adding or renaming a tab needs no code."""
+    return widget(
+        node_id,
+        "heading",
+        {
+            "title": label,
+            "link": {"url": f"#{anchor}", "is_external": "", "nofollow": ""},
+            # A div, not a heading: these are links, and five more h2s would
+            # compete with the real section headings in the document outline.
+            "header_size": "div",
+            # Widgets use _css_classes; containers use css_classes.
+            "_css_classes": "gsm-jump__tab",
+            "typography_typography": "custom",
+            "typography_font_size": {"unit": "px", "size": 15, "sizes": []},
+            "typography_font_weight": "600",
+            "typography_line_height": {"unit": "px", "size": 24, "sizes": []},
+            "_padding": px("18", "0", "18", "0"),
+            "__globals__": {"title_color": HEADING},
+            # Hover is a plain value, not a global: this control has no `global`
+            # key, so a globals/colors?id= string renders literally as CSS text.
+            "title_hover_color": ACCENT_HOVER_VALUE,
+        },
+    )
 
 
 def build_jump_bar():
+    """Native Elementor: a container wrapping a row of heading widgets.
+
+    No HTML widget, so labels, links and colours are all visual edits. Sticky
+    comes from BAR_CUSTOM_CSS rather than Pro's sticky control; see there.
+    """
+    row = el(
+        "gsmjumprow",
+        "container",
+        {
+            "content_width": "full",
+            "css_classes": "gsm-jump",
+            "flex_direction": "row",
+            "flex_direction_mobile": "row",
+            # Keys are prefixed with the group's name, `flex`. The value is
+            # `nowrap` with no hyphen: "no-wrap" emits invalid CSS, gets
+            # dropped, and the row wraps instead of scrolling horizontally.
+            "flex_wrap": "nowrap",
+            "flex_wrap_mobile": "nowrap",
+            "flex_align_items": "center",
+            "flex_gap": {"column": "32", "row": "32", "isLinked": True, "unit": "px", "size": 32},
+            "padding": px("0", "40", "0", "40"),
+            "padding_mobile": px("0", "24", "0", "24"),
+        },
+        [jump_tab_widget(f"gsmtab{index}", anchor, label) for index, (anchor, label) in enumerate(JUMP_TABS)],
+        is_inner=True,
+    )
+
     return el(
         "gsmjumpwrap",
         "container",
         {
             "content_width": "full",
-            "flex_direction": "column",
             "css_classes": "gsm-jump-wrap",
+            "flex_direction": "column",
+            # Sticky is applied here because this is the element that sticks.
+            # See BAR_CUSTOM_CSS for why this is CSS and not Pro's sticky control.
+            "custom_css": BAR_CUSTOM_CSS.strip(),
             "background_background": "classic",
             "background_image": {"url": "", "id": "", "size": ""},
+            "border_border": "solid",
+            "border_width": {"unit": "px", "size": 1, "sizes": []},
+            "border_color": HEADING,
             "__globals__": {"background_color": WHITE},
         },
-        [widget("gsmjump", "html", {"html": JUMP_BAR_HTML})],
+        [row],
+    )
+
+
+def build_spy_snippet():
+    """Scroll-spy, isolated at the end of the canvas.
+
+    There is no Elementor control for this, so it stays a small Pro HTML
+    snippet. It is deliberately separate from the bar: the bar above is fully
+    visual, and editing a tab label or link there does not touch this code.
+    """
+    return widget(
+        "gsmspy",
+        "html",
+        {
+            # Ids come from the tabs in the DOM, not from JUMP_TABS, so renaming
+            # or reordering a tab in Elementor does not require touching this.
+            "html": f"""<script>
+(function () {{
+  var OFFSET = {JUMP_OFFSET};
+  var wrappers = [].slice.call(document.querySelectorAll(".gsm-jump__tab"));
+  // The class sits on the heading widget; the link lives on the inner anchor.
+  var tabs = wrappers
+    .map(function (w) {{ return {{ wrapper: w, anchor: w.querySelector("a[href^='#']") }}; }})
+    .filter(function (t) {{ return t.anchor; }});
+  if (!tabs.length || !("IntersectionObserver" in window)) {{ return; }}
+  var ids = tabs.map(function (t) {{ return t.anchor.getAttribute("href").slice(1); }});
+
+  function activate(id) {{
+    tabs.forEach(function (t) {{
+      var on = t.anchor.getAttribute("href") === "#" + id;
+      t.wrapper.classList.toggle("is-active", on);
+      if (on) {{ t.anchor.setAttribute("aria-current", "location"); }}
+      else {{ t.anchor.removeAttribute("aria-current"); }}
+    }});
+  }}
+
+  // The section that owns the reading position is the last one whose top has
+  // crossed the bar. Comparing tops numerically does not work: a section
+  // already scrolled past has the smallest (most negative) top, so picking the
+  // minimum always selects a section behind the reader and gets the wrong tab
+  // on a direct hash load. Measure every target and take the last crossing.
+  function currentId() {{
+    // A hash jump lands the section a few px past the offset, so allow a small
+    // tolerance; otherwise the target reads as "not yet crossed" and the tab
+    // lags one section behind.
+    var line = OFFSET + 16;
+    var last = null;
+    var next = null;
+    ids.forEach(function (id) {{
+      var target = document.getElementById(id);
+      if (!target) {{ return; }}
+      var top = target.getBoundingClientRect().top;
+      if (top <= line) {{
+        last = id;
+      }} else if (next === null) {{
+        next = id;
+      }}
+    }});
+    return last || next || ids[0];
+  }}
+  var ticking = false;
+  function update() {{
+    ticking = false;
+    activate(currentId());
+  }}
+  var observer = new IntersectionObserver(function () {{
+    if (ticking) {{ return; }}
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }}, {{ rootMargin: "-" + OFFSET + "px 0px -55% 0px", threshold: 0 }});
+  ids.forEach(function (id) {{
+    var target = document.getElementById(id);
+    if (target) {{ observer.observe(target); }}
+  }});
+  tabs.forEach(function (t) {{
+    t.anchor.addEventListener("click", function () {{
+      activate(t.anchor.getAttribute("href").slice(1));
+    }});
+  }});
+  update();
+}})();
+</script>"""
+        },
     )
 
 
@@ -425,6 +575,7 @@ def main():
     canvas = [hero, build_jump_bar()]
     for index, section in enumerate(SECTIONS):
         canvas.append(build_split(index, section))
+    canvas.append(build_spy_snippet())
 
     json.dump(canvas, sys.stdout, separators=(",", ":"))
 
