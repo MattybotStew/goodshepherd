@@ -282,7 +282,7 @@ out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done
 |---|---|---|
 | 5 | ✅ Support GSM menu **parent** linked to `#` (dead click on desktop hover-capable devices) | Fixed 2026-10-02: `_menu_item_url` → `/support-gsm`. Verified rendered href. |
 | 6 | ✅ Foundation dropdown child → `/support-gsm/` not `/support-gsm/#foundation` | Fixed 2026-10-02: item was `post_type` (URL derived from the page permalink, ignoring `_menu_item_url`) so it was switched to `custom` + URL `/support-gsm/#foundation`. Dropdown (4 children) verified intact. |
-| 7 | No favicon / site icon anywhere | Customizer → Site Identity → icon (SVG on hand: `uploads/2023/06/site-logo-white.svg` is the wrong color — need the blue mark) |
+| 7 | ✅ No favicon / site icon anywhere | Fixed 2026-10-02. Source is the client's own live favicon (`goodshepherdmanor.org/wp-content/themes/gsm/favicon.png`, the shepherd's-crook mark) but it is only 32×32, so a crisp 512 square was recreated from the vector lockup (`src/assets/logo-color.svg`, crook clip region x0–62 / y0–140, white bg) and imported as Media **2170**. `site_icon = 2170`; WP emits 32/192/apple-touch links, all 200. |
 | 8 | No meta description, no `og:image`, no Twitter card on any page | No SEO plugin per AGENTS (§11 blocked item 4). At minimum: site icon + og tags via a small snippet **only if commissioned** — do not install an SEO plugin unasked |
 
 ### 6.3 Forms / newsletter
@@ -430,6 +430,11 @@ Free Astra renders two widget areas populated from four `block-*` widgets:
 `block-12` About GSM · `block-14` Explore · `block-16` Support GSM · `block-18`
 Contact (phone, address, Facebook, Privacy, Accessibility, copyright).
 
+**Footer social icons (fixed 2026-10-02):** the Astra `footer-social-icons-1` element
+shipped four demo networks (Facebook / Twitter / Instagram / YouTube) with empty `url`s —
+four dead `href=""` links on every page. Reduced to Facebook only:
+`url = https://www.facebook.com/goodshepherdmanor`. Verified 0 empty `href`s site-wide.
+
 **Zero `<form>` elements in the footer.** AGENTS.md requires a real newsletter signup.
 Also: Astra's `footer-html-1` option still contains `[wpforms id="9"]` — dead
 (WPForms not installed). Build the signup once the destination is agreed (§11);
@@ -478,7 +483,7 @@ Do these in order. Each item is independently shippable and verifiable.
 | 8 | ✅ **Homepage rebuild** (§4) — rebuilt to `HomePage.jsx` proto, 7 sections, no CTA band, 5 program cards, foundation 4-card section | done 2026-10-02 (`apply_elementor.sh 315`, twice); see §4 for the verification log |
 | 9 | ✅ **Endowment finish** (§5.1) — real intro/quote/gift/membership copy from production site; table columns aligned | done 2026-10-02; 0 `lorem` in rendered HTML, lint + build clean |
 | 10 | Newsletter signup (§6.3 #9) — footer + `/newsletters`, remove dead `[wpforms id="9"]` | `<form>` in footer; email-only field on `/newsletters` |
-| 11 | Favicon/site icon (§6.2 #7) | icon link tag resolves 200 |
+| 11 | ✅ Favicon/site icon (§6.2 #7) | done 2026-10-02 — crook mark recreated at 512 from the vector lockup, Media 2170, `site_icon` set; 32/192/apple-touch all 200 |
 | 12 | ✅ FPM `OBJC_DISABLE_INITIALIZE_FORK_SAFETY` (§6.6 #23) | done 2026-10-02 — conf already `YES`; FPM normalizes it to `1` and objc4 treats `1` as On (source-verified). No new `signal 6` since the full restart |
 | 13 | `admin_email` + prune 19 admins (§10) | `wp user list` shows the real set |
 | 14 | REST users visibility (§6.5 #17) — unauth re-check shows only 3 post authors, no emails; harden only if commissioned | `/wp-json/wp/v2/users` → 401/403 |
