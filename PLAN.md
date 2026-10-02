@@ -463,7 +463,7 @@ inbox). Users cleaned the same day (backup `/tmp/gsm-pre-admin-cleanup.sql`):
 2. ✅ Admins pruned to a minimal real set; the two content owners demoted; the rest deleted
 3. ✅ cc/bcc duplication on form 2056 — fixed (above)
 4. ✅ Real submission through `/wp-json/sureforms/v1/submit-form` — passes (above)
-5. ⏳ Confirm delivery after the `admin_email` change
+5. ✅ Confirmed 2026-10-02 — re-submitted through the REST endpoint; the SureForms log shows `Email notification recipient: matt@thecreativemomentum.com` (single recipient; test entry deleted)
 
 Forms still to build: **footer newsletter**, **newsletter page signup** (both blocked
 on destination), Thank a Staff Member, Careers application. §11 gates the mailbox;
