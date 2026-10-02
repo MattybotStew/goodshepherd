@@ -308,10 +308,10 @@ out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done
 | # | Problem | Fix |
 |---|---|---|
 | 17 | **`/wp-json/wp/v2/users` is public** — audit recorded "all 19 accounts" | Re-checked unauthenticated 2026-10-02: returns **3** users (only those with published posts — `charlie`, `mattthecreativemomentum-com`, `michael-clarkthecreativemomentum-com`), no emails, `per_page=100` same 3. The 19-account reading was an authenticated session. Core behaviour; hardening still available if commissioned (§11 blocked item 9) |
-| 18 | 19 administrator accounts (agency + client emails), all role `administrator` | Prune + demote to least privilege before any push (§10) |
+| 18 | ✅ 19 administrator accounts (agency-only) | Cleaned 2026-10-02 (backup `/tmp/gsm-pre-admin-cleanup.sql`). Kept admins **3 develop**, **4 charlie**, **41 matt@thecreativemomentum.com**; demoted the two that own content (**2**, **38**) to subscriber; deleted the other 14 (no content, reassigned to 41). Now 5 users total. See §10 |
 | 19 | ✅ 6 trashed posts + 1 auto-draft (2160) pending | Emptied 2026-10-02: all 7 deleted `--force`. Also closed comments sitewide (`default_comment_status = closed`, 44 posts updated → 0 open). Verify: `wp post list --post_status=trash` empty. |
 | 20 | ✅ Leftovers from declined starter plugins: ~200 `bookly%` options, 40 `acui%` options, and two live Bookly cron events (`bookly_hourly_routine`, `bookly_daily_routine`) | Cron events unscheduled 2026-10-02 (`wp cron event delete`, both). Option rows are inert but note them for the dev push audit |
-| 21 | `admin_email` = `develop@thecreativemomentum.com` (agency dev inbox) | Set a monitored address before any public push (§10) |
+| 21 | ✅ `admin_email` = `develop@thecreativemomentum.com` (agency dev inbox) | Changed 2026-10-02 to **`matt@thecreativemomentum.com`** (monitored). See §10 |
 | 22 | 6 inactive themes (`twentytwenty*`, `hello-elementor`, `genesis-block-theme`) | Optional delete; zero risk left as-is |
 
 ### 6.6 Server
@@ -450,16 +450,20 @@ One SureForms form: ID `2056` "Simple Contact Form". Notification (fixed 2026-10
 Tested end-to-end through the REST endpoint the same day: HTTP 200, entry with all
 4 field values, single recipient in the log (test entry then deleted).
 
-**`admin_email` = `develop@thecreativemomentum.com`** (agency inbox). **19 user
-accounts, all `administrator`** (`*@cloudmellow.com`, `*@thecreativemomentum.com`).
-Before any dev push:
+**`admin_email` = `matt@thecreativemomentum.com`** (set 2026-10-02; was the agency dev
+inbox). Users cleaned the same day (backup `/tmp/gsm-pre-admin-cleanup.sql`):
 
-1. Set `admin_email` to a monitored GSM or CloudMellow address
-2. Prune admins to a minimal real set — `wp user list`, then
-   `wp user delete <id> --reassign=<keep>`; demote the rest
+| State | Accounts |
+|---|---|
+| administrator | 3 `develop`, 4 `charlie`, 41 `matt@thecreativemomentum.com` |
+| subscriber | 2 `michael.clark@thecreativemomentum.com`, 38 `carl@thecreativemomentum.com` (own content) |
+| deleted | the other 14 (no content, reassigned to 41) |
+
+1. ✅ `admin_email` set to a monitored address
+2. ✅ Admins pruned to a minimal real set; the two content owners demoted; the rest deleted
 3. ✅ cc/bcc duplication on form 2056 — fixed (above)
 4. ✅ Real submission through `/wp-json/sureforms/v1/submit-form` — passes (above)
-5. Confirm delivery after the `admin_email` change
+5. ⏳ Confirm delivery after the `admin_email` change
 
 Forms still to build: **footer newsletter**, **newsletter page signup** (both blocked
 on destination), Thank a Staff Member, Careers application. §11 gates the mailbox;
@@ -485,7 +489,7 @@ Do these in order. Each item is independently shippable and verifiable.
 | 10 | Newsletter signup (§6.3 #9) — footer + `/newsletters`, remove dead `[wpforms id="9"]` | `<form>` in footer; email-only field on `/newsletters` |
 | 11 | ✅ Favicon/site icon (§6.2 #7) | done 2026-10-02 — crook mark recreated at 512 from the vector lockup, Media 2170, `site_icon` set; 32/192/apple-touch all 200 |
 | 12 | ✅ FPM `OBJC_DISABLE_INITIALIZE_FORK_SAFETY` (§6.6 #23) | done 2026-10-02 — conf already `YES`; FPM normalizes it to `1` and objc4 treats `1` as On (source-verified). No new `signal 6` since the full restart |
-| 13 | `admin_email` + prune 19 admins (§10) | `wp user list` shows the real set |
+| 13 | ✅ `admin_email` + prune 19 admins (§10) | done 2026-10-02 — `admin_email` = matt@thecreativemomentum.com; admins 3/4/41, subscribers 2/38, 14 deleted; `wp user list` = 5 |
 | 14 | REST users visibility (§6.5 #17) — unauth re-check shows only 3 post authors, no emails; harden only if commissioned | `/wp-json/wp/v2/users` → 401/403 |
 | 15 | ✅ Unschedule Bookly crons (§6.5 #20) | done 2026-10-02 — `bookly_hourly_routine` + `bookly_daily_routine` deleted; `wp cron event list` shows none |
 | 16 | ✅ Logo swap (04 white SVG → GSM mark) + header button styling | done 2026-10-02 — Media 2168/2169; `custom_logo` + Astra transparent logo set; `header-button1-*` colors → GSM blue. Headless-verified on home/about/programs. See §9 |
