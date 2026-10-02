@@ -8,9 +8,11 @@ import {
   endowmentDisbursement,
   endowmentIntro,
   endowmentQuote,
+  giftOptionsIntro,
+  membershipIntro,
   membershipLevels,
+  membershipOutro,
 } from '../data/endowment'
-import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
 
 function EndowmentPage() {
@@ -22,7 +24,7 @@ function EndowmentPage() {
           { label: 'Shepherd Endowment Society' },
         ]}
         title="Shepherd Endowment Society"
-        lede={endowmentIntro[0]}
+        lede="Stewardship that outlives a gift"
       />
 
       <HomeIntroStrip variant="involved" />
@@ -48,8 +50,9 @@ function EndowmentPage() {
 
         <section className="rte anchor" id="gift-options">
           <h2>So How Can You Ensure More Tomorrows?</h2>
-          <p>{LOREM_LONG}</p>
-          <p>{LOREM}</p>
+          {giftOptionsIntro.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
           <div className="rte-grid">
             <div>
               <h3>Current Gifts</h3>
@@ -72,7 +75,7 @@ function EndowmentPage() {
 
         <section className="rte anchor" id="membership">
           <h2>Membership</h2>
-          <p>{LOREM}</p>
+          <p>{membershipIntro}</p>
           <table className="rte-table">
             <thead>
               <tr>
@@ -91,7 +94,7 @@ function EndowmentPage() {
               ))}
             </tbody>
           </table>
-          <p>{LOREM}</p>
+          <p>{membershipOutro}</p>
           <Link to="/contact" className="text-link">
             Ask about joining &rarr;
           </Link>

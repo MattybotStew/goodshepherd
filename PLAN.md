@@ -6,7 +6,8 @@ rules. This file is the *state of the build and what remains*. If they disagree,
 
 This file is written to be handed to any model or tool (Cursor, Claude Code, Cline,
 Gemini CLI) without prior conversation context. Every claim here was verified against
-the running site on 2026-10-01.
+the running site on **2026-10-02** (audit) — earlier items marked done were last
+re-verified on that date.
 
 ---
 
@@ -35,7 +36,7 @@ the running site on 2026-10-01.
 | Elementor apply | `/Users/matthewstewart/Developer/goodshepherd/_tools/apply_elementor.sh <PAGE_ID> <json>` |
 | React wires | `npm run dev` → http://localhost:5173 |
 | Repo | `main` @ `origin` = `https://github.com/MattybotStew/goodshepherd` |
-| Last commit | `a371256 Use Elementor Pro native sticky for Support GSM jump bar` |
+| Last commit | `a868077 Add design workflow doc and Elementor fix tooling` (pushed; tree clean) |
 
 The WP-CLI wrapper is a path with spaces — quote it:
 
@@ -56,49 +57,52 @@ curl -sk https://goodshepherd.local/          # -k: self-signed Local cert
 | Item | State |
 |---|---|
 | Elementor | 4.3.3 active |
-| Elementor Pro | 4.3.1 active, license `ACTIVE` through 2027-04-26 (`sticky`, `custom-css`, `custom_code`) |
-| Astra Pro addon | 4.13.10 active — above-header bar and sticky header work |
+| Elementor Pro | 4.3.1 active — Pro features (Posts widget, native sticky) render. ⚠️ `elementor_pro_license` option reads `false`; confirm on the wp-admin Licenses screen and re-activate if the nag shows |
+| Astra Pro addon | 4.13.10 active, **licensed** (`brainstrom_products.astra-addon` registered) — above-header bar + sticky header work |
 | SureForms | 2.12.8 active — one form, ID `2056` |
-| Palette | `--ast-global-color-0..7` = `#0089DF #006BB3 #002A4E #303336 #FAFCFE #FFFFFF #C8D4E0` ✅ |
+| Palette | `--ast-global-color-0..7` = `#0089DF #006BB3 #002A4E #303336 #FAFCFE #FFFFFF #C8D4E0 #000000` ✅ |
 | Type | DM Sans ✅ · container 1200px ✅ · no 04 lime anywhere ✅ |
-| Astro global colors live in the theme's dynamic CSS, not in a `astra-global-color-palette` option — do not go looking for one |
+| Active plugins | **only** `astra-addon`, `elementor`, `elementor-pro`, `sureforms` + must-use `gsm-redirects` |
 
-### Plugins to remove
+**Removed 2026-10-01/02 (done, do not reinstall):** `ultimate-elementor`,
+`wordpress-seo`, `astra-pro-sites`. `wp plugin list` confirms 4 active + 1 mu-plugin.
 
-| Plugin | Why |
-|---|---|
-| `ultimate-elementor` 1.45.5 | Starter import junk. Adds ~20 shortcodes/blocks nothing uses, and can conflict with Elementor's own addons. Deactivate + delete. |
-| `wordpress-seo` 28.5 | Inactive. Delete unless SEO is explicitly commissioned — AGENTS.md lists no SEO plugin. |
-| `astra-pro-sites` 4.7.7 | Only needed to re-import the starter. The import is done. Delete before push. |
+Astra global colors live in the theme's dynamic CSS, not in a `astra-global-color-palette`
+option — do not go looking for one.
 
 ---
 
-## 2. Page inventory — all 16 routes return 200
+## 2. Page inventory — all 16 routes return 200 (verified 2026-10-02)
 
-| ID | Slug | Parent | `_elementor_data` | Build state |
-|---|---|---|---|---|
-| 315 | `/` | — | 98 KB | Needs section fixes — see §4 |
-| 316 | `/about` | — | 64 KB | Mostly built; dead buttons |
-| 317 | `/programs` | — | 38 KB | Still 04 copy; needs program cards |
-| 2088 | `/programs/community-day-services` | 317 | 20 KB | ✅ Built |
-| 2089 | `/programs/vocational` | 317 | 21 KB | ✅ Built |
-| 2090 | `/programs/residential-living` | 317 | 21 KB | ✅ Built |
-| 2091 | `/programs/health-well-being` | 317 | 21 KB | ✅ Built, all 5 anchors ✅ |
-| 2127 | `/programs/special-olympics` | 317 | 19 KB | ✅ Built |
-| 2092 | `/support-gsm` | — | 31 KB | ✅ Reference build — see §3 |
-| 2093 | `/shepherd-endowment-society` | — | 8 KB | ❌ Nearly empty — see §5 |
-| 2094 | `/events` | — | 48 KB | ✅ 4 event anchors ✅ |
-| 2095 | `/newsletters` | — | 61 KB | ❌ 04 Stories clone — see §5 |
-| 2096 | `/careers` | — | 36 KB | ❌ Inherits Contact's contact block — see §5 |
-| 318 | `/news` | — | 62 KB | ❌ Static cards, 0 posts — see §5 |
-| 319 | `/contact` | — | 36 KB | ⚠️ Built; placeholder phone numbers |
-| 3 | `/privacy` | — | 0 | Utility page, still WP suggested text |
-| 2011 | `/ways-to-give` | — | — | `draft`. Redirect covers it. Trash it. |
+| ID | Slug | Parent | Build state (current) |
+|---|---|---|---|
+| 315 | `/` | — | ⚠️ Wired but wrong sections + wrong hero CTA — see §4 |
+| 316 | `/about` | — | ✅ built, buttons wired, anchors ✅ |
+| 317 | `/programs` | — | ✅ 5 program cards incl. Special Olympics, 04 copy gone |
+| 2088 | `/programs/community-day-services` | 317 | ✅ built, `#digital-den` ✅ |
+| 2089 | `/programs/vocational` | 317 | ✅ built |
+| 2090 | `/programs/residential-living` | 317 | ✅ built |
+| 2091 | `/programs/health-well-being` | 317 | ✅ built, all 5 anchors ✅ |
+| 2127 | `/programs/special-olympics` | 317 | ✅ built |
+| 2092 | `/support-gsm` | — | ✅ reference build — see §3 |
+| 2093 | `/shepherd-endowment-society` | — | ✅ 16.8 KB, **all real copy** (intro, quote, gifts, membership) + column-aligned table + anchors — §5.1 |
+| 2094 | `/events` | — | ✅ 4 event anchors ✅; lede de-duped 2026-10-02 (was 5×, now 1) |
+| 2095 | `/newsletters` | — | ⚠️ archive works (3 posts via Posts widget); "Join our Mailing List" embeds **contact form 2056**, not a signup — §9 |
+| 2096 | `/careers` | — | ✅ Contact residue removed (0 "Front Office", no form, no 555); 1 job listing + benefits |
+| 318 | `/news` | — | ✅ Posts widget, 4 posts, term 19; ⚠️ no featured images → imageless cards |
+| 319 | `/contact` | — | ✅ built, form renders, no 555; ✅ form tested via REST endpoint 2026-10-02 (entry + single email) |
+| 3 | `/privacy` | — | ✅ real policy copy; single `<h1>` since 2026-10-02 (duplicate title heading removed) |
+| 2011 | `/ways-to-give` | — | ✅ gone (redirect covers the URL) |
 
 **Verified anchors:** Health `#nursing #clinic #pharmacy #supports #transportation` ·
 Events `#fall-festival #brunch-auction #golf-invitational #family-events` ·
 Support GSM `#foundation #ways-to-give #endowment-society #events #memorial-tribute` ·
-About `#accessibility`.
+About `#history #mission #accessibility`.
+
+**Verified fixed (were open, now done):** dead buttons — the §6 audit script returns
+`none` on all 9 checked pages · `(555)` phone count = 0 on `/contact` and `/careers` ·
+home counters carry `ending_number` 55/100/4/1971 · 04 "Proofing our impact" copy gone
+from `/programs` · draft `2011` gone.
 
 ---
 
@@ -117,8 +121,7 @@ re-derive it.
 - Build: `python3 _tools/build_support_gsm.py > /tmp/sgsm.json`
   then `./_tools/apply_elementor.sh 2092 /tmp/sgsm.json`
 - Hero source is `_migration/support-gsm-hero.json` (committed; the builder defaults to it)
-- Verified: 5 tabs, 5 hrefs, 5 active states, 69px bar, mobile horizontal scroll with no
-  document overflow, native sticky activates on scroll, correct desktop image-side
+- Verified: 5 tabs, 5 hrefs, sticky activates on scroll, correct desktop image-side
   mapping, no console errors
 
 **`apply_elementor.sh` matters.** Elementor's CSS cache does not regenerate on a raw
@@ -130,259 +133,303 @@ re-derive it.
 ### Redirect
 
 `_migration/mu-plugins/gsm-redirects.php` → `wp-content/mu-plugins/gsm-redirects.php`.
-Currently: `/ways-to-give/` → 301 → `/support-gsm/#ways-to-give` ✅ verified.
-Local runs nginx, so `.htaccess` is not an option. Add redirects here.
+Currently: `/ways-to-give/` → 301 → `/support-gsm/#ways-to-give` ✅ ·
+`/donate/` → 301 → `/support-gsm` ✅. Local runs nginx, so `.htaccess` is not an
+option. Add redirects here.
 
 ---
 
-## 4. Homepage `/` (ID 315) — 6 containers, wrong in 4 places
+## 4. Homepage `/` (ID 315) — rebuilt to proto spec ✅ (2026-10-02)
 
-Current container order: `[0]` hero · `[1]` intro strip · `[2]` About Us ·
-`[3]` Our Mission & Vision + counters · `[4]` Get Involved · `[5]` Our Partners
+**Spec decision (settled — do not reopen):** `src/pages/HomePage.jsx` (Figma `9137:3182`)
+wins over the `9009:2` wire. `AGENTS.md` §Homepage has been rewritten to match. The
+previous conflict and the clobber by `/tmp/home_figma.json` are closed out.
 
-AGENTS.md requires this order instead:
+Built order, verified in rendered HTML and by pixel measurement of a headless screenshot:
 
-1. Hero — headline "A Community of Compassion, Dignity, and Purpose." **CTA must be
-   "Now Hiring! Apply Today" → `/careers`** (currently reads "Donate Now", unlinked)
-2. Intro strip overlapping hero — three cards `01. Projects` / `02. Support GSM` /
-   `03. Donate`, greeked body, "Learn more" → `/programs`, `/support-gsm`,
-   `/support-gsm`. Card titles are currently missing; only the `01.` `02.` `03.`
-   headings and the buttons render.
-3. Our Impact — "Our Mission & Vision: Serving with Dignity" + mission statement +
-   4 counters. **No donate band in this section.** Counter titles are right, values
-   are empty (see §6).
-4. About Us — "A community of care, growth, and dignity for over 50 years." + photo
-   mosaic, shares `#f1f5f9` with Our Impact (no gradient seam)
-5. Support GSM Foundation CTA band — "We can create a better tomorrow" + Support GSM
-6. Our Programs & Services — program cards + View all
-7. Stories — "Inspiring tales of transformation" + 3 story cards
+`138ba28` hero · `b233779` intro strip · `78cc2f2` Our Impact · `prog_sec` Our Programs ·
+`e743605` About · `story_sec` Stories · `support_gsm` Support GSM Foundation.
 
-**Deltas:**
+Backup of the pre-rebuild Elementor data: `/tmp/315-pre-rebuild.json` (69,894 bytes).
+Build script: `/tmp/build315.py` → `/tmp/315-new.json`, applied with
+`_tools/apply_elementor.sh 315`.
+
+| # | Fix | Result |
+|---|---|---|
+| 1 | ✅ Hero CTA href | all 3 "Now Hiring! Apply Today" → `/careers` |
+| 2 | ✅ Intro strip titles | `01. Projects / 02. Support GSM / 03. Donate`; hrefs `/programs`, `/support-gsm`, `/support-gsm` (Donate → `/support-gsm`, per decision — not `#ways-to-give`) |
+| 3 | ✅ CTA band | **won't fix — client decision 2026-10-02**: home gets no `gsm_cta_band`. See §12. |
+| 4 | ✅ `get_involved` removed | Donate/Volunteer/Careers split deleted; `data-id="get_involved"` absent from render |
+| 5 | ✅ Program cards | now 5 (`prog_card_0..4`) incl. Special Olympics → `/programs/special-olympics`; impact counter `Core programs` = `5` (`data-to-value="5"`). **Descriptions deliberately not added** — cards unchanged apart from the 5th. |
+| 6 | ✅ Stories heading | kept as "What's Happening at GSM" (proto), section **retained** above the foundation section by client decision — it is not in the proto but carries event promotion |
+| 7 | ✅ `TBD Vocational Program` | intentional — `site.js` `homeName`; leave it |
+
+Foundation section: `support_gsm`, bg `astglobalcolor4`, centered h2, 4 cards at 25%
+(`support_card_0..3` → `/support-gsm`, `/events`, `/shepherd-endowment-society`,
+`/support-gsm#memorial-tribute`).
+
+About section fix: heading `7a81b49` moved to position 1 and `header_size` p → **h2**
+(its `<p>` was the only reason that section had no heading), `about_p2` second paragraph
+inserted.
+
+**Elementor gotcha (cost a debug cycle):** `--width` only prints when the container has
+`content_width: 'full'` (`elementor/includes/elements/container.php`, `width` control
+condition). Without it, cards silently render at 100% and stack. Applied to
+`prog_card_0..4` and `support_card_0..3`. `story_card_*` are intentionally left alone —
+the stories row is `nowrap` and relies on `flex-shrink`.
+
+**Known deviation from proto (accepted):** cards use the site's filled blue "Learn more"
+button (proto uses a bare text link) and radius 16 + 1px border (proto is radius 8 +
+shadow) — no custom CSS is permitted. About / Stories / Foundation share
+`astglobalcolor4`, so they read as one light band; About→Stories already did.
+
+**Verified:** 1 `h1`; h2 order = Mission & Vision → Our Programs & Services → About →
+What's Happening → Support GSM Foundation; section order and About DOM order correct;
+10 link targets → 200 (after trailing-slash 301); 16/16 routes 200; FPM log unchanged
+(26 crashes, mtime Oct 1 19:28); `post-315.css` emits `--width:20%` ×5 and `25%` ×4;
+programs row = 5 cards × 182px, foundation row = 4 cards × 278px at y=3609…3892.
+
+**Screenshots:** the white gap above the footer is an artifact of forcing
+`--window-size=1440,7000` (footer pins to viewport bottom; untouched pages show the same
+4,000px+ blank runs). Use a realistic viewport height.
+
+---
+
+## 5. Page work remaining
+
+### 5.1 `/shepherd-endowment-society` (2093) — done ✅ (2026-10-02)
+
+All body copy is now real. Source was **not** `src/data/endowment.js` (its
+`endowmentIntro` / `endowmentQuote.text` / `endowmentDisbursement` were lorem too) —
+it came from the client's production site:
+`https://www.goodshepherdmanor.org/foundation/shepherds-endowment-society/`
+(the provenance AGENTS.md already recorded as "from production site").
+
+What landed (page data + the React source of truth):
 
 | Fix | Detail |
 |---|---|
-| Hero CTA | "Donate Now" → "Now Hiring! Apply Today" → `/careers` |
-| Intro strip | Add the three card titles; wire all three buttons |
-| Remove | `[5]` "Our Partners" — not on the wire |
-| Add | Our Programs & Services cards + View all |
-| Add | Stories: 3 cards from `src/data/news.js` |
+| ✅ Intro paragraphs | 2 real paragraphs + the disbursement sentence (was 1 lorem `<p>`) |
+| ✅ Quote | real Ed & Joan O'Brien quote — the previous text was **invented copy attributed to a real, named person**; cite was already correct |
+| ✅ Gift-options lead-in | 2 real paragraphs under a real h2 |
+| ✅ Headings | `Ways to Give` → **So How Can You Ensure More Tomorrows?**; `Giving Levels` → **Membership**; `Level` → **Member Levels** (all match production + the wire) |
+| ✅ Gift lists | restored full strings (`Recurring Gifts (e.g.: Monthly, quarterly, annually)`, `Current Pledge (e.g. within 3 years)`, `Pension Plan/Other Qualified Plan`) |
+| ✅ Levels | `$1 million+` → `$1 million or more` |
+| ✅ Closing paragraph | the SES membership outro |
+| ✅ Back link | `/support-gsm#endowment-society` already present; verified |
+| ✅ Anchors | `_element_id` = `overview`, `gift-options`, `membership` (the wire's section ids) |
+| ✅ Membership table | was rendering run-on (`Member LevelsCurrent GiftDeferred Gift`) — see §6.7 |
 
-**"Our Partners" is the trap.** AGENTS.md says explicitly: *do not replace this Home
-layout with the 04 01/02/03 / stories / partners pattern.* Home follows the Figma wire
-(`9009:2`), not the starter's homepage.
+`src/data/endowment.js` now holds all of the above as real strings (plus new
+`giftOptionsIntro`, `membershipIntro`, `membershipOutro`); `EndowmentPage.jsx` reads
+them instead of `placeholders.js`. **`npm run lint` and `npm run build` clean.**
 
----
+Backup: `/tmp/2093-pre-endowment.json`. Builder: `/tmp/finish_endowment.py` +
+`/tmp/fix_endow_cols.py`.
 
-## 5. Pages that need real work
+### 5.2 `/news` (318) — built; polish only
 
-### 5.1 `/shepherd-endowment-society` (2093) — effectively empty
+Posts widget renders 4 posts (term 19, ppp 4) ✅, counters and 04 donate copy gone ✅.
 
-8 KB of `_elementor_data`, one `image-box` widget. Needs the Donate-page layout
-duplicated and filled from `src/data/endowment.js` — **that file already holds real
-copy pulled from the live production site**, so this page can be finished now, before
-client review. It is the only page with real body copy. Sections: intro, how gifts are
-used, gift methods, gift levels, a CTA band, and a link back into
-`/support-gsm/#endowment-society`.
+- **No featured images** on any of the 7 posts → cards render text-only. Either assign
+  images or accept text cards (call; images are client assets).
+- ✅ Post comments closed sitewide 2026-10-02 (`default_comment_status = closed`;
+  44 rows `open` → 0).
+- Numeric old slugs (`/2145/` etc.) return **404, not 301**. If those URLs were ever
+  shared, add redirects to `gsm-redirects.php`; likely they were never public.
 
-### 5.2 `/news` (318) — needs to be a real post archive
+### 5.3 `/newsletters` (2095) — archive works, signup is wrong
 
-AGENTS.md: **News & Updates = WordPress posts + category archive.** Currently it is a
-static Elementor page with 04 "Stories" copy, 04 impact counters
-("People served worldwide / Projects funded / People to take action / Partner
-organizations" with `M+`/`M` suffixes), a donate band, and four hardcoded story cards.
+Posts widget renders 3 newsletter issues (term 20, ppp 6) ✅. But the "Join our Mailing
+List" section embeds **form 2056 — the full contact form** (Name/Email/Subject/Message).
+A mailing-list signup needs an email-only form (or removal until the destination is
+agreed, §9/blocked). Do not duplicate `/news`'s layout.
 
-- Add 4 placeholder posts in the `news` category so the archive renders
-- Rebuild the page as a post-listing template, not static cards
-- Delete the 04 counters section and the donate band
-- Delete the two `auto-draft` posts (IDs 2075, 2076) first
-- Use `src/data/news.js` for the card titles/excerpts
+### 5.4 `/careers` (2096) — done
 
-### 5.3 `/newsletters` (2095) — a `/news` clone with 04 counters
+Contact residue verified gone: 0 "Front Office", 0 "Connect with us", no SureForms
+embed, no `(555)`. Has Job Openings (DSP) + Benefits + one `html` widget. Remaining:
+more job listings when the client supplies them (content, not build).
 
-Same problem: 04 Stories copy, 04 counters, donate band, hardcoded cards. Needs an
-archive of newsletter issues (posts in a `newsletters` category) plus a real signup
-form. Do not duplicate `/news` — build this one after it and share the listing layout.
+### 5.5 `/programs` (317) — done
 
-### 5.4 `/careers` (2096) — cloned from `/contact`, inheriting the wrong sections
+5 cards (Community Day Services, Vocational, Special Olympics, Residential Living,
+Health & Well Being) all linking to their children; 04 copy verified gone.
 
-Rendered output on `/careers` includes Contact's hero copy ("Connect with us for more
-information…"), a "Phone" block, "Ways to Give", "Get in touch", "Front Office", and
-"Follow us on". Those do not belong here.
+### 5.6 `/about` (316) — done
 
-- Keep: Job Openings (incl. DSP listing) and Benefits — both present ✅
-- Remove: the inherited Contact contact-info block and the "Connect with us" hero copy
-- The `sureforms` contact form (2056) is currently embedded here too. Careers needs an
-  application form or a mailto, not the Contact form.
-- `google_maps` is correctly absent from Careers and correctly present on Contact ✅
-  (the reverse of an old note in the previous plan)
-
-### 5.5 `/programs` (317) — landing page still has 04 copy
-
-Renders "Every small act of kindness creates a ripple of positive change", "How we
-work", "Proofing our impact", "Join us in our mission to create a positive impact on
-the world." — all 04 starter copy. Needs:
-
-- Intro (`ProgramsIntroSection` equivalent)
-- Cards for all **five** programs: Community Day Services, Vocational, Special Olympics,
-  Residential Living, Health & Well Being — from `src/data/programs.js`
-- View-all link
-
-### 5.6 `/about` (316) — nearly right
-
-Sections present: Dignity/ Purpose, `01. Our History`, `02. Mission, Vision & Values`,
-`03. Affiliations`, History timeline, `#accessibility` ✅. Only the dead buttons
-(§6) need fixing. Also per AGENTS.md: Accessibility lives here, and the hero overlaps
-the mission section.
+Sections + anchors (`#history #mission #affiliations #accessibility`) ✅, buttons wired ✅.
 
 ---
 
-## 6. Dead buttons — every page has some
+## 6. Site-wide audit findings (2026-10-02) — the fix list
 
-These buttons render but carry **no `href` at all**. They are not styling placeholders;
-they are broken CTAs. 15 across the site:
+A full read-only audit of the rendered site. Grouped by severity. Items that turned
+out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done.
 
-| Page | Unlinked buttons |
-|---|---|
-| `/` | Donate Now, Learn More ×2, View Programs, Read More ×3, Get Involved |
-| `/about` | Our Impact, Ways to Give, Learn More, Donate Now |
-| `/programs` | Learn More, Our Impact |
-| `/events` | Learn More ×2 |
-| `/news` | Donate Now, Read More ×4 |
-| `/newsletters` | Donate Now, Read More ×4 |
+### 6.1 Critical
 
-**Destinations** (from `src/data/header.js` + AGENTS.md, never the 04 originals):
+| # | Problem | Fix |
+|---|---|---|
+| 1 | ✅ **`blog_public = 0`** — was "Discourage search engines" ON, every page carrying `noindex,nofollow`. | Fixed 2026-10-02: `option update blog_public 1`. Verified: 0 `noindex` in source. |
+| 2 | ✅ **`/wp-sitemap.xml` → 404** (WP core gates sitemaps on `blog_public`) and no `Sitemap:` line in robots.txt. | Fixed with #1. Verified: sitemap 200 (index + 4 child sitemaps), robots.txt has `Sitemap: https://goodshepherd.local/wp-sitemap.xml`. |
+| 3 | ✅ Hero CTA → `/programs` instead of `/careers` | Fixed 2026-10-02 via `apply_elementor.sh 315`. All 3 "Now Hiring" occurrences now → `/careers`. |
+| 4 | ✅ Homepage section divergence | Fixed 2026-10-02 — see §4. Spec settled on `HomePage.jsx`; page 315 rebuilt to the 7-section proto order. |
 
-| Label | Goes to |
-|---|---|
-| Read More / story cards | the post permalink |
-| Learn More (intro strip) | `/programs` · `/support-gsm` · `/support-gsm` |
-| View Programs | `/programs` |
-| Our Impact / Ways to Give (About) | `/about#mission` · `/support-gsm#ways-to-give` |
-| Donate Now | `/support-gsm/#ways-to-give` |
-| Get Involved | `/support-gsm` |
-| View all (stories) | `/news` |
-| See all events → | `/events` |
-| Support GSM (any band) | `/support-gsm` |
-| Apply Today / Now Hiring | `/careers` |
+### 6.2 Navigation / chrome
 
-Verify after fixing with:
+| # | Problem | Fix |
+|---|---|---|
+| 5 | ✅ Support GSM menu **parent** linked to `#` (dead click on desktop hover-capable devices) | Fixed 2026-10-02: `_menu_item_url` → `/support-gsm`. Verified rendered href. |
+| 6 | ✅ Foundation dropdown child → `/support-gsm/` not `/support-gsm/#foundation` | Fixed 2026-10-02: item was `post_type` (URL derived from the page permalink, ignoring `_menu_item_url`) so it was switched to `custom` + URL `/support-gsm/#foundation`. Dropdown (4 children) verified intact. |
+| 7 | No favicon / site icon anywhere | Customizer → Site Identity → icon (SVG on hand: `uploads/2023/06/site-logo-white.svg` is the wrong color — need the blue mark) |
+| 8 | No meta description, no `og:image`, no Twitter card on any page | No SEO plugin per AGENTS (§11 blocked item 4). At minimum: site icon + og tags via a small snippet **only if commissioned** — do not install an SEO plugin unasked |
 
-```sh
-python3 - <<'PY'
-import json,re,subprocess
-for pid,slug in {315:'/',316:'/about',317:'/programs',2094:'/events',318:'/news',2095:'/newsletters'}.items():
-    raw=subprocess.run(["/Users/matthewstewart/Local Sites/goodshepherd/_tools/wp.sh",
-        "post","meta","get",str(pid),"_elementor_data"],capture_output=True,text=True).stdout
-    d=json.loads(raw); bad=[]
-    def walk(els):
-        for e in els or []:
-            if e.get('widgetType') in ('button','btn'):
-                t=e.get('settings',{}) or {}
-                txt=re.sub(r'<[^>]+>','',t.get('text','')).strip()
-                if txt and not ((t.get('link') or {}).get('url') or t.get('link')): bad.append(txt)
-            walk(e.get('elements'))
-    walk(d)
-    print(f"{slug:16} {bad or 'none'}")
-PY
-```
+### 6.3 Forms / newsletter
+
+| # | Problem | Fix |
+|---|---|---|
+| 9 | **No working newsletter signup anywhere.** Footer Astra HTML widget holds `[wpforms id="9"]` but **WPForms is not installed** (dead shortcode, renders nothing); `/newsletters/` "Join our Mailing List" embeds contact form 2056; footer has zero `<form>` elements | Blocked on destination decision (§11). Then: build an email-only SureForms signup, embed on `/newsletters` + footer, remove the dead `[wpforms]` option |
+| 10 | ✅ Contact form never tested through its real endpoint (AJAX → `/wp-json/sureforms/v1/submit-form` + submit token) | Tested 2026-10-02 through the REST endpoint with a `X-WP-Submit-Token` scraped from `/contact/`. HTTP 200, entry written to `wp_srfm_entries` with all 4 field values, log shows delivery passed to the sending server. Test entry deleted afterwards. Note: payload keys must be the full input `name` (`srfm-…-lbl-…-slug`), not the bare slug — bare slugs yield an entry with `form_data: []`. |
+| 11 | ✅ Form 2056: no reCAPTCHA (`_srfm_form_recaptcha = none`), notification was to/cc/**bcc** all `admin_email` → 3 copies per submission | Fixed 2026-10-02: `email_cc` and `email_bcc` set to `""`, `email_reply_to` set to `{form:email}` so replies go to the visitor. Verified log = single recipient. reCAPTCHA still off (§11 blocked item 9). |
+
+### 6.4 Content / markup
+
+| # | Problem | Fix |
+|---|---|---|
+| 12 | All 7 posts lack featured images → imageless cards on `/news` | Client images (blocked) or accept text cards |
+| 13 | ✅ `/privacy/` had **two `<h1>`s** (Astra entry-title + first content heading) | Fixed 2026-10-02: in-content title heading demoted to `<h2>` and then removed as a duplicate of the theme title (the theme already prints the `<h1>`); the 5 numbered section headings remain `<h2>`. Verified: 1 `<h1>`, full body intact (2.7 KB). Recovered from revision 2159 after an initial truncation. |
+| 14 | ✅ `/events` lede "Fall Festival, Golf Invitational, and family events throughout the year." repeated 5× | Fixed 2026-10-02: removed the 3 standalone duplicate headings (`6a8fc23`, `bf823e1`, `cdd4304`) and cleared the duplicated description on `8364dbf`, keeping the hero copy. Verified: 1 occurrence; h1 + 4 anchored event section h2s + CTA band intact. |
+| 15 | ✅ Home counter "Core programs offered" = 4 vs `site.js` = 5 (Special Olympics) | Fixed 2026-10-02 with the §4 rebuild — `data-to-value="5"` and a 5th program card; **no descriptions added** to the cards (decision). |
+| 16 | All body copy is lorem — **intentional**, awaiting client (AGENTS current-state note) | No action |
+
+### 6.5 WP hygiene / security
+
+| # | Problem | Fix |
+|---|---|---|
+| 17 | **`/wp-json/wp/v2/users` is public** — audit recorded "all 19 accounts" | Re-checked unauthenticated 2026-10-02: returns **3** users (only those with published posts — `charlie`, `mattthecreativemomentum-com`, `michael-clarkthecreativemomentum-com`), no emails, `per_page=100` same 3. The 19-account reading was an authenticated session. Core behaviour; hardening still available if commissioned (§11 blocked item 9) |
+| 18 | 19 administrator accounts (agency + client emails), all role `administrator` | Prune + demote to least privilege before any push (§10) |
+| 19 | ✅ 6 trashed posts + 1 auto-draft (2160) pending | Emptied 2026-10-02: all 7 deleted `--force`. Also closed comments sitewide (`default_comment_status = closed`, 44 posts updated → 0 open). Verify: `wp post list --post_status=trash` empty. |
+| 20 | Leftovers from declined starter plugins: ~200 `bookly%` options, 40 `acui%` options, and a live `bookly_hourly_routine` cron event | Unschedule the cron; option rows are inert but note them for the dev push audit |
+| 21 | `admin_email` = `develop@thecreativemomentum.com` (agency dev inbox) | Set a monitored address before any public push (§10) |
+| 22 | 6 inactive themes (`twentytwenty*`, `hello-elementor`, `genesis-block-theme`) | Optional delete; zero risk left as-is |
+
+### 6.6 Server
+
+| # | Problem | Fix |
+|---|---|---|
+| 23 | **PHP-FPM SIGABRT crashes continue after the §15 fix** — 26 total in log, latest 01-Oct 19:28 (restart was 17:11). Web SAPI showed `OBJC_DISABLE_INITIALIZE_FORK_SAFETY=1`, not `YES`. | Verify the live `www.conf` value is literally `YES`, full-restart FPM, watch the log. If crashes persist, the env isn't reaching workers — see §15 |
+
+### 6.7 Elementor settings keys that are silently ignored
+
+Same failure mode as `content_width` (§4). Elementor accepts the wrong key into
+`_elementor_data` and then emits **no CSS** for it — no error anywhere.
+
+| Wrong key (dead) | Correct key | Also needs |
+|---|---|---|
+| `justify_content` | `flex_justify_content` | — |
+| `align_items` | `flex_align_items` | — |
+| `align_content` | `flex_align_content` | — |
+| `wrap` | `flex_wrap` | — |
+| `gap: {unit,size,sizes}` | `flex_gap` | GAPS shape `{unit,size,row,column,isLinked}` |
+| `css_id` | **`_element_id`** | elementor/includes/elements/container.php:1770 |
+
+The group is `Group_Control_Flex_Container` (`includes/controls/groups/flex-container.php`)
+and its prefix is `flex_` — that is where the names come from. `flex_direction` was
+already correct in our builders, which is why rows laid out horizontally while their
+alignment did nothing.
+
+**Fixed 2026-10-02:** `gsm_cta_band` on all 14 pages that have it (316, 317, 318, 319,
+2088–2092, 2094–2096, 2127). It was meant to be centred with a 20px gap and instead
+rendered hard-left with the button touching the headline. Verified by pixel measurement
+on `/`, `/about`, `/events`, `/programs`, `/shepherd-endowment-society`: band content
+now sits at 355px from both edges (was 41 left / 689 right). Backups:
+`/tmp/pre-cta-backup/`.
+
+**Deliberately NOT migrated — do not "fix" these:** Home (315) `prog_row`,
+`story_row`, `support_row` and `support_card_*` still carry dead `justify_content`
+and `gap` keys. They are load-bearing *because* they are dead: 5 cards × `width:20%`
+plus a `gap` would exceed 100% and wrap to two rows. Home looks right today for that
+reason only. If you ever enable `flex_gap` there, drop the card widths first.
+
+Also note the **Membership table on 2093** was fixed with real widths
+(`_element_width: initial` + `_element_custom_width` 40/30/30 %) rather than
+`justify-content: space-between` — space-between cannot align columns whose text
+lengths vary.
 
 ---
 
-## 7. Counters render as `0`
+## 7. Counters — done, one open value
 
-Every Elementor counter has empty `start`/`end`/`prefix`. Home renders
-`0 · 0+ · 0 · 0`.
+Home counters carry `ending_number` 55 / 100 / 4 / 1971 (suffix `+` on 100) ✅.
+Rendered as `0` only pre-JS (Elementor animates on scroll) — normal.
 
-**Home and `/about` — use `src/data/site.js` `impactStats`:**
-
-| Value | Label |
-|---|---|
-| `55` | Years serving our community |
-| `100+` | Men supported daily |
-| `5` | Core programs offered |
-| `1971` | Founded in Momence, IL |
-
-(`src/data/site.js` says `5` core programs — Special Olympics was added as the fifth.
-AGENTS.md's older "4 programs" is stale.)
-
-Counter titles on `/` are already correct. `/news` and `/newsletters` counters should be
-deleted outright (§5.2, §5.3), not fixed.
+Open: `4` vs `5` core programs (§4 #5). `/news` and `/newsletters` counters were
+deleted as part of their rebuilds ✅.
 
 ---
 
-## 8. Placeholder phone numbers on `/contact` and `/careers`
+## 8. Placeholder phone numbers — done
 
-`(555) 123-2222` and `Fax: (555) 123-2225` appear twice on each page — 04 starter
-demo data. This is the exact failure mode AGENTS.md warns about: placeholder copy
-becoming real content.
-
-- Real number: **(815) 472-3700**
-- Replace both. On Careers, remove the block entirely (§5.4)
-- After: `curl -sk <page> | grep -c '(555)'` must return `0`
-
-The footer already has the correct number and address, and Facebook
-(`goodshepherdmanor`) ✅. Footer's Accessibility → `/about/#accessibility` ✅ and
-Privacy → `/privacy/` ✅.
+`(555)` count = 0 on `/contact` and `/careers` ✅. Footer has the correct number
+**(815) 472-3700**, address, and Facebook (`goodshepherdmanor`) ✅. Accessibility →
+`/about/#accessibility` ✅ · Privacy → `/privacy/` ✅.
 
 ---
 
 ## 9. Header, footer, nav
 
-### Header — working, two things to confirm/fix
+### Header — working
 
 | Item | State |
 |---|---|
-| Above-header bar | ✅ "Now Hiring — Direct Service Providers. Apply Today →" → `/careers` |
+| Above-header bar | ✅ "Now Hiring — Direct Service Providers. Apply Today →" → `/careers` — renders on all 16 pages |
 | Header button | ✅ "Support GSM" → `/support-gsm` |
-| Transparent header | ✅ enabled |
-| Nav | ✅ About · Programs & Services · Support GSM (▸ Foundation, Events, Endowment, Memorial or Tribute) · News · Careers · Contact |
-| Sticky header | ⚠️ `sticky-header-on-devices = both`, `sticky-header-style = slide`, but the bare `sticky-header` toggle key is **unset**. Open the site, scroll, and confirm the header sticks. If not, set it in the Customizer. |
-| Header logo | ⚠️ Still the 04 white SVG (`site-logo-white.svg`) |
-| Header button style | ⚠️ Renders as `ast-custom-button` (plain text), not a styled button |
+| Transparent header | ✅ enabled site-wide (`transparent-header-enable = 1`); body class `ast-theme-transparent-header` observed only on `/` (home hero), inner pages inherit — matches AGENTS: every page has the photo hero |
+| Nav | ✅ About · Programs & Services · Support GSM (▸ Foundation, Events, Endowment, Memorial or Tribute) · News, Careers, Contact — 6 locked items + button |
+| Sticky header | ✅ `header-main-stick = 1`, `sticky-header-on-devices = both`, style `slide` |
+| ⚠️ Bugs | ✅ both fixed 2026-10-02 — parent → `/support-gsm`, Foundation child → `/support-gsm/#foundation`. Remaining: logo still 04 white SVG · button renders as plain `ast-custom-button` text |
 
 ### Nav — one open question
 
-The primary nav's "Programs & Services" item has **no submenu**, but Programs is a
-parent page with five children and AGENTS.md wants breadcrumbs and a hierarchy. A
-`Programs Sidebar` menu (term 18, 6 items) exists — it is not assigned to the primary
-location. Either drop it as leftover import data, or assign it. Needs a call; do not
-add nav items without one.
+"Programs & Services" has no submenu; a `Programs Sidebar` menu (term 18, 6 items)
+exists unassigned. Either drop it as import residue or assign it — needs a call (§11).
 
 ### Footer — missing the newsletter signup
 
-Free Astra renders two widget areas (`footer-widget-1`, `footer-widget-2`) populated
-from four `block-*` widgets:
+Free Astra renders two widget areas populated from four `block-*` widgets:
+`block-12` About GSM · `block-14` Explore · `block-16` Support GSM · `block-18`
+Contact (phone, address, Facebook, Privacy, Accessibility, copyright).
 
-- `block-12` About GSM · `block-14` Explore (6 links)
-- `block-16` Support GSM · `block-18` Contact (phone, P.O. Box, Facebook, Privacy,
-  Accessibility)
-
-**There is no newsletter form anywhere in the footer — zero `<form>` elements.** The
-"Newsroom" text that reads like a signup is a static link to `/newsletters/`. AGENTS.md
-requires a real newsletter signup in the footer. Build it once the signup destination
-is agreed (§11).
-
-Note `advanced-footer-widget-1`/`-2` also hold `block-12`/`block-13`. That is Astra Pro
-advanced-footer residue; free Astra renders the two small-footer areas. Do not chase the
-04 four-column layout — it is not available on free Astra.
+**Zero `<form>` elements in the footer.** AGENTS.md requires a real newsletter signup.
+Also: Astra's `footer-html-1` option still contains `[wpforms id="9"]` — dead
+(WPForms not installed). Build the signup once the destination is agreed (§11);
+delete the dead option then. Do not chase the 04 four-column layout — free Astra
+caps at two widget areas.
 
 ---
 
-## 10. Forms
+## 10. Forms and users
 
-One SureForms form exists: ID `2056` "Simple Contact Form". Email notification is
-`{admin_email}`.
+One SureForms form: ID `2056` "Simple Contact Form". Notification (fixed 2026-10-02):
+`{admin_email}` to, cc and bcc now **empty**, reply-to `{form:email}` → the visitor.
+Tested end-to-end through the REST endpoint the same day: HTTP 200, entry with all
+4 field values, single recipient in the log (test entry then deleted).
 
-**`admin_email` = `develop@thecreativemomentum.com`** — the agency inbox. 19
-administrator accounts exist, mostly `*@cloudmellow.com` and
-`*@thecreativemomentum.com`. Before any dev push:
+**`admin_email` = `develop@thecreativemomentum.com`** (agency inbox). **19 user
+accounts, all `administrator`** (`*@cloudmellow.com`, `*@thecreativemomentum.com`).
+Before any dev push:
 
 1. Set `admin_email` to a monitored GSM or CloudMellow address
-2. Prune admins to a minimal real set — `wp user list`, then `wp user delete <id> --reassign=<keep>`
-3. Confirm the form renders and delivers after both changes
+2. Prune admins to a minimal real set — `wp user list`, then
+   `wp user delete <id> --reassign=<keep>`; demote the rest
+3. ✅ cc/bcc duplication on form 2056 — fixed (above)
+4. ✅ Real submission through `/wp-json/sureforms/v1/submit-form` — passes (above)
+5. Confirm delivery after the `admin_email` change
 
-Forms still to build: footer newsletter, newsletter page signup, Thank a Staff Member,
-Careers application. §11 gates the mailbox; the build does not.
+Forms still to build: **footer newsletter**, **newsletter page signup** (both blocked
+on destination), Thank a Staff Member, Careers application. §11 gates the mailbox;
+the build does not.
 
 ---
 
@@ -392,50 +439,56 @@ Do these in order. Each item is independently shippable and verifiable.
 
 | # | Task | Verify with |
 |---|---|---|
-| 1 | Remove `ultimate-elementor`, `wordpress-seo`, `astra-pro-sites` | `"$WP" plugin list` |
-| 2 | Fix `(555)` phone on `/contact`; remove the contact block from `/careers` | `curl -sk <page> \| grep -c '(555)'` → `0` |
-| 3 | Populate the 4 home counters from `src/data/site.js` | rendered values `55 / 100+ / 5 / 1971` |
-| 4 | Wire every dead button (§6), homepage first | the verification script in §6 |
-| 5 | Homepage rebuild (§4): hero CTA, intro titles, drop Our Partners, add Programs + Stories | 7 sections in order |
-| 6 | Build `/shepherd-endowment-society` from `src/data/endowment.js` | 8 KB → 30 KB+ |
-| 7 | `/programs` landing — 5 program cards, delete 04 copy | 5 cards link to the 5 children |
-| 8 | `/news` — 4 posts + real archive template, drop counters + donate band | `/news` lists posts |
-| 9 | `/newsletters` — archive + signup form | `/newsletters` lists issues |
-| 10 | `/careers` — remove Contact residue, swap in application form | no "Front Office" on the page |
-| 11 | Site-wide CTA band audit (§12) | per-page band check |
-| 12 | Footer newsletter signup (§9) | a `<form>` in the footer |
-| 13 | `/privacy` — replace WP "Suggested text" boilerplate | no suggested text on the page |
-| 14 | Trash page `2011` (`/ways-to-give` draft) | `wp post list --post_status=draft` is empty |
-| 15 | Add `/donate` → 301 `/support-gsm` to `gsm-redirects.php` | `curl -skI .../donate/` |
-| 16 | Confirm sticky header; fix header button styling; swap the logo | manual scroll test |
-| 17 | Forms + admin email + prune users (§10) | form delivers |
-| 18 | `astro-settings` audit — confirm the Local→dev values survive the push | §13 |
-| 19 | Push Local → dev | §13 |
-| 20 | Commit uncommitted work (§14) | `git status` |
+| 1 | ✅ **Set `blog_public = 1`** (§6.1 #1/#2) — sitemap 200, robots.txt gains `Sitemap:`, no `noindex` | done 2026-10-02 |
+| 2 | ✅ Fix hero CTA href `/programs` → `/careers` (§4 #1) — all 3 "Now Hiring" occurrences | done 2026-10-02 (`apply_elementor.sh 315`) |
+| 3 | ✅ Fix nav: Support GSM parent → `/support-gsm`; Foundation child → `/support-gsm/#foundation` (§6.2 #5/#6) | done 2026-10-02; rendered hrefs checked, dropdown intact |
+| 4 | ✅ Privacy double `<h1>` (§6.4 #13) — now 1 `h1` + 5 section `h2`s, body intact | done 2026-10-02 (recovered via revision 2159) |
+| 5 | ✅ Empty trash (6 posts + auto-draft 2160); close post comments (§6.5 #19, §5.2) | done 2026-10-02; 0 trash, 0 open comments |
+| 6 | ✅ Events lede de-dup (§6.4 #14) — 1 occurrence | done 2026-10-02 (`apply_elementor.sh 2094`) |
+| 7 | ✅ Form 2056 cc/bcc fix + real submission test (§6.3 #10/#11) | done 2026-10-02; REST endpoint → entry with data, 1 recipient |
+| 8 | ✅ **Homepage rebuild** (§4) — rebuilt to `HomePage.jsx` proto, 7 sections, no CTA band, 5 program cards, foundation 4-card section | done 2026-10-02 (`apply_elementor.sh 315`, twice); see §4 for the verification log |
+| 9 | ✅ **Endowment finish** (§5.1) — real intro/quote/gift/membership copy from production site; table columns aligned | done 2026-10-02; 0 `lorem` in rendered HTML, lint + build clean |
+| 10 | Newsletter signup (§6.3 #9) — footer + `/newsletters`, remove dead `[wpforms id="9"]` | `<form>` in footer; email-only field on `/newsletters` |
+| 11 | Favicon/site icon (§6.2 #7) | icon link tag resolves 200 |
+| 12 | FPM: confirm `YES` literal in live `www.conf`, restart, watch log (§6.6 #23) | no new `signal 6` lines |
+| 13 | `admin_email` + prune 19 admins (§10) | `wp user list` shows the real set |
+| 14 | REST users visibility (§6.5 #17) — unauth re-check shows only 3 post authors, no emails; harden only if commissioned | `/wp-json/wp/v2/users` → 401/403 |
+| 15 | Unschedule `bookly_hourly_routine` cron (§6.5 #20) | `wp cron event list` |
+| 16 | Logo swap (04 white SVG → GSM mark) + header button styling | visual |
+| 17 | `astra-settings` audit — confirm Local→dev values survive the push | §13 |
+| 18 | Push Local → dev | §13 |
+| 19 | Commit any new work (§14) | `git status` |
 
 **Blocked, needs a human answer — do not guess:**
 
-1. Newsletter destination and the form mailbox.
-2. Contact staff directory content and "Thank a Staff" owner. The section exists with
-   lorem; the real names are not in this repo.
-3. Program children under the Programs nav dropdown (§9).
-4. Whether `wordpress-seo` is in scope. It is installed and inactive.
-5. Real GSM photography — still 04 demo images (`uploads/2023/06/home-*.jpg`) throughout.
-6. Client body copy. Gates nothing in the queue above; every page is meant to ship
-   with lorem until it arrives.
+1. ~~Homepage target spec~~ — **settled 2026-10-02**: `HomePage.jsx` wins. Done, see §4.
+2. Newsletter destination and the form mailbox. Gates queue #10.
+3. Contact staff directory content and "Thank a Staff" owner — section exists with
+   lorem; real names are not in this repo.
+4. Program children under the Programs nav dropdown (§9).
+5. Whether an SEO plugin (or any meta-description approach) is in scope — AGENTS
+   lists none; audit found no meta descriptions (§6.2 #8).
+6. Real GSM photography — still 04 demo images (`uploads/2023/06/*`) and no post
+   featured images (§6.4 #12).
+7. Client body copy. Gates nothing in the queue; every page ships with lorem until
+   it arrives.
+8. ~~Counter value: 4 or 5 core programs~~ — **settled 2026-10-02**: 5. Counter and
+   cards both say 5 (`site.js` `programs` has 5 entries; `TBD Vocational Program` is
+   intentional).
+9. Whether to harden REST users / add reCAPTCHA (AGENTS: no new plugins without a
+   concrete need).
 
 ---
 
-## 12. Site-wide CTA band — inconsistent
+## 12. Site-wide CTA band — closed, home stays without it
 
-The "We can create a better tomorrow" band appears on `/`, `/about`, `/news`,
-`/newsletters`, `/shepherd-endowment-society` — and is **absent** from `/programs`,
-`/contact`, `/careers`, `/events`, `/support-gsm`, all program children, and
-`/privacy`.
+**Closed 2026-10-02 — won't fix.** The client chose to match `HomePage.jsx`, which has
+no `gsm_cta_band`, and confirmed home having no band. Home therefore differs from every
+other content page: **no CTA band, no Get Involved block.** Do not "fix" this —
+`AGENTS.md` §Homepage now states it explicitly.
 
-AGENTS.md: the band is site-wide, near the footer, on every page. Decide once, then
-make it consistent. The pages missing it are the ones currently reading thin — which is
-probably the whole reason they read thin.
+Still true otherwise: "We can create a better tomorrow" renders on the other 14 content
+pages; `/privacy` (utility, not in the 15) correctly has none.
 
 ---
 
@@ -483,6 +536,7 @@ gzip -t _migration/stage-db-final.sql.gz
   below Local's means stale cache, not a bad import.
 - Free Astra has no 4-column footer. Do not chase the 04 four-column layout.
 - Privacy is at `/privacy/`, not `/privacy-policy/`.
+- **Before pushing:** `blog_public` is now `1` ✅ (fixed 2026-10-02) — no longer a blocker.
 
 **Still blocked:** `~/.ssh/config` has no entry for `goodshephe3dev` and no confirmed
 credentials. Steps 4–6 cannot run until someone adds them.
@@ -491,42 +545,42 @@ credentials. Steps 4–6 cannot run until someone adds them.
 
 ## 14. Git state
 
-Branch `main`. The WordPress build queue, `_migration/support-gsm-hero.json`,
-and `_migration/mu-plugins/gsm-redirects.php` are committed (`eb5a856`). Still
-untracked at the time of writing:
+Branch `main`, in sync with `origin` as of `a868077`. **`PLAN.md`, `AGENTS.md`,
+`src/data/endowment.js` and `src/pages/EndowmentPage.jsx` have uncommitted edits from
+the 2026-10-02 queue run (items 1–9: homepage rebuild, Endowment copy, CTA-band key
+fix, plus the §4 / §5.1 / §6.7 / §11 / §12 / §14 updates and the `AGENTS.md`
+§Homepage rewrite)** — commit when asked.
 
-| Path | Status |
+| Commit | Contents |
 |---|---|
-| `PROCESS.md` | untracked — design workflow doc |
-| `_tools/fix_contact_careers.py`, `fix_contact_careers_v2.py`, `fix_home_counters.py`, `wire_home_buttons.py`, `wire_remaining_buttons.py`, `wire_remaining_buttons_v2.py` | untracked — one-off Elementor fix scripts |
+| `a868077` | PROCESS.md, 6 `_tools` fix scripts, PLAN.md §14 refresh, .gitignore additions |
+| `eb5a856` | WordPress build queue: Home, News, Programs, Careers, Endowment |
+| `a371256` | Elementor Pro native sticky for Support GSM jump bar |
+| earlier | jump bar rebuild, Elementor build tooling, prototype form wiring |
 
-Screenshots and scratch (`.playwright-mcp/`, `Untitled/`, `design-review/`,
-`design/home.png`, `design-homepage-full.png`, `designs-branch-home-5174.png`,
-`dev-home-5173.png`, `gsm-home.png`) are now in `.gitignore` — do not commit
-them. Do not commit `.env` or credentials.
-
-Recent commits: `eb5a856` WordPress build queue · `a371256` native sticky jump
-bar · `9172f6b` rebuild jump bar with native Elementor controls · `3a74635`
-Elementor build tooling · `8cbab17` wire prototype forms.
+Screenshots and scratch (`.playwright-mcp/`, `Untitled/`, `design-review/`, various
+`*.png`) are in `.gitignore` — do not commit them. Do not commit `.env` or credentials.
 
 ---
 
-## 15. Environment fix already applied — do not regress
+## 15. Environment fix applied — crashes persist (open)
 
-Local's PHP-FPM workers were crashing intermittently with `SIGABRT`
-(`NSPlaceholderString initialize … when fork() was called`), which nginx surfaced as
-intermittent **502 Bad Gateway** on `wp-admin` pages, including
-`wp-admin/plugins.php?bsf-inline-license-form=astra-pro-sites`.
+Local's PHP-FPM workers crash intermittently with `SIGABRT`
+(`NSPlaceholderString initialize … when fork() was called`) → intermittent **502 Bad
+Gateway**.
 
-Fix: `env[OBJC_DISABLE_INITIALIZE_FORK_SAFETY] = YES` added to both
+Fix attempted: `env[OBJC_DISABLE_INITIALIZE_FORK_SAFETY] = YES` added to both
 
 - `~/Local Sites/goodshepherd/conf/php/php-fpm.d/www.conf.hbs` (persistent template)
 - `~/Library/Application Support/Local/run/Rg1VtCBT9/conf/php/php-fpm.d/www.conf` (live)
 
-**FPM reads `env[]` only at full start** — `kill -USR2` silently does nothing here. The
-master had to be killed; Local.app respawns it. If a 502 ever returns, check
-`~/Local Sites/goodshepherd/logs/php/php-fpm.log` for a new `exited on signal` line
-before assuming a WordPress problem.
+**Status 2026-10-02: NOT proven effective.** The log shows 26 SIGABRT lines total with
+the latest at 01-Oct 19:28 — *after* the 17:11 restart. Inspection of the running web
+SAPI showed the variable present but with value `1`, not `YES`. Next step: confirm the
+live file literally contains `YES`, full-restart FPM (not `kill -USR2` — FPM reads
+`env[]` only at full start; Local.app respawns the master), then watch
+`~/Local Sites/goodshepherd/logs/php/php-fpm.log` for new `exited on signal` lines.
+If a 502 returns, check that log before assuming a WordPress problem.
 
 ---
 
@@ -534,7 +588,7 @@ before assuming a WordPress problem.
 
 | Page | Build from |
 |---|---|
-| `/` | Figma `9009:2` (see AGENTS.md §Homepage for the 7 sections) |
+| `/` | `src/pages/HomePage.jsx` (Figma `9137:3182`) — the 7 sections in §4. Built ✅ 2026-10-02. **Not** Figma `9009:2`. |
 | `/about` | AGENTS.md §About; timeline years from `src/data/history.js` |
 | `/programs` + children | `src/data/programs.js`, `src/data/health.js` |
 | `/support-gsm` | ID 2092 as built; `src/data/getInvolved.js` |

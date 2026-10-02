@@ -128,19 +128,49 @@ Phase 2 may promote a section to a page. Keep the original hash when promoting s
 
 Duplicate those same layouts for GSM Foundation, Endowment, Events, Newsletters, and Careers. Do not start blank Elementor canvases.
 
-Homepage wire is Figma node `9009:2` (`design/node-9009-2.png`). Section order:
+Homepage spec is **`src/pages/HomePage.jsx`** (Figma `9137:3182`) — *not* the older `9009:2` wire (`design/node-9009-2.png`). Client decision 2026-10-02: the React proto wins; the 9009:2 order below it is superseded. Live page is **315**, built with Elementor. Section order:
 
-1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” Sub-headline: hands-on programs, caring services, and a supportive home. CTA: “Now Hiring! Apply Today” → `/careers`. Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
-2. Intro strip — Figma `9046:813` overlapping the hero: 01 Projects / 02 Support GSM / 03 Donate, greek body, Learn more.
-3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (55 years / 100+ men / 4 programs / 1971 founded). No donate band in this section.
-4. About Us / Mission — Figma `9046:901`: “A community of care, growth, and dignity for over 50 years.” + four paragraphs of real GSM copy + Read More, staggered photo mosaic. Shares `#f1f5f9` background with Our Impact (no gradient seam).
-5. Support GSM Foundation CTA band — standalone section below About: "We can create a better tomorrow" + Support GSM → `/support-gsm`.
-6. Our Programs & Services — 4 icon-placeholder cards + View all.
-7. Stories — “Inspiring tales of transformation” + 3 story cards (`#f1f5f9` background).
+1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: “Now Hiring! Apply Today” → `/careers`. Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
+2. Intro strip — Figma `9046:813` overlapping the hero: 01 Projects → `/programs` / 02 Support GSM → `/support-gsm` / 03 Donate → `/support-gsm`, greek body, Learn more.
+3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (55 years / 100+ men / **5 programs** / 1971 founded). No eyebrow label above the h2, no donate band.
+4. Our Programs & Services — **5** cards (Community Day, TBD Vocational, Special Olympics, Residential Living, Health) + View all. `TBD Vocational Program` is deliberate (`site.js` `homeName`).
+5. About Us / Mission — eyebrow → **real `<h2>`** → two paragraphs → Read More, staggered photo mosaic. The heading must be `header_size: h2`, not `p` — otherwise the section has no heading element at all.
+6. Stories — “What's Happening at GSM” + 2 story cards. **Not in the proto; kept by client decision 2026-10-02** for events promotion. Sits above the foundation section.
+7. Support GSM Foundation — 4 cards: 01 GSM Foundation → `/support-gsm`, 02 Events → `/events`, 03 Shepherd Endowment Society → `/shepherd-endowment-society`, 04 Memorial or Tribute → `/support-gsm#memorial-tribute`. `#fafcfe` background, centered h2.
 
-The Get Involved split card and Upcoming Event block are **not** on the current wire. Do not replace this Home layout with the 04 01/02/03 / stories / partners pattern.
+Home does **not** get `gsm_cta_band`, and the Get Involved (Donate/Volunteer/Careers) block was removed — client decision 2026-10-02. Every other content page keeps `gsm_cta_band`. Do not re-add either to page 315.
 
-Header nav on the wire: About, Programs & Services, Support GSM, News, Careers, Contact + Support GSM.
+Header nav: About, Programs & Services, Support GSM, News, Careers, Contact + Support GSM button.
+
+### Elementor: container width needs `content_width: 'full'`
+
+Elementor only prints `--width` when the container's `content_width` is `'full'` — see the `width` control's `'condition'` in `wp-content/plugins/elementor/includes/elements/container.php`. A card with `width: 20%` and no `content_width` renders at the default `100%` and stacks vertically, silently. Every card in a horizontal row on Home (and any new one) must set `content_width: 'full'`. This cost a full debug cycle on page 315.
+
+### Elementor: flex settings need the `flex_` prefix
+
+Same silent failure, different keys. Flex is a **group control**
+(`Group_Control_Flex_Container`, `includes/controls/groups/flex-container.php`) whose
+fields are stored with a `flex_` prefix. Elementor accepts the bare names into
+`_elementor_data` and then emits no CSS for them at all.
+
+| Dead key | Real key |
+|---|---|
+| `justify_content` | `flex_justify_content` |
+| `align_items` | `flex_align_items` |
+| `align_content` | `flex_align_content` |
+| `wrap` | `flex_wrap` |
+| `gap` (`{unit,size}`) | `flex_gap` (`{unit,size,row,column,isLinked}`) |
+| `css_id` | `_element_id` (container.php:1770) |
+
+Symptom: a `space-between` table row renders run-on
+(`Member LevelsCurrent GiftDeferred Gift`); a "centred" CTA band hugs the left edge
+with the button touching the headline. `flex_direction` was never affected, so rows
+still laid out horizontally — which is what makes it easy to miss.
+
+**Do not "fix" the dead keys on Home (315).** `prog_row`, `story_row`, `support_row`
+and `support_card_*` carry dead `justify_content`/`gap` and are correct *because* they
+are inert: 5 cards at `width:20%` plus a `gap` exceeds 100% and would wrap. Only
+`gsm_cta_band` (14 pages) was migrated — see `PLAN.md` §6.7.
 
 ## Support GSM Foundation wire (`/support-gsm`)
 
@@ -222,8 +252,8 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | File | Use for |
 |---|---|
 | `src/pages/SitemapPage.jsx` | 15-page IA, sections, SOW notes |
-| `src/pages/HomePage.jsx` | Homepage wire — Figma `9009:2` |
-| `design/node-9009-2.png` | Shared homepage wireframe export |
+| `src/pages/HomePage.jsx` | Homepage spec — Figma `9137:3182` (wins over the `9009:2` wire) |
+| `design/node-9009-2.png` | Shared homepage wireframe export — **superseded by `HomePage.jsx`** (reference only) |
 | `design/figma-node-6-124.png` | Support GSM Foundation wire export (legacy Figma node) |
 | `src/pages/FoundationPage.jsx` | Support GSM Foundation merged page (`/support-gsm`) — combined GSM Foundation + Ways to Give |
 | `src/pages/*.jsx` | Remaining 15-page wires (About through Contact) |
@@ -238,7 +268,7 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | `src/components/ProgramPage.jsx` | Program page **section order** only |
 | `design/sitemap-structure.md` | Figma extract (older; SitemapPage wins on conflicts) |
 
-> **Current state (client review round):** All descriptive body copy is placeholder **lorem ipsum** (Home, About, Endowment, Support GSM Foundation, programs, news, careers, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review.
+> **Current state (client review round):** Descriptive body copy is placeholder **lorem ipsum** (Home, About, Support GSM Foundation, programs, news, careers, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review. **Exception — `/shepherd-endowment-society` is fully real copy** (sourced 2026-10-02 from the client's own production page `goodshepherdmanor.org/foundation/shepherds-endowment-society/`); `src/data/endowment.js` matches it. Use that production URL as the reference for other real GSM prose.
 
 Health & Well Being is the first program to build. Its section IDs: `nursing`, `clinic`, `pharmacy`, `supports`, `transportation`.
 
