@@ -30,3 +30,13 @@ src/figma/
 
 # WordPress plugin/theme zips (large binaries, install from these)
 wordpress/
+
+# Screenshots and scratch (PLAN.md §14)
+.playwright-mcp/
+Untitled/
+design-review/
+design-homepage-full.png
+designs-branch-home-5174.png
+dev-home-5173.png
+gsm-home.png
+design/home.png

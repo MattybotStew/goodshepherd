@@ -491,22 +491,23 @@ credentials. Steps 4–6 cannot run until someone adds them.
 
 ## 14. Git state
 
-Branch `main`, clean except:
+Branch `main`. The WordPress build queue, `_migration/support-gsm-hero.json`,
+and `_migration/mu-plugins/gsm-redirects.php` are committed (`eb5a856`). Still
+untracked at the time of writing:
 
 | Path | Status |
 |---|---|
-| `_tools/build_support_gsm.py` | modified — defaults to `_migration/support-gsm-hero.json` |
-| `_migration/support-gsm-hero.json` | untracked — canonical hero source |
-| `_migration/mu-plugins/gsm-redirects.php` | untracked — needs a header comment and a note on where it installs |
-| `.playwright-mcp/` | untracked — screenshots, should be gitignored |
-| `design-homepage-full.png`, `design-review/`, `designs-branch-home-5174.png`, `dev-home-5173.png`, `gsm-home.png`, `Untitled/` | untracked — screenshots and scratch, should be gitignored or deleted |
+| `PROCESS.md` | untracked — design workflow doc |
+| `_tools/fix_contact_careers.py`, `fix_contact_careers_v2.py`, `fix_home_counters.py`, `wire_home_buttons.py`, `wire_remaining_buttons.py`, `wire_remaining_buttons_v2.py` | untracked — one-off Elementor fix scripts |
 
-Commit the two `_migration` files and the builder change together. Do not commit
-screenshots. Do not commit `.env` or credentials.
+Screenshots and scratch (`.playwright-mcp/`, `Untitled/`, `design-review/`,
+`design/home.png`, `design-homepage-full.png`, `designs-branch-home-5174.png`,
+`dev-home-5173.png`, `gsm-home.png`) are now in `.gitignore` — do not commit
+them. Do not commit `.env` or credentials.
 
-Recent commits: `a371256` native sticky jump bar · `9172f6b` rebuild jump bar with
-native Elementor controls · `3a74635` Elementor build tooling · `8cbab17` wire prototype
-forms.
+Recent commits: `eb5a856` WordPress build queue · `a371256` native sticky jump
+bar · `9172f6b` rebuild jump bar with native Elementor controls · `3a74635`
+Elementor build tooling · `8cbab17` wire prototype forms.
 
 ---
 
