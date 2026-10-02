@@ -22,10 +22,21 @@ rm -f "$HOME/Local Sites/goodshepherd/app/public/wp-content/uploads/elementor/cs
 
 # Deleting the CSS is not enough. Without an explicit regenerate the page keeps
 # linking post-<id>.css while the file is missing, so the page silently renders
-# with no Elementor CSS at all. Rebuild it here and fail loudly if it is absent.
+# with no Elementor CSS at all.
+#
+# clear_cache() deletes EVERY elementor CSS file, and pages that are not
+# regenerated keep a valid `_elementor_css` meta so Elementor never rebuilds
+# their file — they silently lose all styling. So clear, then regenerate every
+# Elementor document (with its meta dropped to force the rebuild).
 CSS_FILE="$HOME/Local Sites/goodshepherd/app/public/wp-content/uploads/elementor/css/post-${POST_ID}.css"
-"$WP" eval "Elementor\\Plugin::instance()->files_manager->clear_cache();
-( new Elementor\\Core\\Files\\CSS\\Post( ${POST_ID} ) )->update();"
+"$WP" eval "
+\$ids = get_posts( array( 'post_type' => 'any', 'posts_per_page' => -1, 'meta_key' => '_elementor_edit_mode', 'meta_value' => 'builder', 'fields' => 'ids' ) );
+Elementor\\Plugin::instance()->files_manager->clear_cache();
+foreach ( \$ids as \$eid ) {
+    delete_post_meta( \$eid, '_elementor_css' );
+    ( new Elementor\\Core\\Files\\CSS\\Post( \$eid ) )->update();
+}
+"
 [ -f "$CSS_FILE" ] || { echo "ERROR: ${CSS_FILE} was not generated" >&2; exit 1; }
 
 "$WP" cache flush
