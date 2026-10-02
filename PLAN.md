@@ -36,7 +36,7 @@ re-verified on that date.
 | Elementor apply | `/Users/matthewstewart/Developer/goodshepherd/_tools/apply_elementor.sh <PAGE_ID> <json>` |
 | React wires | `npm run dev` → http://localhost:5173 |
 | Repo | `main` @ `origin` = `https://github.com/MattybotStew/goodshepherd` |
-| Last commit | `a868077 Add design workflow doc and Elementor fix tooling` (pushed; tree clean) |
+| Last commit | FPM root-cause + Bookly crons + GSM logo/header-button (see §14) on top of `05372a9` — **2 ahead of `origin/main`**, not pushed |
 
 The WP-CLI wrapper is a path with spaces — quote it:
 
@@ -310,7 +310,7 @@ out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done
 | 17 | **`/wp-json/wp/v2/users` is public** — audit recorded "all 19 accounts" | Re-checked unauthenticated 2026-10-02: returns **3** users (only those with published posts — `charlie`, `mattthecreativemomentum-com`, `michael-clarkthecreativemomentum-com`), no emails, `per_page=100` same 3. The 19-account reading was an authenticated session. Core behaviour; hardening still available if commissioned (§11 blocked item 9) |
 | 18 | 19 administrator accounts (agency + client emails), all role `administrator` | Prune + demote to least privilege before any push (§10) |
 | 19 | ✅ 6 trashed posts + 1 auto-draft (2160) pending | Emptied 2026-10-02: all 7 deleted `--force`. Also closed comments sitewide (`default_comment_status = closed`, 44 posts updated → 0 open). Verify: `wp post list --post_status=trash` empty. |
-| 20 | Leftovers from declined starter plugins: ~200 `bookly%` options, 40 `acui%` options, and a live `bookly_hourly_routine` cron event | Unschedule the cron; option rows are inert but note them for the dev push audit |
+| 20 | ✅ Leftovers from declined starter plugins: ~200 `bookly%` options, 40 `acui%` options, and two live Bookly cron events (`bookly_hourly_routine`, `bookly_daily_routine`) | Cron events unscheduled 2026-10-02 (`wp cron event delete`, both). Option rows are inert but note them for the dev push audit |
 | 21 | `admin_email` = `develop@thecreativemomentum.com` (agency dev inbox) | Set a monitored address before any public push (§10) |
 | 22 | 6 inactive themes (`twentytwenty*`, `hello-elementor`, `genesis-block-theme`) | Optional delete; zero risk left as-is |
 
@@ -318,7 +318,7 @@ out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done
 
 | # | Problem | Fix |
 |---|---|---|
-| 23 | **PHP-FPM SIGABRT crashes continue after the §15 fix** — 26 total in log, latest 01-Oct 19:28 (restart was 17:11). Web SAPI showed `OBJC_DISABLE_INITIALIZE_FORK_SAFETY=1`, not `YES`. | Verify the live `www.conf` value is literally `YES`, full-restart FPM, watch the log. If crashes persist, the env isn't reaching workers — see §15 |
+| 23 | ✅ **PHP-FPM SIGABRT** — root-caused and proven fixed 2026-10-02. The live `www.conf` has `env[OBJC_DISABLE_INITIALIZE_FORK_SAFETY] = YES`, but FPM's config parser applies **PHP INI boolean normalization** to `env[]` values, so workers actually see `1` (any boolean-ish `yes/on/true/1` → `1`; `no/off/false/0` → empty, which makes FPM refuse the conf with `ERROR: empty value`). That is not a problem: the macOS objc runtime's guard accepts `1` as **On** — see `runtime/objc-runtime.mm` in objc4 (`strcasecmp(value,"yes"/"true"/"on"/"y")==0 || strcmp(value,"1")==0 → On`) and `_objc_atfork_child` only enables `MultithreadedForkChild` when the guard is Off. So fork safety **is** disabled in workers. Verified by probe: worker `getenv()` returns `1`; 26 crashes all predate the 12:18 full restart, none since. See §15 |
 
 ### 6.7 Elementor settings keys that are silently ignored
 
@@ -388,7 +388,36 @@ deleted as part of their rebuilds ✅.
 | Transparent header | ✅ enabled site-wide (`transparent-header-enable = 1`); body class `ast-theme-transparent-header` observed only on `/` (home hero), inner pages inherit — matches AGENTS: every page has the photo hero |
 | Nav | ✅ About · Programs & Services · Support GSM (▸ Foundation, Events, Endowment, Memorial or Tribute) · News, Careers, Contact — 6 locked items + button |
 | Sticky header | ✅ `header-main-stick = 1`, `sticky-header-on-devices = both`, style `slide` |
-| ⚠️ Bugs | ✅ both fixed 2026-10-02 — parent → `/support-gsm`, Foundation child → `/support-gsm/#foundation`. Remaining: logo still 04 white SVG · button renders as plain `ast-custom-button` text |
+| ⚠️ Bugs | ✅ all fixed — nav parent → `/support-gsm`, Foundation child → `/support-gsm/#foundation`; **logo swapped to the real GSM lockup** and **header button styled**. See "Logo + button" below. |
+
+### Logo + header button (done 2026-10-02)
+
+The real GSM lockup lives in the React repo (`src/assets/logo-color.svg`,
+`logo-white.svg`) — the 04 `site-logo-white.svg` on the site was a demo asset. Both
+were imported to Media (`2026/10/`, IDs **2168** color / **2169** white; SVG upload was
+blocked, so the import ran through an in-process `upload_mimes` /
+`wp_check_filetype_and_ext` filter — one-off, not persisted).
+
+| Setting | Value |
+|---|---|
+| `custom_logo` (theme mod) | `2168` — GSM color lockup (solid headers) |
+| `astra-settings.transparent-header-logo` | URL of `2169` — GSM white lockup (transparent hero) |
+| `astra-settings.different-transparent-logo` | `1` |
+
+Verified in a headless browser: home (transparent) = white logo; `/about`, `/programs`
+(solid) = color logo. This also fixed a pre-existing bug — the old white 04 logo was
+**invisible on every solid white header**.
+
+**Header button.** With the Header Builder active, the button colors are the element
+options `header-button1-back-color` / `-text-color` / `-back-h-color` / `-text-h-color`
+(the legacy `header-main-rt-section-button-*` keys are **ignored** when the builder is
+active — see `theme/inc/builder/type/base/dynamic-css/button/class-astra-button-component-dynamic-css.php`).
+They were empty, so Astra fell back to its default `global-color-5`/`global-color-2`
+(white bg / navy text) — i.e. an invisible white button on white headers. Set to
+`global-color-0` / `#ffffff` (hover `global-color-1` / `#ffffff`), so the button is GSM
+blue on every page, matching the repo's button token. The transparent-header button rule
+(`class-astra-dynamic-css.php:4561`) has higher specificity, so home keeps its own
+treatment if that is ever revisited.
 
 ### Nav — one open question
 
@@ -450,11 +479,11 @@ Do these in order. Each item is independently shippable and verifiable.
 | 9 | ✅ **Endowment finish** (§5.1) — real intro/quote/gift/membership copy from production site; table columns aligned | done 2026-10-02; 0 `lorem` in rendered HTML, lint + build clean |
 | 10 | Newsletter signup (§6.3 #9) — footer + `/newsletters`, remove dead `[wpforms id="9"]` | `<form>` in footer; email-only field on `/newsletters` |
 | 11 | Favicon/site icon (§6.2 #7) | icon link tag resolves 200 |
-| 12 | FPM: confirm `YES` literal in live `www.conf`, restart, watch log (§6.6 #23) | no new `signal 6` lines |
+| 12 | ✅ FPM `OBJC_DISABLE_INITIALIZE_FORK_SAFETY` (§6.6 #23) | done 2026-10-02 — conf already `YES`; FPM normalizes it to `1` and objc4 treats `1` as On (source-verified). No new `signal 6` since the full restart |
 | 13 | `admin_email` + prune 19 admins (§10) | `wp user list` shows the real set |
 | 14 | REST users visibility (§6.5 #17) — unauth re-check shows only 3 post authors, no emails; harden only if commissioned | `/wp-json/wp/v2/users` → 401/403 |
-| 15 | Unschedule `bookly_hourly_routine` cron (§6.5 #20) | `wp cron event list` |
-| 16 | Logo swap (04 white SVG → GSM mark) + header button styling | visual |
+| 15 | ✅ Unschedule Bookly crons (§6.5 #20) | done 2026-10-02 — `bookly_hourly_routine` + `bookly_daily_routine` deleted; `wp cron event list` shows none |
+| 16 | ✅ Logo swap (04 white SVG → GSM mark) + header button styling | done 2026-10-02 — Media 2168/2169; `custom_logo` + Astra transparent logo set; `header-button1-*` colors → GSM blue. Headless-verified on home/about/programs. See §9 |
 | 17 | `astra-settings` audit — confirm Local→dev values survive the push | §13 |
 | 18 | Push Local → dev | §13 |
 | 19 | Commit any new work (§14) | `git status` |
@@ -545,14 +574,20 @@ credentials. Steps 4–6 cannot run until someone adds them.
 
 ## 14. Git state
 
-Branch `main`, in sync with `origin` as of `a868077`. **`PLAN.md`, `AGENTS.md`,
-`src/data/endowment.js` and `src/pages/EndowmentPage.jsx` have uncommitted edits from
-the 2026-10-02 queue run (items 1–9: homepage rebuild, Endowment copy, CTA-band key
-fix, plus the §4 / §5.1 / §6.7 / §11 / §12 / §14 updates and the `AGENTS.md`
-§Homepage rewrite)** — commit when asked.
+Branch `main`, **2 commits ahead of `origin/main`, not pushed** — push when asked. Do not
+commit unless asked.
+
+- `05372a9` — the 2026-10-02 queue run (items 1–9: homepage rebuild, Endowment copy,
+  CTA-band key fix, plus §4 / §5.1 / §6.7 / §11 / §12 / §14 and the `AGENTS.md`
+  §Homepage rewrite).
+- The 2026-10-02 pickup commit — FPM root-cause + fix proof (§6.6 #23, §15), Bookly
+  crons unscheduled (§6.5 #20), GSM logo swap + header-button styling (§9), and the
+  matching §11 / §14 refresh.
 
 | Commit | Contents |
 |---|---|
+| (this) | FPM root-cause, Bookly crons, GSM logo + header button, PLAN refresh |
+| `05372a9` | Home rebuild to proto, Endowment real copy, Elementor key gotchas, AGENTS/PLAN updates |
 | `a868077` | PROCESS.md, 6 `_tools` fix scripts, PLAN.md §14 refresh, .gitignore additions |
 | `eb5a856` | WordPress build queue: Home, News, Programs, Careers, Endowment |
 | `a371256` | Elementor Pro native sticky for Support GSM jump bar |
@@ -574,13 +609,22 @@ Fix attempted: `env[OBJC_DISABLE_INITIALIZE_FORK_SAFETY] = YES` added to both
 - `~/Local Sites/goodshepherd/conf/php/php-fpm.d/www.conf.hbs` (persistent template)
 - `~/Library/Application Support/Local/run/Rg1VtCBT9/conf/php/php-fpm.d/www.conf` (live)
 
-**Status 2026-10-02: NOT proven effective.** The log shows 26 SIGABRT lines total with
-the latest at 01-Oct 19:28 — *after* the 17:11 restart. Inspection of the running web
-SAPI showed the variable present but with value `1`, not `YES`. Next step: confirm the
-live file literally contains `YES`, full-restart FPM (not `kill -USR2` — FPM reads
-`env[]` only at full start; Local.app respawns the master), then watch
-`~/Local Sites/goodshepherd/logs/php/php-fpm.log` for new `exited on signal` lines.
-If a 502 returns, check that log before assuming a WordPress problem.
+**Status 2026-10-02: resolved (source-verified), monitor.** The live file does contain
+`YES`. The web SAPI reads `1`, not `YES`, because FPM's config parser applies PHP's INI
+boolean normalization to `env[]` values (`yes/on/true/1` → `1`, `no/off/false/0` → empty
+— the empty case actually makes FPM refuse the config with `ERROR: empty value`).
+
+`1` is **fine**: in objc4, `runtime/objc-runtime.mm` parses the option's env value and
+sets `DisableInitializeForkSafety = On` for `"yes"`, `"true"`, `"on"`, `"y"`, or `"1"`;
+`_objc_atfork_child` only sets `MultithreadedForkChild = true` (the crash path) when the
+guard is Off. So with `env[]` present, workers run with fork safety disabled. The 26
+SIGABRT lines all predate the 12:18 full restart; none since. If a 502 returns, check
+`~/Local Sites/goodshepherd/logs/php/php-fpm.log` before assuming a WordPress problem.
+
+**Do not `kill -USR2` the master while iterating on `www.conf`.** SIGUSR2 does a graceful
+reload, but a malformed value makes FPM exit and Local does **not** respawn it (502). If
+that happens, restart it the way Local does:
+`sbin/php-fpm -F --prefix <run>/conf/php --fpm-config <run>/conf/php/php-fpm.conf -c <run>/conf/php`.
 
 ---
 
