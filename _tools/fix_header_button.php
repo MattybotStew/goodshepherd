@@ -19,8 +19,8 @@ $add = <<<CSS
 a.ast-custom-button{white-space:nowrap!important;overflow-wrap:normal!important;word-break:keep-all!important;}
 
 /* Tighten band: shrink the logo so logo+nav+CTA fit before the full desktop size */
-@media (min-width:922px) and (max-width:1219px){
-  .custom-logo, .ast-site-identity img, .site-logo-img, .site-logo img{max-width:112px!important;height:auto!important;}
+@media (min-width:922px) and (max-width:1229px){
+  .custom-logo, .ast-site-identity img, .site-logo-img, .site-logo img{max-width:92px!important;height:auto!important;}
 }
 CSS;
 

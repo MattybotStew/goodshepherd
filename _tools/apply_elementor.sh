@@ -32,10 +32,8 @@ CSS_FILE="$HOME/Local Sites/goodshepherd/app/public/wp-content/uploads/elementor
 "$WP" eval "
 \$ids = get_posts( array( 'post_type' => 'any', 'posts_per_page' => -1, 'meta_key' => '_elementor_edit_mode', 'meta_value' => 'builder', 'fields' => 'ids' ) );
 Elementor\\Plugin::instance()->files_manager->clear_cache();
-foreach ( \$ids as \$eid ) {
-    delete_post_meta( \$eid, '_elementor_css' );
-    ( new Elementor\\Core\\Files\\CSS\\Post( \$eid ) )->update();
-}
+foreach ( \$ids as \$eid ) { delete_post_meta( \$eid, '_elementor_css' ); }
+( new Elementor\\Core\\Files\\CSS\\Post( ${POST_ID} ) )->update();
 "
 [ -f "$CSS_FILE" ] || { echo "ERROR: ${CSS_FILE} was not generated" >&2; exit 1; }
 

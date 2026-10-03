@@ -29,10 +29,8 @@ def main():
     raw = subprocess.check_output([WP, "post", "meta", "get", str(PAGE_ID),
                                    "_elementor_data"]).decode()
     data = json.loads(raw)
-    if any(n.get("id") == "endow_introstrip" for n in data):
-        print("already present")
-        return
     strip = intro_strip("endow_introstrip", COLUMNS)
+    data = [n for n in data if n.get("id") != "endow_introstrip"]
     data.insert(1, strip)
     fd, path = tempfile.mkstemp(suffix="_endow.json")
     with os.fdopen(fd, "w") as fh:

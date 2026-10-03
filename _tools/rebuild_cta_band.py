@@ -107,7 +107,7 @@ def build_card(i, p):
 
 def build_band():
     return container("gsm_cta_band", {
-        "content_width": "full",
+        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
         "background_background": "classic",
         "background_color": PALE,
         "padding": dims(72, 40, 72, 40),
@@ -115,8 +115,7 @@ def build_band():
         "flex_direction": "column",
     }, [
         container("cta_inner", {
-            "content_width": "boxed",
-            "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+            "content_width": "full",
             "background_background": "classic",
             "background_color": NAVY,
             "background_image": dict(CTA_IMAGE),
@@ -137,9 +136,7 @@ def build_band():
                 "title": "Support GSM Foundation", "header_size": "h2", "align": "center",
                 "title_color": WHITE,
                 "typography_typography": "custom",
-                "typography_font_size": {"unit": "px", "size": 76, "sizes": []},
-                "typography_font_size_tablet": {"unit": "px", "size": 54, "sizes": []},
-                "typography_font_size_mobile": {"unit": "px", "size": 38, "sizes": []},
+                "typography_font_size": {"unit": "custom", "size": "clamp(40px, 6vw, 76px)", "sizes": []},
                 "typography_font_weight": "600",
                 "typography_line_height": {"unit": "em", "size": 1.06, "sizes": []},
                 "typography_letter_spacing": {"unit": "px", "size": -1.8, "sizes": []},

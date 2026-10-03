@@ -117,7 +117,7 @@ def build_intro():
         "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla pariatur.",
     ]
     card = container("about_intro_card", {
-        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+        "content_width": "full",
         "flex_direction": "row", "flex_wrap": "nowrap", "flex_wrap_tablet": "wrap",
         "flex_wrap_mobile": "wrap",
         "background_background": "classic", "background_color": WHITE,
@@ -131,7 +131,8 @@ def build_intro():
         intro_column("about_intro_2", "03.", "Donate", descriptions[2], "/support-gsm"),
     ])
     return container("about_intro", {
-        "content_width": "full", "background_background": "classic",
+        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+        "background_background": "classic",
         "background_color": SLATE, "padding": dims(0, 40, 72, 40),
         "flex_direction": "column",
     }, [card])

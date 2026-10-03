@@ -26,6 +26,37 @@ def dims(t, r, b, l):
             "left": str(l), "isLinked": False}
 
 
+def fluid(mn, vw, mx):
+    return {"unit": "custom", "size": f"clamp({mn}px, {vw}vw, {mx}px)", "sizes": []}
+
+
+def set_hero_type(hero):
+    """Fluid hero title / lede (wire --type-hero / body)."""
+    def walk(nodes):
+        for c in nodes:
+            st = c.get("settings", {}) or {}
+            wt = c.get("widgetType")
+            if wt == "heading":
+                tag = st.get("header_size")
+                if tag == "h1":
+                    st["typography_typography"] = "custom"
+                    st["typography_font_size"] = fluid(40, 5.2, 64)
+                    st.pop("typography_font_size_tablet", None)
+                    st.pop("typography_font_size_mobile", None)
+                elif tag == "p":
+                    st["typography_typography"] = "custom"
+                    st["typography_font_size"] = fluid(16, 1.4, 19)
+                    st.pop("typography_font_size_tablet", None)
+                    st.pop("typography_font_size_mobile", None)
+            elif wt == "image-box":
+                st["title_typography_typography"] = "custom"
+                st["title_typography_font_size"] = fluid(40, 5.2, 64)
+                st["description_typography_typography"] = "custom"
+                st["description_typography_font_size"] = fluid(16, 1.4, 19)
+            walk(c.get("elements", []))
+    walk(hero.get("elements", []))
+
+
 def find_hero(data):
     for n in data:
         if n.get("elType") == "container" and n.get("settings", {}).get("background_image", {}).get("url"):
@@ -54,6 +85,7 @@ def edit(pid):
     s["background_size"] = "cover"
     s["background_position"] = "center center"
     s["background_repeat"] = "no-repeat"
+    set_hero_type(hero)
 
     fd, path = tempfile.mkstemp(suffix=f"_unifyhero_{pid}.json")
     with os.fdopen(fd, "w") as fh:

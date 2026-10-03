@@ -117,9 +117,8 @@ def build_donate():
         "flex_direction": "column",
     }, [
         heading("news_donate_h2", "We can create a better tomorrow", "h2", WHITE, "left",
-                {**typography(size=48, weight=600, line_height=1.05, letter_spacing=-1.4),
-                 "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
-                 "typography_font_size_mobile": {"unit": "px", "size": 32, "sizes": []}}),
+                {**typography(weight=600, line_height=1.05, letter_spacing=-1.4),
+                 "typography_font_size": {"unit": "custom", "size": "clamp(32px, 4vw, 48px)", "sizes": []}}),
         para("news_donate_p", LOREM, color="rgba(255,255,255,0.82)"),
     ])
     btn = widget("news_donate_btn", "button", {
@@ -132,7 +131,7 @@ def build_donate():
         "text_padding": dims(18, 28, 18, 28),
     })
     inner = container("news_donate_inner", {
-        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+        "content_width": "full",
         "flex_direction": "row", "flex_justify_content": "space-between",
         "flex_align_items": "center", "flex_gap": gap(40),
         "flex_wrap": "nowrap", "flex_wrap_tablet": "wrap", "flex_wrap_mobile": "wrap",
@@ -148,7 +147,8 @@ def build_donate():
         "padding": dims(72, 64, 72, 64),
     }, [copy, btn])
     return container("news_donate", {
-        "content_width": "full", "background_background": "classic",
+        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+        "background_background": "classic",
         "background_color": WHITE, "padding": dims(24, 24, 24, 24),
     }, [inner])
 
@@ -184,9 +184,8 @@ def build_stories():
         "margin": dims(0, 0, 8, 0),
     }, [
         heading("news_stories_h2", "What\u2019s Happening at GSM", "h2", NAVY, "center",
-                {**typography(size=44, weight=600, line_height=1.15, letter_spacing=-0.8),
-                 "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
-                 "typography_font_size_mobile": {"unit": "px", "size": 32, "sizes": []}}),
+                {**typography(weight=600, line_height=1.15, letter_spacing=-0.8),
+                 "typography_font_size": {"unit": "custom", "size": "clamp(32px, 3.4vw, 44px)", "sizes": []}}),
         para("news_stories_p", LOREM),
     ])
     row1 = container("news_stories_row1", {

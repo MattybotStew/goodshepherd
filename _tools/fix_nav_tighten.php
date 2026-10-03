@@ -1,6 +1,6 @@
 <?php
 /**
- * Keep the primary nav on a single row between 922-1219px (the wire tightens
+ * Keep the primary nav on a single row between 922-1229px (the wire tightens
  * the inline nav in this band). Without it, Astra's menu (flex-wrap: wrap)
  * wraps to two rows because its six items total ~694px while the centre
  * column is narrower.
@@ -11,8 +11,8 @@
 $css = wp_get_custom_css();
 $add = <<<CSS
 
-/* Tighten the inline nav between 922-1219px so it never wraps to two rows */
-@media (min-width:922px) and (max-width:1219px){
+/* Tighten the inline nav between 922-1229px so it never wraps to two rows */
+@media (min-width:922px) and (max-width:1229px){
   .main-header-menu{flex-wrap:nowrap!important;}
   .main-header-menu > .menu-item > .menu-link{padding:0 8px!important;font-size:13px!important;white-space:nowrap;}
   .main-header-menu > .menu-item > .ast-menu-toggle{padding:0 3px!important;}

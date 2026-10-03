@@ -77,9 +77,8 @@ def build_intro():
         heading("prog_intro_h2",
                 "Every small act of kindness creates a ripple of positive change.",
                 "h2", NAVY, "left",
-                {**typography(size=48, weight=600, line_height=1.15, letter_spacing=-0.5),
-                 "typography_font_size_tablet": {"unit": "px", "size": 36, "sizes": []},
-                 "typography_font_size_mobile": {"unit": "px", "size": 36, "sizes": []}}),
+                {**typography(weight=600, line_height=1.15, letter_spacing=-0.5),
+                 "typography_font_size": {"unit": "custom", "size": "clamp(32px, 4vw, 48px)", "sizes": []}}),
         aside,
     ])
 

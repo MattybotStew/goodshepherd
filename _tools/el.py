@@ -41,6 +41,10 @@ LOREM_LONG = ("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "
               "nisi ut aliquip ex ea commodo consequat.")
 LOREM_EXTRA = ("Duis aute irure dolor in reprehenderit in voluptate velit esse "
                "cillum dolore eu fugiat nulla pariatur.")
+LOREM_XL = (LOREM_LONG + " " + LOREM_EXTRA + " Excepteur sint occaecat cupidatat "
+            "non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+LOREM_XXL = (LOREM_XL + " Sed ut perspiciatis unde omnis iste natus error sit "
+             "voluptatem accusantium doloremque laudantium, totam rem aperiam.")
 
 
 def dims(t=0, r=0, b=0, l=0, unit="px"):
@@ -51,6 +55,19 @@ def dims(t=0, r=0, b=0, l=0, unit="px"):
 def gap(size):
     return {"column": str(size), "row": str(size), "isLinked": True,
             "unit": "px", "size": size}
+
+
+def fluid(mn, vw, mx):
+    """Elementor custom-unit clamp() font size (fluid responsive type)."""
+    return {"unit": "custom", "size": f"clamp({mn}px, {vw}vw, {mx}px)", "sizes": []}
+
+
+def fluid_size(settings, mn, vw, mx):
+    settings["typography_typography"] = "custom"
+    settings["typography_font_size"] = fluid(mn, vw, mx)
+    settings.pop("typography_font_size_tablet", None)
+    settings.pop("typography_font_size_mobile", None)
+    return settings
 
 
 def typography(size=None, weight=None, line_height=None, letter_spacing=None,
@@ -97,10 +114,9 @@ def eyebrow(nid, text):
 
 
 def h2(nid, text, size=44):
-    extra = typography(size=size, weight=600, line_height=1.15, letter_spacing=-0.8)
-    # wire: --type-section clamp(32px, 3.4vw, 44px)
-    extra["typography_font_size_tablet"] = {"unit": "px", "size": 36, "sizes": []}
-    extra["typography_font_size_mobile"] = {"unit": "px", "size": 32, "sizes": []}
+    # wire: --type-section clamp(32px, 3.4vw, 44px) — fluid, no breakpoint steps
+    extra = typography(weight=600, line_height=1.15, letter_spacing=-0.8)
+    extra["typography_font_size"] = fluid(32, 3.4, size)
     return heading(nid, text, "h2", NAVY, "left", extra)
 
 
@@ -170,8 +186,10 @@ def intro_column(nid, num, title, text, url):
 
 
 def intro_strip(prefix, columns, section_bg=SLATE, pad_top=0, pad_bottom=72):
+    # The card is a full-width child of a boxed 1200 section, so the white box
+    # (bg + radius + shadow) is itself 1200px - matching the Home intro strip.
     card = container(f"{prefix}_card", {
-        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+        "content_width": "full",
         "flex_direction": "row", "flex_wrap": "nowrap", "flex_wrap_tablet": "wrap",
         "flex_wrap_mobile": "wrap",
         "background_background": "classic", "background_color": WHITE,
@@ -181,7 +199,8 @@ def intro_strip(prefix, columns, section_bg=SLATE, pad_top=0, pad_bottom=72):
                                   "spread": 0, "color": "rgba(0,42,78,0.12)"},
     }, [intro_column(f"{prefix}_{i}", *c) for i, c in enumerate(columns)])
     return container(prefix, {
-        "content_width": "full", "background_background": "classic",
+        "content_width": "boxed", "boxed_width": {"unit": "px", "size": 1200, "sizes": []},
+        "background_background": "classic",
         "background_color": section_bg, "padding": dims(pad_top, 40, pad_bottom, 40),
         "flex_direction": "column",
     }, [card])
