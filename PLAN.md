@@ -7,7 +7,72 @@ rules. This file is the *state of the build and what remains*. If they disagree,
 This file is written to be handed to any model or tool (Cursor, Claude Code, Cline,
 Gemini CLI) without prior conversation context. Every claim here was verified against
 the running site on **2026-10-02** (audit) — earlier items marked done were last
-re-verified on that date.
+re-verified on that date. A **2026-10-03 production-readiness pass** is summarized
+in the next section.
+
+---
+
+## Update — 2026-10-03 (production-readiness pass)
+
+**The plan is unchanged** (`AGENTS.md` is canonical): finish the 15-page WordPress
+build on **Local** (canonical), then push the DB to **WP Engine dev**. This session
+ran a production-readiness audit + a full regression and fixed everything it found.
+**All of it is committed and pushed** — `origin/main` @ `407959c`.
+
+### Checklist items completed this session
+
+| Area | What was done | Script / artifact |
+|---|---|---|
+| **SEO** | Rank Math installed + configured (per-page title/description, OG/Twitter + `og:image`, LocalBusiness+Organization schema). `sitemap_index.xml` 200; `/sitemap.xml` 301 → index; non-content post types (SureForms forms, Elementor floating buttons, Astra hooks, stale `product`) removed from the sitemap; form CPT noindexed. | `_tools/configure_seo.php`, `_tools/configure_sitemap.php` |
+| **Forms** | Contact form (2056) + a newsletter SureForms form; wired into the footer band and `/newsletters`; reply-to = visitor, single recipient. | `_tools/create_newsletter_form.php`, `_tools/wire_forms.php` |
+| **WebP** | Converter for Media (Pass Thru). Content images **and** hero/CTA/donate CSS backgrounds serve `image/webp`. | `_tools/configure_webp.php`, `_tools/webp_backgrounds.php` |
+| **Timezone** | `America/Chicago`. | — |
+| **Analytics** | GA4 via `ga-google-analytics`; **placeholder** `G-XXXXXXXXXX` (real ID still needed). | `_tools/configure_analytics.php` |
+| **Fonts** | DM Sans self-hosted under `wp-content/astra-local-fonts/`; Elementor Google Fonts output disabled → 0 `fonts.googleapis.com` requests. | `_tools/configure_fonts.php` |
+| **Responsive** | 360/390/768/1024/1280/1440/1920: no overflow, fluid `clamp()` type, tap targets ≥44px, mobile hamburger works, hero readable. | — |
+| **Security** | XML-RPC/pingbacks off; security headers (nosniff / frame / referrer / permissions / HSTS); version fingerprints stripped; anonymous REST user enumeration blocked; wp-login rate-limited (5 / 15 min). | `gsm-security.php` mu-plugin |
+
+### Regression pass + fixes
+
+Full-site pass (15 pages): overflow, one `<h1>`, title/meta, images (0 broken, 0
+missing alt, 0 non-WebP raster), internal links, chrome, mobile menu, jump bar,
+console — all green. Fixed along the way:
+
+1. **Nested WebP passthru in stored content** broke the hero/CTA/donate backgrounds
+   and 4 mosaic images. Stored URLs must be **clean** (`…/uploads/…jpg`); the
+   converter wraps them at render. → `_tools/fix_passthru_nesting.php`.
+2. **News permalinks** → `/news/%postname%/` (wire routes `/news/:slug`); old flat
+   post URLs 301 to `/news/…`. → `_tools/configure_permalinks.php` + `gsm-redirects.php`.
+3. **`/sitemap.xml`** 301 → `/sitemap_index.xml`.
+4. **Internal links** normalized to the trailing-slash canonical (they were 301-ing).
+   → `_tools/normalize_internal_urls.php`.
+5. **Hero content centered** — the width-capped lede sat left-aligned; added
+   `.gsm-bg-hero .e-con-inner{align-items:center!important}` to the Astra Additional CSS.
+6. **`DISALLOW_FILE_EDIT` + `FORCE_SSL_ADMIN`** added to `wp-config.php` (environment
+   file, not tracked in the repo).
+
+### New gotchas (each cost real time — read before editing)
+
+- **Never call `get_post_field('content', $id)`.** The field name is `post_content`;
+  `'content'` returns `''`, and a following save **wipes the content**. This destroyed
+  the Additional CSS once (recovered from revision 2211). Read/write the CSS with
+  `wp post get/update 2078` or `$wpdb` raw.
+- The WebP converter rewrites URLs in **Additional CSS and Elementor output at render
+  time**. Store only clean source URLs; a stored `webpc-passthru.php?src=…` gets
+  double-wrapped → broken image.
+- The hero's flex parent is the inner **`.e-con-inner`** (not the outer `.gsm-bg-hero`),
+  and Elementor's own `align-items` needs `!important` to override.
+- Menu and Elementor links are stored as **relative** paths (`/about`), not absolute.
+- The **Astra Additional CSS lives in `custom_css` post 2078** (DB-only). Its revisions
+  (rows with `post_parent = 2078`) are the safety net.
+
+### Still open
+
+- **GA4 real Measurement ID** (placeholder is in place).
+- **Featured images** for the 7 posts (client photography) — §6.4 #12.
+- **Real body copy** (lorem pending client).
+- **Backups** (WP Engine-managed) and **PageSpeed** (meaningful only on stage) — host-side.
+- **Local → dev push** — still blocked on `~/.ssh/config` (§13).
 
 ---
 
@@ -283,13 +348,13 @@ out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done
 | 5 | ✅ Support GSM menu **parent** linked to `#` (dead click on desktop hover-capable devices) | Fixed 2026-10-02: `_menu_item_url` → `/support-gsm`. Verified rendered href. |
 | 6 | ✅ Foundation dropdown child → `/support-gsm/` not `/support-gsm/#foundation` | Fixed 2026-10-02: item was `post_type` (URL derived from the page permalink, ignoring `_menu_item_url`) so it was switched to `custom` + URL `/support-gsm/#foundation`. Dropdown (4 children) verified intact. |
 | 7 | ✅ No favicon / site icon anywhere | Fixed 2026-10-02. Source is the client's own live favicon (`goodshepherdmanor.org/wp-content/themes/gsm/favicon.png`, the shepherd's-crook mark) but it is only 32×32, so a crisp 512 square was recreated from the vector lockup (`src/assets/logo-color.svg`, crook clip region x0–62 / y0–140, white bg) and imported as Media **2170**. `site_icon = 2170`; WP emits 32/192/apple-touch links, all 200. |
-| 8 | No meta description, no `og:image`, no Twitter card on any page | No SEO plugin per AGENTS (§11 blocked item 4). At minimum: site icon + og tags via a small snippet **only if commissioned** — do not install an SEO plugin unasked |
+| 8 | ✅ No meta description, no `og:image`, no Twitter card on any page | Fixed 2026-10-03: **Rank Math** installed + configured (per-page titles/descriptions, OG/Twitter + `og:image`, LocalBusiness + Organization schema). `_tools/configure_seo.php`. |
 
 ### 6.3 Forms / newsletter
 
 | # | Problem | Fix |
 |---|---|---|
-| 9 | **No working newsletter signup anywhere.** Footer Astra HTML widget holds `[wpforms id="9"]` but **WPForms is not installed** (dead shortcode, renders nothing); `/newsletters/` "Join our Mailing List" embeds contact form 2056; footer has zero `<form>` elements | Blocked on destination decision (§11). Then: build an email-only SureForms signup, embed on `/newsletters` + footer, remove the dead `[wpforms]` option |
+| 9 | ✅ **No working newsletter signup anywhere.** Dead `[wpforms id="9"]` in the footer Astra HTML widget; `/newsletters/` embedded contact form 2056. | Fixed 2026-10-03: email-only SureForms newsletter form wired into the footer band + `/newsletters`; dead shortcode removed (`_tools/create_newsletter_form.php`, `_tools/wire_forms.php`). |
 | 10 | ✅ Contact form never tested through its real endpoint (AJAX → `/wp-json/sureforms/v1/submit-form` + submit token) | Tested 2026-10-02 through the REST endpoint with a `X-WP-Submit-Token` scraped from `/contact/`. HTTP 200, entry written to `wp_srfm_entries` with all 4 field values, log shows delivery passed to the sending server. Test entry deleted afterwards. Note: payload keys must be the full input `name` (`srfm-…-lbl-…-slug`), not the bare slug — bare slugs yield an entry with `form_data: []`. |
 | 11 | ✅ Form 2056: no reCAPTCHA (`_srfm_form_recaptcha = none`), notification was to/cc/**bcc** all `admin_email` → 3 copies per submission | Fixed 2026-10-02: `email_cc` and `email_bcc` set to `""`, `email_reply_to` set to `{form:email}` so replies go to the visitor. Verified log = single recipient. reCAPTCHA still off (§11 blocked item 9). |
 
@@ -307,7 +372,7 @@ out stale (dead buttons, 555 phones, plugin removal) are recorded in §2 as done
 
 | # | Problem | Fix |
 |---|---|---|
-| 17 | **`/wp-json/wp/v2/users` is public** — audit recorded "all 19 accounts" | Re-checked unauthenticated 2026-10-02: returns **3** users (only those with published posts — `charlie`, `mattthecreativemomentum-com`, `michael-clarkthecreativemomentum-com`), no emails, `per_page=100` same 3. The 19-account reading was an authenticated session. Core behaviour; hardening still available if commissioned (§11 blocked item 9) |
+| 17 | ✅ **`/wp-json/wp/v2/users` is public** (3 post authors, no emails) | Hardened 2026-10-03: anonymous `/wp/v2/users` + `/wp/v2/users/(?P<id>)` endpoints unset in `gsm-security.php`. Verified `/wp-json/wp/v2/users` → 404 unauthenticated. |
 | 18 | ✅ 19 administrator accounts (agency-only) | Cleaned 2026-10-02 (backup `/tmp/gsm-pre-admin-cleanup.sql`). Kept admins **3 develop**, **4 charlie**, **41 matt@thecreativemomentum.com**; demoted the two that own content (**2**, **38**) to subscriber; deleted the other 14 (no content, reassigned to 41). Now 5 users total. See §10 |
 | 19 | ✅ 6 trashed posts + 1 auto-draft (2160) pending | Emptied 2026-10-02: all 7 deleted `--force`. Also closed comments sitewide (`default_comment_status = closed`, 44 posts updated → 0 open). Verify: `wp post list --post_status=trash` empty. |
 | 20 | ✅ Leftovers from declined starter plugins: ~200 `bookly%` options, 40 `acui%` options, and two live Bookly cron events (`bookly_hourly_routine`, `bookly_daily_routine`) | Cron events unscheduled 2026-10-02 (`wp cron event delete`, both). Option rows are inert but note them for the dev push audit |
@@ -486,11 +551,11 @@ Do these in order. Each item is independently shippable and verifiable.
 | 7 | ✅ Form 2056 cc/bcc fix + real submission test (§6.3 #10/#11) | done 2026-10-02; REST endpoint → entry with data, 1 recipient |
 | 8 | ✅ **Homepage rebuild** (§4) — rebuilt to `HomePage.jsx` proto, 7 sections, no CTA band, 5 program cards, foundation 4-card section | done 2026-10-02 (`apply_elementor.sh 315`, twice); see §4 for the verification log |
 | 9 | ✅ **Endowment finish** (§5.1) — real intro/quote/gift/membership copy from production site; table columns aligned | done 2026-10-02; 0 `lorem` in rendered HTML, lint + build clean |
-| 10 | Newsletter signup (§6.3 #9) — footer + `/newsletters`, remove dead `[wpforms id="9"]` | `<form>` in footer; email-only field on `/newsletters` |
+| 10 | ✅ Newsletter signup (§6.3 #9) — email-only SureForms form wired to footer + `/newsletters` (§6.3 #9) | done 2026-10-03 (`create_newsletter_form.php`, `wire_forms.php`) |
 | 11 | ✅ Favicon/site icon (§6.2 #7) | done 2026-10-02 — crook mark recreated at 512 from the vector lockup, Media 2170, `site_icon` set; 32/192/apple-touch all 200 |
 | 12 | ✅ FPM `OBJC_DISABLE_INITIALIZE_FORK_SAFETY` (§6.6 #23) | done 2026-10-02 — conf already `YES`; FPM normalizes it to `1` and objc4 treats `1` as On (source-verified). No new `signal 6` since the full restart |
 | 13 | ✅ `admin_email` + prune 19 admins (§10) | done 2026-10-02 — `admin_email` = matt@thecreativemomentum.com; admins 3/4/41, subscribers 2/38, 14 deleted; `wp user list` = 5 |
-| 14 | REST users visibility (§6.5 #17) — unauth re-check shows only 3 post authors, no emails; harden only if commissioned | `/wp-json/wp/v2/users` → 401/403 |
+| 14 | ✅ REST users visibility (§6.5 #17) — anonymous `/wp/v2/users` endpoints unset | done 2026-10-03 (`gsm-security.php`); `/wp-json/wp/v2/users` → 404 |
 | 15 | ✅ Unschedule Bookly crons (§6.5 #20) | done 2026-10-02 — `bookly_hourly_routine` + `bookly_daily_routine` deleted; `wp cron event list` shows none |
 | 16 | ✅ Logo swap (04 white SVG → GSM mark) + header button styling | done 2026-10-02 — Media 2168/2169; `custom_logo` + Astra transparent logo set; `header-button1-*` colors → GSM blue. Headless-verified on home/about/programs. See §9 |
 | 17 | `astra-settings` audit — confirm Local→dev values survive the push | §13 |
@@ -504,8 +569,8 @@ Do these in order. Each item is independently shippable and verifiable.
 3. Contact staff directory content and "Thank a Staff" owner — section exists with
    lorem; real names are not in this repo.
 4. Program children under the Programs nav dropdown (§9).
-5. Whether an SEO plugin (or any meta-description approach) is in scope — AGENTS
-   lists none; audit found no meta descriptions (§6.2 #8).
+5. ~~Whether an SEO plugin is in scope~~ — **settled 2026-10-03**: Rank Math installed
+   and configured (§6.2 #8).
 6. Real GSM photography — still 04 demo images (`uploads/2023/06/*`) and no post
    featured images (§6.4 #12).
 7. Client body copy. Gates nothing in the queue; every page ships with lorem until
@@ -575,6 +640,15 @@ gzip -t _migration/stage-db-final.sql.gz
 - Free Astra has no 4-column footer. Do not chase the 04 four-column layout.
 - Privacy is at `/privacy/`, not `/privacy-policy/`.
 - **Before pushing:** `blog_public` is now `1` ✅ (fixed 2026-10-02) — no longer a blocker.
+- **Filesystem assets must be rsync'd with the DB** (they are not in the SQL dump):
+  `wp-content/astra-local-fonts/` (self-hosted DM Sans) and `wp-content/uploads-webpc/`
+  (converted WebP). Without them fonts and hero/CTA/donate backgrounds break on dev.
+- **Deploy the mu-plugins too:** `gsm-redirects.php`, `gsm-seo.php`, `gsm-security.php`
+  (mirrored in `_migration/mu-plugins/`). They carry the redirects, sitemap exclusions,
+  and login hardening.
+- **GA4 is a placeholder** (`G-XXXXXXXXXX`) — set the real Measurement ID before launch.
+- **Permalinks changed** to `/news/%postname%/` — after import, `wp rewrite flush` on dev
+  and confirm `/news/<slug>/` resolves (and old `/<slug>/` → 301).
 
 **Still blocked:** `~/.ssh/config` has no entry for `goodshephe3dev` and no confirmed
 credentials. Steps 4–6 cannot run until someone adds them.
@@ -583,19 +657,24 @@ credentials. Steps 4–6 cannot run until someone adds them.
 
 ## 14. Git state
 
-Branch `main`, **2 commits ahead of `origin/main`, not pushed** — push when asked. Do not
-commit unless asked.
-
-- `05372a9` — the 2026-10-02 queue run (items 1–9: homepage rebuild, Endowment copy,
-  CTA-band key fix, plus §4 / §5.1 / §6.7 / §11 / §12 / §14 and the `AGENTS.md`
-  §Homepage rewrite).
-- The 2026-10-02 pickup commit — FPM root-cause + fix proof (§6.6 #23, §15), Bookly
-  crons unscheduled (§6.5 #20), GSM logo swap + header-button styling (§9), and the
-  matching §11 / §14 refresh.
+Branch `main`, **in sync with `origin/main`** (HEAD `407959c`) — pushed at the user's
+request during the 2026-10-03 pass. Do not commit/push unless asked.
 
 | Commit | Contents |
 |---|---|
-| (this) | FPM root-cause, Bookly crons, GSM logo + header button, PLAN refresh |
+| `407959c` | Fix nested WebP passthru in stored content; security hardening (mu-plugin + wp-config) |
+| `65cfc5e` | Regression-sweep fixes: passthru nesting, `/news` permalinks + old-URL 301s, `/sitemap.xml` 301, sitemap CPT exclusion, trailing-slash link normalization |
+| `36f2bc4` | Self-host DM Sans; disable Elementor Google Fonts |
+| `f6c1fe5` | GA4 analytics config (placeholder ID) |
+| `2c2a361` | Serve hero/CTA/donate backgrounds as WebP |
+| `7666463` | WebP conversion setup (Converter for Media, Pass Thru) |
+| `74adc9e` | Wire newsletter forms to SureForms; cap hero ledes at 660px |
+| `34ebb5f` | Rank Math SEO configuration |
+| `e058ef7` | Unify widths, rebuild program sidebar, fluid typography |
+| `1b3fff9` | Unify page heroes, harden header across breakpoints |
+| `19dd23d` | Enable Elementor Optimized Markup |
+| `7c219ca` | Match nav dropdowns, program scroller, impact spacing |
+| `6a1df73` | Elementor builder tooling to match every page to the wire |
 | `05372a9` | Home rebuild to proto, Endowment real copy, Elementor key gotchas, AGENTS/PLAN updates |
 | `a868077` | PROCESS.md, 6 `_tools` fix scripts, PLAN.md §14 refresh, .gitignore additions |
 | `eb5a856` | WordPress build queue: Home, News, Programs, Careers, Endowment |
