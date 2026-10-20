@@ -24,6 +24,7 @@ function AboutPage() {
         crumbs={[{ label: 'About Us' }]}
         title="About Us"
         lede="Since 1971, Good Shepherd Manor has offered men with disabilities compassionate care, purpose, and a place to call home."
+        photo={lifeImages.aboutHero}
       />
 
       {/* About Us Overview (Complete) — mosaic uses real GSM campus photos */}
@@ -55,8 +56,8 @@ function AboutPage() {
         id="mission"
         eyebrow="Who We Are"
         title="The Heart of Our Mission"
-        imageSrc={stockImages.mission}
-        imageAlt="Friends gathered outdoors, talking and laughing together"
+        imageSrc={lifeImages.aboutMission}
+        imageAlt="Men from Good Shepherd Manor gathered together outdoors"
       >
         <p data-status="complete">
           Our Mission is to serve men with intellectual and developmental

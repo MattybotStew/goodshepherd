@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { affiliations } from '../data/site'
 import { LOREM } from '../data/placeholders'
-import { stockImages } from '../data/stockImages'
+import { lifeImages } from '../data/lifeImages'
 import SplitSection from './SplitSection'
 
 export default function AffiliationsSection({
@@ -17,8 +17,8 @@ export default function AffiliationsSection({
       id={id}
       eyebrow={eyebrow}
       title={title}
-      imageSrc={stockImages.affiliations}
-      imageAlt="Athletes running together on a track"
+      imageSrc={lifeImages.aboutAffiliations}
+      imageAlt="Brothers of the Good Shepherd standing together in the chapel"
     >
       <p>{description}</p>
       <div className="partners">

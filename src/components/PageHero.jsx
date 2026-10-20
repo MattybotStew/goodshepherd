@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { lifeImages } from '../data/lifeImages'
 
-function PageHero({ crumbs = [], title, lede, align = 'center', compact = false }) {
+function PageHero({ crumbs = [], title, lede, align = 'center', compact = false, photo = lifeImages.hero }) {
   const alignClass = align === 'left' ? ' home-hero--left' : ''
   const sizeClass = compact ? ' home-hero--compact' : ''
 
@@ -9,7 +9,7 @@ function PageHero({ crumbs = [], title, lede, align = 'center', compact = false 
     <section className={`home-hero home-hero--page${alignClass}${sizeClass}`}>
       <div
         className="home-hero__photo home-hero__photo--image"
-        style={{ '--hero-photo': `url(${lifeImages.hero})` }}
+        style={{ '--hero-photo': `url(${photo})` }}
         aria-hidden="true"
       />
       <div className="home-hero__inner">

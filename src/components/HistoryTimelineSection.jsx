@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { history as defaultHistory } from '../data/history'
-import { stockImages } from '../data/stockImages'
+import { lifeImages } from '../data/lifeImages'
 import '../styles/starter.css'
 
 export default function HistoryTimelineSection({
@@ -61,8 +61,8 @@ export default function HistoryTimelineSection({
       <div className="wrap">
         <div className="timeline__head">
           <img
-            src={stockImages.timeline}
-            alt=""
+            src={lifeImages.aboutTimeline}
+            alt="Good Shepherd Manor building in autumn, framed by yellow leaves"
             className="img-ph img-ph--photo timeline__photo"
           />
           <div>
