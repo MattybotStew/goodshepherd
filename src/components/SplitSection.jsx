@@ -10,6 +10,7 @@ export default function SplitSection({
   alt = false,
   softImage = false,
   imageSrc,
+  imageAlt = '',
   linkTo,
   linkLabel,
 }) {
@@ -33,7 +34,7 @@ export default function SplitSection({
           )}
         </div>
         {imageSrc ? (
-          <img src={imageSrc} alt="" className={imageClass} />
+          <img src={imageSrc} alt={imageAlt} className={imageClass} />
         ) : (
           <div className={imageClass} aria-hidden="true" />
         )}

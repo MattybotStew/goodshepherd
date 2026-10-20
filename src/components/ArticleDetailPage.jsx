@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PageHero from './PageHero'
+import { stockImages } from '../data/stockImages'
 import '../styles/starter.css'
 
 /**
@@ -42,7 +43,11 @@ export function RichBlocks({ blocks = [] }) {
       case 'figure':
         return (
           <figure className="rte-figure" key={i}>
-            <div className="img-ph" aria-hidden="true" />
+            <img
+              src={block.src || stockImages.gallery[i % stockImages.gallery.length]}
+              alt=""
+              className="img-ph img-ph--photo"
+            />
             {block.caption && <figcaption>{block.caption}</figcaption>}
           </figure>
         )
@@ -81,8 +86,8 @@ export function PhotoGallery() {
     <section className="rte-gallery" aria-label="Photo gallery">
       <h2>Photo gallery</h2>
       <div className="gallery">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div className="img-ph gallery__item" key={i} aria-hidden="true" />
+        {stockImages.gallery.slice(0, 6).map((src) => (
+          <img src={src} alt="" className="img-ph img-ph--photo gallery__item" key={src} />
         ))}
       </div>
     </section>

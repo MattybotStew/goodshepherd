@@ -24,7 +24,8 @@ function FoundationPage() {
           eyebrow={section.eyebrow}
           title={section.title}
           flip={section.flip}
-          softImage={section.softImage}
+          imageSrc={section.imageSrc}
+          imageAlt={section.imageAlt}
           linkTo={section.linkTo}
           linkLabel={section.linkLabel}
         >

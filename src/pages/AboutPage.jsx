@@ -5,6 +5,7 @@ import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import SplitSection from '../components/SplitSection'
 import { lifeImages } from '../data/lifeImages'
+import { stockImages } from '../data/stockImages'
 import { LOREM } from '../data/placeholders'
 import '../styles/starter.css'
 
@@ -50,7 +51,13 @@ function AboutPage() {
 
       {/* Mission (Why We Exist) (Complete)
           TODO: Mission image pending (status: In-Progress) — SplitSection soft placeholder below */}
-      <SplitSection id="mission" eyebrow="Who We Are" title="The Heart of Our Mission" softImage>
+      <SplitSection
+        id="mission"
+        eyebrow="Who We Are"
+        title="The Heart of Our Mission"
+        imageSrc={stockImages.mission}
+        imageAlt="Friends gathered outdoors, talking and laughing together"
+      >
         <p data-status="complete">
           Our Mission is to serve men with intellectual and developmental
           disabilities by providing high quality &amp; compassionate care. Our
@@ -91,7 +98,8 @@ function AboutPage() {
         title="This site should work for everyone"
         flip
         alt
-        softImage
+        imageSrc={stockImages.accessibility}
+        imageAlt="People working together at a laptop"
         linkTo="/contact"
         linkLabel="Contact us about accessibility"
       >

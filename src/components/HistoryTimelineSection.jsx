@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { history as defaultHistory } from '../data/history'
+import { stockImages } from '../data/stockImages'
 import '../styles/starter.css'
 
 export default function HistoryTimelineSection({
@@ -59,7 +60,11 @@ export default function HistoryTimelineSection({
     <section className="band band--alt anchor" id={id}>
       <div className="wrap">
         <div className="timeline__head">
-          <div className="img-ph img-ph--soft timeline__photo" aria-hidden="true" />
+          <img
+            src={stockImages.timeline}
+            alt=""
+            className="img-ph img-ph--photo timeline__photo"
+          />
           <div>
             <span className="eyebrow">{eyebrow}</span>
             <h2>{title}</h2>

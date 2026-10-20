@@ -4,6 +4,7 @@ import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import SplitSection from '../components/SplitSection'
 import { jobs } from '../data/site'
+import { stockImages } from '../data/stockImages'
 import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
 
@@ -25,12 +26,19 @@ function CareersPage() {
         placeholderCopy
         eyebrow="Careers at Good Shepherd Manor"
         title="Build a career with purpose"
+        mosaicImages={stockImages.careersMosaic}
       />
 
       <HomeIntroStrip variant="page" />
 
       {/* Benefits */}
-      <SplitSection id="benefits" eyebrow="Benefits" title="Rewards that support you">
+      <SplitSection
+        id="benefits"
+        eyebrow="Benefits"
+        title="Rewards that support you"
+        imageSrc={stockImages.careers}
+        imageAlt="Coworkers talking together in a bright office"
+      >
         <p>{LOREM_LONG}</p>
         <p>{LOREM}</p>
         <ul>
@@ -48,14 +56,21 @@ function CareersPage() {
         title="A workplace that cares"
         flip
         alt
-        softImage
+        imageSrc={stockImages.culture}
+        imageAlt="A team collaborating around a table"
       >
         <p>{LOREM_LONG}</p>
         <p>{LOREM}</p>
       </SplitSection>
 
       {/* Job openings */}
-      <SplitSection id="openings" eyebrow="Job Openings" title="Join our team">
+      <SplitSection
+        id="openings"
+        eyebrow="Job Openings"
+        title="Join our team"
+        imageSrc={stockImages.openings}
+        imageAlt="Staff meeting in a workplace"
+      >
         <p>{LOREM}</p>
         <ul className="rte-links">
           {jobs.map((job, i) => (
@@ -78,7 +93,8 @@ function CareersPage() {
         eyebrow="Apply Today"
         title="Ready to make a difference?"
         alt
-        softImage
+        imageSrc={stockImages.apply}
+        imageAlt="Colleagues walking and talking together"
         linkTo="/contact"
         linkLabel="Contact us to apply →"
       >

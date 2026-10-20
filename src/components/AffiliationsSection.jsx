@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { affiliations } from '../data/site'
 import { LOREM } from '../data/placeholders'
+import { stockImages } from '../data/stockImages'
 import SplitSection from './SplitSection'
 
 export default function AffiliationsSection({
@@ -12,7 +13,13 @@ export default function AffiliationsSection({
   links,
 }) {
   return (
-    <SplitSection id={id} eyebrow={eyebrow} title={title}>
+    <SplitSection
+      id={id}
+      eyebrow={eyebrow}
+      title={title}
+      imageSrc={stockImages.affiliations}
+      imageAlt="Athletes running together on a track"
+    >
       <p>{description}</p>
       <div className="partners">
         {links
