@@ -6,23 +6,16 @@ import './HomeIntroStrip.css'
 const HOME_COLUMNS = [
   {
     num: '01.',
-    title: 'Projects',
+    title: 'Get Involved',
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.',
-    path: '/programs',
+      'Share your time and talents, join an event, or volunteer to make a meaningful difference in the lives of the men at GSM.',
+    path: '/events',
   },
   {
     num: '02.',
-    title: 'Support GSM',
-    description:
-      'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.',
-    path: '/support-gsm',
-  },
-  {
-    num: '03.',
     title: 'Donate',
     description:
-      'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugit nulla pariatur.',
+      'Help the men of GSM enjoy meaningful opportunities, lasting friendships, and a place to call home.',
     path: '/support-gsm',
   },
 ]

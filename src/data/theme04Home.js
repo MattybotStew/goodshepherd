@@ -4,30 +4,25 @@ import { LOREM, LOREM_EXTRA, LOREM_LONG, LOREM_SHORT } from './placeholders'
 
 export const theme04Hero = {
   title: 'A Community of Compassion, Dignity, and Purpose.',
-  lede: LOREM,
-  ctaLabel: 'Now Hiring! Apply Today',
-  ctaPath: '/careers',
+  lede: 'Supporting men with intellectual and developmental disabilities through compassionate care, meaningful opportunities, and a life rich with possibility',
+  ctaLabel: 'Learn more',
+  ctaPath: '/about',
 }
 
 export const theme04IntroColumns = [
   {
     num: '01.',
-    title: 'Projects',
-    description: LOREM_SHORT,
-    path: '/programs',
+    title: 'Get Involved',
+    description:
+      'Share your time and talents, join an event, or volunteer to make a meaningful difference in the lives of the men at GSM.',
+    path: '/events',
     linkLabel: 'Learn more',
   },
   {
     num: '02.',
-    title: 'Support GSM',
-    description: LOREM_SHORT,
-    path: '/support-gsm',
-    linkLabel: 'Learn more',
-  },
-  {
-    num: '03.',
     title: 'Donate',
-    description: LOREM_SHORT,
+    description:
+      'Help the men of GSM enjoy meaningful opportunities, lasting friendships, and a place to call home.',
     path: '/support-gsm',
     linkLabel: 'Learn more',
   },
@@ -35,29 +30,34 @@ export const theme04IntroColumns = [
 
 export const theme04About = {
   eyebrow: 'About Us',
-  title: 'A community of care, growth, and dignity for over 50 years.',
-  paragraphs: [LOREM_LONG, LOREM_EXTRA],
+  title: 'A community of care, growth, and dignity for over 55 years.',
+  paragraphs: [
+    'Founded in 1971 by families seeking a brighter future for their sons, Good Shepherd Manor carries forward a legacy of faith and compassionate care. Today, we support men with intellectual and developmental disabilities build community, discover possibilities, and live with dignity and purpose.',
+  ],
 }
 
 export const theme04Impact = {
   title: 'Our Mission & Vision: Serving with Dignity',
-  lede: LOREM_LONG,
+  lede:
+    'We honor the dignity of every man we serve, providing compassionate care, encouraging personal growth, and creating a welcoming community where men with disabilities feel valued, supported, and at home.',
 }
 
 export const theme04Stories = {
   title: "What's Happening at GSM",
-  lede: LOREM,
+  lede: 'GSM brings our men and community together through a wide variety of activities & events.',
   moreTo: '/events',
   moreLabel: 'See all events \u2192',
   items: [
     {
-      title: "GSM's 35th Annual Fall Festival",
-      excerpt: LOREM_SHORT,
+      title: "GSM's Annual Fall Festival",
+      excerpt:
+        'An annual celebration of family fun, community spirit, and support for the men of GSM.',
       path: '/events#fall-festival',
     },
     {
-      title: 'GSM Family Cookouts & MORE — Join us!',
-      excerpt: LOREM_SHORT,
+      title: 'GSM Family Cookouts & More',
+      excerpt:
+        'Celebrating family fun, community spirit, and support for the men of GSM.',
       path: '/events#family',
     },
   ],

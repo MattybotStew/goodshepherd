@@ -72,21 +72,17 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
         <div className="programs-services__header">
           <div className="programs-services__intro">
             <h2>Our Programs &amp; Services</h2>
-            <p>{LOREM}</p>
+            <p>Our residential care, day programs, and enriching activities help men with disabilities lead fulfilling lives.</p>
           </div>
           {showViewAll && (
             <Link to="/programs" className="programs-services__more">
-              View all programs &rarr;
+              Explore Our Programs →
             </Link>
           )}
         </div>
         <div className="programs-services__track">
           <div
-            className="programs-services__grid timeline-scroll"
-            ref={scrollRef}
-            role="region"
-            aria-label="Program cards — scroll horizontally for more"
-            tabIndex={0}
+            className="programs-services__grid"
           >
             {programs.map((p) => (
               <article className="programs-services__card" key={p.path}>
@@ -96,24 +92,24 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
                   )}
                 </div>
                 <h3>{p.homeName || p.name}</h3>
-                <p>{LOREM_SHORT}</p>
+                <p>
+                  {p.path === '/programs/community-day-services'
+                    ? 'Our Community Day Services build skills, friendships, and meaningful community connections.'
+                    : p.path === '/programs/residential-living'
+                    ? 'Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence'
+                    : p.path === '/programs/health-well-being'
+                    ? 'Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.'
+                    : p.path === '/programs/special-olympics'
+                    ? 'Our athletes train and compete with pride through Special Olympics.'
+                    : LOREM_SHORT}
+                </p>
                 <Link to={p.path} className="programs-services__link">
-                  Learn more &rarr;
+                  Learn more+
                 </Link>
               </article>
             ))}
           </div>
-          <div
-            className="timeline-bar programs-services__scroll-bar"
-            ref={barRef}
-            onPointerDown={handleBarPointerDown}
-            aria-hidden="true"
-          >
-            <div
-              className="timeline-bar__thumb"
-              style={{ width: `${thumb.width}%`, left: `${thumb.left}%` }}
-            />
-          </div>
+          {/* Scroll bar removed - now showing 3 cards in a row */}
         </div>
       </div>
     </section>

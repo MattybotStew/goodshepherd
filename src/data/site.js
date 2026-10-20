@@ -1,23 +1,15 @@
 export const impactStats = [
-  { value: "55", label: "Years serving our community" },
+  { value: "55+", label: "Over 55 Years serving our community" },
   { value: "100+", label: "Men supported daily" },
-  { value: "5", label: "Core programs offered" },
-  { value: "1971", label: "Founded in Momence, IL" },
+  { value: "2", label: "Core programs offered" },
+  { value: "1971", label: "Founded in 1971" },
 ];
 
 export const programs = [
   {
     name: "Community Day Services",
+    homeName: "Community Day Services",
     path: "/programs/community-day-services",
-  },
-  {
-    name: "Vocational Program",
-    homeName: "TBD Vocational Program",
-    path: "/programs/vocational",
-  },
-  {
-    name: "Special Olympics",
-    path: "/programs/special-olympics",
   },
   {
     name: "Residential Living",

@@ -317,21 +317,20 @@ function Layout() {
         <div className="signup-band__glow" aria-hidden="true" />
         <div className="signup-band__inner">
           <div className="signup-band__copy">
-            <p className="signup-band__eyebrow">Stay Connected</p>
             <h2 id="signup-band-heading">Newsletter</h2>
             <p className="signup-band__lede">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              STAY CONNECTED Stay connected with GSM stories, news, and highlights in The Messenger, published twice a year.
             </p>
           </div>
           <form className="signup-band__form" onSubmit={signupForm.handleSubmit}>
-            <label htmlFor="signup-email">Email address</label>
+            <label htmlFor="signup-email">EMAIL ADDRESS</label>
             <div className="signup-band__row">
               <input
                 id="signup-email"
                 type="email"
                 name="email"
                 autoComplete="email"
+                placeholder="EMAIL ADDRESS"
                 required
               />
               <button
