@@ -7,6 +7,7 @@ import {
   theme04About,
   theme04Hero,
   theme04Impact,
+  theme04Stories,
 } from "../data/theme04Home";
 import { lifeImages } from "../data/lifeImages";
 import "./HomePage.css";
@@ -43,38 +44,28 @@ function HomePage() {
         mosaicImages={lifeImages.aboutMosaic}
       />
 
-      {/* Support GSM Foundation section — replaces StoriesSection */}
+      {/* What's Happening at GSM — two event cards */}
       <section
         className="support-gsm-foundation"
-        aria-labelledby="support-gsm-foundation-heading"
+        aria-labelledby="home-events-heading"
       >
         <div className="support-gsm-foundation__inner">
-          <h2 id="support-gsm-foundation-heading">Support GSM Foundation</h2>
-          <div className="support-gsm-foundation__grid">
-            <Link to="/support-gsm" className="support-card">
-              <span className="support-card__num">01.</span>
-              <h3>GSM Foundation</h3>
-              <p>Supporting the Manor for over 40 years.</p>
-              <span className="support-card__link">Learn more &rarr;</span>
-            </Link>
-            <Link to="/events" className="support-card">
-              <span className="support-card__num">02.</span>
-              <h3>Events</h3>
-              <p>Fall Festival, Brunch Auction, Golf Invitational, and more.</p>
-              <span className="support-card__link">Learn more &rarr;</span>
-            </Link>
-            <Link to="/shepherd-endowment-society" className="support-card">
-              <span className="support-card__num">03.</span>
-              <h3>Shepherd Endowment Society</h3>
-              <p>Stewardship that outlives a gift.</p>
-              <span className="support-card__link">Learn more &rarr;</span>
-            </Link>
-            <Link to="/support-gsm#memorial-tribute" className="support-card">
-              <span className="support-card__num">04.</span>
-              <h3>Memorial or Tribute</h3>
-              <p>Honor a loved one through giving.</p>
-              <span className="support-card__link">Learn more &rarr;</span>
-            </Link>
+          <h2 id="home-events-heading">{theme04Stories.title}</h2>
+          <p className="support-gsm-foundation__lede">{theme04Stories.lede}</p>
+          <Link
+            to={theme04Stories.moreTo}
+            className="support-gsm-foundation__cta"
+          >
+            {theme04Stories.moreLabel}
+          </Link>
+          <div className="support-gsm-foundation__grid support-gsm-foundation__grid--events">
+            {theme04Stories.items.map((item) => (
+              <Link to={item.path} className="support-card" key={item.path}>
+                <h3>{item.title}</h3>
+                <p>{item.excerpt}</p>
+                <span className="support-card__link">{item.linkLabel}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

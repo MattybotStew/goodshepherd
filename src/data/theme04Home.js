@@ -46,18 +46,20 @@ export const theme04Stories = {
   title: "What's Happening at GSM",
   lede: 'GSM brings our men and community together through a wide variety of activities & events.',
   moreTo: '/events',
-  moreLabel: 'See all events \u2192',
+  moreLabel: 'See all events',
   items: [
     {
       title: "GSM's Annual Fall Festival",
       excerpt:
         'An annual celebration of family fun, community spirit, and support for the men of GSM.',
+      linkLabel: 'Read More',
       path: '/events#fall-festival',
     },
     {
       title: 'GSM Family Cookouts & More',
       excerpt:
-        'Celebrating family fun, community spirit, and support for the men of GSM.',
+        'Celebrating 35 years of family fun, community spirit, and support for the men of GSM.',
+      linkLabel: 'Read More',
       path: '/events#family',
     },
   ],
