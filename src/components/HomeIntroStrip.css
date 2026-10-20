@@ -27,6 +27,11 @@
   margin-top: -48px;
 }
 
+/* About feature cards: three columns */
+.home-intro--about .home-intro__card {
+  grid-template-columns: repeat(3, 1fr);
+}
+
 /* Inner pages: same hero overlap as the homepage */
 .home-intro--involved,
 .home-intro--page {
@@ -126,6 +131,10 @@
   }
 
   .home-intro__card {
+    grid-template-columns: 1fr;
+  }
+
+  .home-intro--about .home-intro__card {
     grid-template-columns: 1fr;
   }
 

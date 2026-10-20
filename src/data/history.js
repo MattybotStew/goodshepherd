@@ -1,22 +1,19 @@
-import { LOREM } from './placeholders'
-
+/** About — Our History timeline. Copy per client content matrix (2026-10, Complete). */
 export const history = [
-  { year: 'Prior to 1970', text: LOREM },
-  { year: '1970', text: LOREM },
-  { year: '1971', text: LOREM },
-  { year: '1979', text: LOREM },
-  { year: '1981', text: LOREM },
-  { year: '1993', text: LOREM },
-  { year: '1995', text: LOREM },
-  { year: '1997', text: LOREM },
-  { year: '1998', text: LOREM },
-  { year: '1999', text: LOREM },
-  { year: '2001', text: LOREM },
-  { year: '2004', text: LOREM },
-  { year: '2005', text: LOREM },
-  { year: '2006', text: LOREM },
-  { year: '2007', text: LOREM },
-  { year: '2009', text: LOREM },
-  { year: '2010', text: LOREM },
-  { year: '2012', text: LOREM },
+  {
+    year: "1970's",
+    text: 'The Manor opened in 1971, welcoming 122 men. It was a decade of welcome & new beginnings.',
+  },
+  {
+    year: "1980's",
+    text: "Securing the Manor's future, dawn of the Day Program while activities & Special Olympics grow.",
+  },
+  {
+    year: "1990's",
+    text: 'The path to Independence, new group homes and community fundraisers',
+  },
+  {
+    year: '2000 and beyond',
+    text: "Progress, challenges and change shape the era as healthcare takes center stage in the Manor's story.",
+  },
 ]

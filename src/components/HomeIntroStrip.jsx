@@ -44,10 +44,38 @@ const INVOLVED_COLUMNS = [
   },
 ]
 
+/** About — Feature Cards. Copy per client content matrix (2026-10, Complete). */
+const ABOUT_COLUMNS = [
+  {
+    num: '01.',
+    title: 'Programs & Services',
+    description:
+      'Personalized programs and compassionate services help each man learn, connect, and thrive.',
+    path: '/programs',
+    linkLabel: 'Learn more',
+  },
+  {
+    num: '02.',
+    title: 'Get Involved',
+    description:
+      'Discover ways to support the Manor through giving, events and sharing your time and talent.',
+    path: '/support-gsm',
+    linkLabel: 'Learn more',
+  },
+  {
+    num: '03.',
+    title: 'News You Can Use',
+    description:
+      'Get connected with Manor news, newsletters, useful updates and resources for GSM families',
+    path: '/news',
+    linkLabel: 'Learn more',
+  },
+]
+
 const COLUMNS_BY_VARIANT = {
   home: HOME_COLUMNS,
   theme04: theme04IntroColumns,
-  about: HOME_COLUMNS,
+  about: ABOUT_COLUMNS,
   page: HOME_COLUMNS,
   involved: INVOLVED_COLUMNS,
 }

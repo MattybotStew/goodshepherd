@@ -5,7 +5,7 @@ import '../styles/starter.css'
 export default function HistoryTimelineSection({
   id = 'history',
   eyebrow = 'Our History',
-  title = 'A Timeline of Caring',
+  title = 'A Timeline of Care',
   entries = defaultHistory,
 }) {
   const scrollRef = useRef(null)
@@ -75,7 +75,7 @@ export default function HistoryTimelineSection({
           <ol className="timeline">
             {entries.map((entry) => (
               <li className="timeline__item" key={entry.year}>
-                <span className="timeline__year">{entry.year}</span>
+                <h3 className="timeline__year">{entry.year}</h3>
                 <p className="timeline__text">{entry.text}</p>
               </li>
             ))}

@@ -21,6 +21,7 @@ export default function AboutMissionSection({
   title = 'A community of care, growth, and dignity for over 50 years.',
   paragraphs,
   mosaicImages,
+  mosaicAlts,
   id,
 }) {
   const sectionClass = [
@@ -39,9 +40,9 @@ export default function AboutMissionSection({
     { className: 'home-mission__ph--tall', src: mosaicImages?.[3] },
   ]
 
-  function MosaicCell({ className, src }) {
+  function MosaicCell({ className, src, alt = '' }) {
     return src ? (
-      <img src={src} alt="" className={`home-mission__ph ${className}`} />
+      <img src={src} alt={alt} className={`home-mission__ph ${className}`} />
     ) : (
       <div className={`home-mission__ph ${className}`} />
     )
@@ -62,14 +63,33 @@ export default function AboutMissionSection({
             </Link>
           )}
         </div>
-        <div className="home-mission__mosaic" aria-hidden="true">
+        <div
+          className="home-mission__mosaic"
+          aria-hidden={mosaicAlts ? undefined : 'true'}
+        >
           <div className="home-mission__col">
-            <MosaicCell className="home-mission__ph--tall" src={mosaicCells[0].src} />
-            <MosaicCell className="home-mission__ph--short" src={mosaicCells[1].src} />
+            <MosaicCell
+              className="home-mission__ph--tall"
+              src={mosaicCells[0].src}
+              alt={mosaicAlts?.[0]}
+            />
+            <MosaicCell
+              className="home-mission__ph--short"
+              src={mosaicCells[1].src}
+              alt={mosaicAlts?.[1]}
+            />
           </div>
           <div className="home-mission__col home-mission__col--offset">
-            <MosaicCell className="home-mission__ph--short" src={mosaicCells[2].src} />
-            <MosaicCell className="home-mission__ph--tall" src={mosaicCells[3].src} />
+            <MosaicCell
+              className="home-mission__ph--short"
+              src={mosaicCells[2].src}
+              alt={mosaicAlts?.[2]}
+            />
+            <MosaicCell
+              className="home-mission__ph--tall"
+              src={mosaicCells[3].src}
+              alt={mosaicAlts?.[3]}
+            />
           </div>
         </div>
       </div>

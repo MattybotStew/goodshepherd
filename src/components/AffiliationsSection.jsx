@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { affiliations } from '../data/site'
 import { LOREM } from '../data/placeholders'
 import SplitSection from './SplitSection'
@@ -8,16 +9,23 @@ export default function AffiliationsSection({
   title = 'Partners in care',
   description = LOREM,
   names = affiliations,
+  links,
 }) {
   return (
     <SplitSection id={id} eyebrow={eyebrow} title={title}>
       <p>{description}</p>
       <div className="partners">
-        {names.map((name) => (
-          <span className="partner-pill" key={name}>
-            {name}
-          </span>
-        ))}
+        {links
+          ? links.map((link) => (
+              <Link className="partner-pill" key={link.label} to={link.to}>
+                {link.label}
+              </Link>
+            ))
+          : names.map((name) => (
+              <span className="partner-pill" key={name}>
+                {name}
+              </span>
+            ))}
       </div>
     </SplitSection>
   )
