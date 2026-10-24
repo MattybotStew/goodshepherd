@@ -4,6 +4,12 @@ Good Shepherd Manor **wireframe prototype** (Vite + React). Production is WordPr
 
 **AI agents:** read [`AGENTS.md`](AGENTS.md) first (canonical IA, slugs, stack, homepage wire). For Figma MCP, see [`FIGMA.md`](FIGMA.md).
 
+## Shareable preview
+
+https://mattybotstew.github.io/goodshep/
+
+GitHub Pages builds from `main`. First time only: **Settings → Pages → Source → GitHub Actions**, then re-run the **GitHub Pages** workflow (or push to `main`).
+
 ## Getting started
 
 ```bash
