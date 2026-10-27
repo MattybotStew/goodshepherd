@@ -348,6 +348,26 @@ a {
   );
 }
 
+.home-hero__photo--gradient {
+  background: radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(128, 197, 255, 0.25) 0%,
+      rgba(0, 42, 78, 0) 60%
+    ),
+    linear-gradient(180deg, #005a9c 0%, #002a4e 100%);
+}
+
+.home-hero--gradient .home-hero__photo--gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      80% 80% at 50% 0%,
+      rgba(255, 255, 255, 0.08) 0%,
+      transparent 70%
+    );
+}
+
 .home-hero__inner {
   position: relative;
   z-index: 1;

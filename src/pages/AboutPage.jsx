@@ -75,37 +75,39 @@ function AboutPage() {
       {/* Timeline (Complete) — decades as H3s, data in src/data/history.js */}
       <HistoryTimelineSection eyebrow="Our History" title="A Timeline of Care" />
 
-      {/* Partners
-          TODO: Partner paragraph needs final copy (status: Assigned) — lorem below
-          TODO: Partner feature image needed (status: Assigned) — SplitSection placeholder right
-          TODO: Brothers of Good Shepherd destination pending (status: Assigned) */}
+      {/* Partners (Complete) */}
       <AffiliationsSection
-        eyebrow="Affiliations"
-        title="Partners in care"
-        description={LOREM}
+        eyebrow="Memberships"
+        title="Member Organizations or Affiliations"
+        description="GSM is a member of a variety of local professional and civic organizations, as well as statewide organizations such as the Kankakee & Momence Chamber of Commerce, Intersect For Ability, United Way of Kankakee County, Special Olympics & ARC of IL."
         links={[
-          { label: 'Brothers of Good Shepherd', to: '#' },
-          { label: 'Special Olympics', to: '/programs/special-olympics' },
+          { label: 'ARC of Illinois', to: '#' },
+          { label: 'Intersect For Ability', to: '#' },
         ]}
       />
 
-      {/* Accessibility
-          TODO: Accessibility paragraph 1 needs copy (status: Assigned) — lorem below
-          TODO: Accessibility paragraph 2 needs copy (status: Assigned) — lorem below
-          TODO: Accessibility graphic needed (status: Assigned) — SplitSection soft placeholder right */}
+      {/* Accessibility (Complete) */}
       <SplitSection
         id="accessibility"
         eyebrow="Accessibility Statement"
-        title="This site should work for everyone"
+        title="Website Accessibility Statement"
         flip
         alt
         imageSrc={stockImages.accessibility}
         imageAlt="People working together at a laptop"
         linkTo="/contact"
-        linkLabel="Contact us about accessibility"
+        linkLabel="Contact Us for More Information"
       >
-        <p data-status="assigned">{LOREM}</p>
-        <p data-status="assigned">{LOREM}</p>
+        <p>
+          Good Shepherd Manor is committed to treating every person with dignity and respect. In keeping with our mission of providing high-quality, compassionate care to men with intellectual and developmental disabilities, we strive to make our website accessible and welcoming to people of all abilities.
+
+          Our goal is to continually improve the accessibility and usability of our website so everyone can learn about our programs, access resources, and connect with our mission.
+        </p>
+        <p>
+          If you experience difficulty accessing any part of our website or need information in an alternative format, please contact us at 815-472-3700 or info@goodshepherdmanor.org. Please include the page address and a brief description of the difficulty so we can better assist you.
+
+          We welcome your feedback as we work toward a more accessible online experience.
+        </p>
       </SplitSection>
     </article>
   )

@@ -9,7 +9,8 @@ const HOME_COLUMNS = [
     title: 'Get Involved',
     description:
       'Share your time and talents, join an event, or volunteer to make a meaningful difference in the lives of the men at GSM.',
-    path: '/events',
+    path: '/support-gsm',
+    linkLabel: 'Learn more',
   },
   {
     num: '02.',
@@ -17,6 +18,15 @@ const HOME_COLUMNS = [
     description:
       'Help the men of GSM enjoy meaningful opportunities, lasting friendships, and a place to call home.',
     path: '/support-gsm',
+    linkLabel: 'Learn more',
+  },
+  {
+    num: '03.',
+    title: 'News You Can Use',
+    description:
+      'Get connected with Manor news, newsletters, useful updates and resources for GSM families',
+    path: '/news',
+    linkLabel: 'Learn More',
   },
 ]
 

@@ -72,7 +72,7 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
         <div className="programs-services__header">
           <div className="programs-services__intro">
             <h2>Our Programs &amp; Services</h2>
-            <p>Our residential care, day programs, and enriching activities help men with disabilities lead fulfilling lives.</p>
+            <p>Explore the programs and services that bring care, opportunity, and purpose to everyday life.</p>
           </div>
           {showViewAll && (
             <Link to="/programs" className="programs-services__more">
@@ -84,25 +84,36 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
           <div
             className="programs-services__grid"
           >
-            {programs.map((p) => (
+            {[
+              {
+                name: 'Community Day Services',
+                path: '/programs/community-day-services',
+                text: 'Our Community Day Services build skills, friendships, and meaningful community connections.',
+              },
+              {
+                name: 'Community Engagement',
+                path: '/programs/special-olympics',
+                text: 'Explore interests and connect with others through activities, outings and Special Olympics.',
+              },
+              {
+                name: 'Residential Living',
+                path: '/programs/residential-living',
+                text: 'Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence',
+              },
+              {
+                name: 'Health & Well Being',
+                path: '/programs/health-well-being',
+                text: 'Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.',
+              },
+            ].map((p) => (
               <article className="programs-services__card" key={p.path}>
                 <div className="programs-services__icon" aria-hidden="true">
                   {PROGRAM_ICONS[p.path] && (
                     <img src={PROGRAM_ICONS[p.path]} alt="" />
                   )}
                 </div>
-                <h3>{p.homeName || p.name}</h3>
-                <p>
-                  {p.path === '/programs/community-day-services'
-                    ? 'Our Community Day Services build skills, friendships, and meaningful community connections.'
-                    : p.path === '/programs/residential-living'
-                    ? 'Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence'
-                    : p.path === '/programs/health-well-being'
-                    ? 'Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.'
-                    : p.path === '/programs/special-olympics'
-                    ? 'Our athletes train and compete with pride through Special Olympics.'
-                    : LOREM_SHORT}
-                </p>
+                <h3>{p.name}</h3>
+                <p>{p.text}</p>
                 <Link to={p.path} className="programs-services__link">
                   Learn more+
                 </Link>

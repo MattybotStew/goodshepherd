@@ -112,6 +112,7 @@ export default function ArticleDetailPage({
         crumbs={crumbs}
         title={title}
         lede={lede}
+        variant="gradient"
       />
 
       <div className={sidebar ? 'page-body page-body--with-nav' : 'page-body'}>

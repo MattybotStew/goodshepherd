@@ -53,10 +53,10 @@
 }
 
 .programs-services__grid {
-  /* Three cards in a row, no horizontal scrolling peek */
-  --programs-cards-visible: 3;
+  /* Four cards in a row */
+  --programs-cards-visible: 4;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1px;
   background: #e8edf2;
   border-radius: 16px;
@@ -112,6 +112,12 @@
 
 .programs-services__link:hover {
   color: #0089df;
+}
+
+@media (max-width: 1100px) {
+  .programs-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 900px) {

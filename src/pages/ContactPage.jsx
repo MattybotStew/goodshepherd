@@ -37,7 +37,7 @@ function ContactPage() {
         align="left"
         crumbs={[{ label: 'Contact' }]}
         title="Contact Us"
-        lede={LOREM_LONG}
+        lede="Have a question about Good Shepherd Manor, our services or ways to get involved? Connect with our team to learn more, thank a staff member or find the information you need. We’d love to hear from you!"
       />
 
       <section className="contact-bar" aria-label="Contact details">
@@ -58,9 +58,9 @@ function ContactPage() {
             </p>
           </article>
           <article className="contact-bar__col">
-            <p className="contact-bar__label">Need assistance?</p>
+            <p className="contact-bar__label">Need Assistance?</p>
             <p className="contact-bar__value">
-              <a href="#thank">Thank a staff member</a>
+              <a href="#thank">Our Team Is Here to Help</a>
             </p>
           </article>
         </div>
@@ -71,26 +71,27 @@ function ContactPage() {
           <div className="contact-touch__copy">
             <p className="contact-touch__eyebrow">Get in touch</p>
             <h2>How can we help you?</h2>
-            <p>{LOREM_LONG}</p>
+            <p>
+              Whether you’re exploring care for a loved one, sharing feedback or recognizing someone who made a difference, we’re here to listen and help you take the next step.
+            </p>
 
             <div className="contact-offices" id="staff">
-              {STAFF.map((office) => (
-                <div className="contact-office" key={office.title}>
-                  <h3>{office.title}</h3>
-                  {office.lines.map((line) => (
-                    <p key={line}>{line}</p>
-                  ))}
-                  {office.linkTo && (
-                    <Link to={office.linkTo} className="contact-office__link">
-                      {office.linkLabel}
-                    </Link>
-                  )}
-                </div>
-              ))}
+              <div className="contact-office">
+                <h3>Main Office</h3>
+                <p>(815) 472-3700</p>
+                <p>4129 N. State Route 1-17, Momence, IL 60954</p>
+                <p>P.O. Box 260, Momence, IL 60954</p>
+              </div>
+              <div className="contact-office">
+                <h3>Careers</h3>
+                <Link to="/careers" className="contact-office__link">
+                  View openings →
+                </Link>
+              </div>
             </div>
 
             <div className="contact-follow">
-              <h3>Follow us on</h3>
+              <h3>Follow us on:</h3>
               <a
                 className="contact-follow__link"
                 href={FACEBOOK}
@@ -99,6 +100,22 @@ function ContactPage() {
               >
                 <img src={facebookIcon} alt="" aria-hidden="true" />
                 Facebook
+              </a>
+              <a
+                className="contact-follow__link"
+                href={FACEBOOK}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Instagram
+              </a>
+              <a
+                className="contact-follow__link"
+                href={FACEBOOK}
+                target="_blank"
+                rel="noreferrer"
+              >
+                LinkedIn
               </a>
             </div>
           </div>
@@ -141,17 +158,23 @@ function ContactPage() {
       <section className="contact-map" aria-label="Map">
         <div className="contact-map__photo" aria-hidden="true" />
         <div className="contact-map__copy">
-          <p className="contact-map__eyebrow">Where we work</p>
-          <h2>A community of care in Momence, Illinois.</h2>
+          <p className="contact-map__eyebrow">Our Location</p>
+          <h2>
+            <a href="https://maps.google.com/?q=4129+N.+State+Route+1-17,+Momence,+IL+60954" target="_blank" rel="noreferrer">
+              Rooted in Momence. Connected by Care.
+            </a>
+          </h2>
         </div>
       </section>
 
       <section className="contact-touch contact-touch--thank" id="thank">
         <div className="contact-touch__inner">
           <div className="contact-touch__copy">
-            <p className="contact-touch__eyebrow">Thank a staff member</p>
-            <h2>Say thank you</h2>
-            <p>{LOREM}</p>
+            <p className="contact-touch__eyebrow">THANK A STAFF MEMBER</p>
+            <h2>Make Their Day</h2>
+            <p>
+              Has a GSM staff member made a difference? Share your appreciation and let them know how much their kindness and dedication mean to you.
+            </p>
           </div>
           <form className="contact-form" onSubmit={thankForm.handleSubmit}>
             <div className="contact-field">

@@ -1,17 +1,30 @@
 import { Link } from 'react-router-dom'
 import { lifeImages } from '../data/lifeImages'
 
-function PageHero({ crumbs = [], title, lede, align = 'center', compact = false, photo = lifeImages.hero }) {
+function PageHero({
+  crumbs = [],
+  title,
+  lede,
+  align = 'center',
+  compact = false,
+  photo = lifeImages.hero,
+  variant = 'image',
+}) {
   const alignClass = align === 'left' ? ' home-hero--left' : ''
   const sizeClass = compact ? ' home-hero--compact' : ''
+  const variantClass = variant === 'gradient' ? ' home-hero--gradient' : ''
 
   return (
-    <section className={`home-hero home-hero--page${alignClass}${sizeClass}`}>
-      <div
-        className="home-hero__photo home-hero__photo--image"
-        style={{ '--hero-photo': `url(${photo})` }}
-        aria-hidden="true"
-      />
+    <section className={`home-hero home-hero--page${alignClass}${sizeClass}${variantClass}`}>
+      {variant === 'gradient' ? (
+        <div className="home-hero__photo home-hero__photo--gradient" aria-hidden="true" />
+      ) : (
+        <div
+          className="home-hero__photo home-hero__photo--image"
+          style={{ '--hero-photo': `url(${photo})` }}
+          aria-hidden="true"
+        />
+      )}
       <div className="home-hero__inner">
         {crumbs.length > 0 && (
           <nav className="page-hero__crumbs" aria-label="Breadcrumb">

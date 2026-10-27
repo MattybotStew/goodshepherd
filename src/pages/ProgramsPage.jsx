@@ -11,7 +11,7 @@ function ProgramsPage() {
         align="left"
         crumbs={[{ label: 'Programs & Services' }]}
         title="Programs & Services"
-        lede={LOREM_LONG}
+        lede="From welcoming homes and engaging day programs to personalized health and wellness support, we help each man build skills, explore interests, form friendships, and enjoy a meaningful, fulfilling life."
       />
 
       <ProgramsIntroSection />

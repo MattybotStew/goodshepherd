@@ -6,12 +6,12 @@ export default function ProgramsIntroSection() {
     <section className="programs-intro">
       <div className="wrap programs-intro__inner">
         <div className="programs-intro__header">
-          <h2>
-            Every small act of kindness creates a ripple of positive change.
-          </h2>
+          <h2>Building Skills, Connections, and Confidence</h2>
           <div className="programs-intro__aside">
             <span className="programs-intro__rule" aria-hidden="true" />
-            <p>{LOREM_LONG}</p>
+            <p>
+              Through personalized support and engaging experiences, each man discovers his strengths, develops everyday skills, builds lasting friendships, and gains confidence to try new things.
+            </p>
           </div>
         </div>
 

@@ -27,7 +27,8 @@
   margin-top: -48px;
 }
 
-/* About feature cards: three columns */
+/* Home + About feature cards: three columns */
+.home-intro--home .home-intro__card,
 .home-intro--about .home-intro__card {
   grid-template-columns: repeat(3, 1fr);
 }
@@ -135,6 +136,10 @@
   }
 
   .home-intro--about .home-intro__card {
+    grid-template-columns: 1fr;
+  }
+
+  .home-intro--home .home-intro__card {
     grid-template-columns: 1fr;
   }
 

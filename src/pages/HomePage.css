@@ -60,8 +60,8 @@
 }
 
 .support-gsm-foundation__grid--events {
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 880px;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1080px;
   margin: 0 auto;
 }
 
