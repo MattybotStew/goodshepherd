@@ -12,15 +12,12 @@ $FORM_ID = 2202;
 
 // Footer band: replace the placeholder <form action="/newsletters/"> with the shortcode.
 $s = get_option( 'astra-settings' );
-$s['footer-html-1'] = '<div class="gsm-signup"><div class="gsm-signup__inner">'
-    . '<div class="gsm-signup__copy"><p class="gsm-signup__eyebrow">Stay Connected</p>'
-    . '<h2>Newsletter</h2>'
-    . '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>'
-    . '</div>'
-    . '<div class="gsm-signup__form">'
-    . '[sureforms id="' . $FORM_ID . '" show_title="false"]'
-    . '</div></div></div>';
-update_option( 'astra-settings', $s );
+// The band is the Elementor section template "Newsletter band", dropped into
+// Astra's above-footer HTML slot. Do not replace that shortcode with raw HTML.
+if ( empty( $s['footer-html-1'] ) || strpos( $s['footer-html-1'], 'elementor-template' ) === false ) {
+    $s['footer-html-1'] = '[elementor-template id="2375"]';
+    update_option( 'astra-settings', $s );
+}
 
 // Styling: glass pill in the dark band + GSM-blue button everywhere.
 $css = wp_get_custom_css();

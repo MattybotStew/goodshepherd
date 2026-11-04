@@ -66,12 +66,11 @@ $newsletter = <<<'HTML'
 <div class="gsm-signup">
 	<div class="gsm-signup__inner">
 		<div class="gsm-signup__copy">
-			<p class="gsm-signup__eyebrow">Stay Connected</p>
 			<h2>Newsletter</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+			<p>STAY CONNECTED Stay connected with GSM stories, news, and highlights in The Messenger, published twice a year.</p>
 		</div>
 		<form class="gsm-signup__form" action="/newsletters/" method="post">
-			<label for="gsm-newsletter-email">Email address</label>
+			<label for="gsm-newsletter-email">EMAIL ADDRESS</label>
 			<div class="gsm-signup__row">
 				<input id="gsm-newsletter-email" type="email" name="email" autocomplete="email" required>
 				<button type="submit">Sign Up</button>
