@@ -437,12 +437,50 @@ Edits go into Local, get verified, then the database is pushed to WP Engine stag
 
 ### Push sequence
 
-1. Export: `_tools/wp.sh db export /tmp/gsm_export.sql`
-2. Rewrite URLs: `LC_ALL=C sed -i '' 's#goodshepherd\.local#goodshephe3dev.wpenginepowered.com#g' /tmp/gsm_export.sql` (expect 26 replacements, 0 left)
-3. `gzip -9` into `_migration/stage-db-final.sql.gz`, then `gzip -t` to verify
-4. rsync to `/sites/goodshephe3dev/gsm-import.sql.gz`
+1. **Export.** `_tools/wp.sh db export` does not work in this environment. `mysqldump` is not on PATH, and once it is, it does not inherit the socket the wrapper sets for PHP — it fails with `Can't connect to local MySQL server through socket '/tmp/mysql.sock'`. Drive Local's own mysqldump with a throwaway client config instead:
+
+   ```sh
+   SOCK="$(find "$HOME/Library/Application Support/Local/run" -maxdepth 3 -name mysqld.sock | head -1)"
+   DUMP="$(find "$HOME/Library/Application Support/Local/lightning-services" -maxdepth 5 -path '*bin/mysqldump' | head -1)"
+   printf '[client]\nsocket=%s\nuser=root\npassword=root\n' "$SOCK" > /tmp/gsm_my.cnf && chmod 600 /tmp/gsm_my.cnf
+   "$DUMP" --defaults-extra-file=/tmp/gsm_my.cnf --single-transaction --quick \
+     --default-character-set=utf8mb4 local > /tmp/gsm_export.sql
+   ```
+
+   Sanity check: the dump is ~24 MB for the current library.
+
+2. **Rewrite URLs.** Every `goodshepherd.local` string has to move — not just `home`/`siteurl`, but media meta and the WebP passthru paths in Additional CSS:
+
+   ```sh
+   LC_ALL=C sed -i '' 's#goodshepherd\.local#goodshephe3dev.wpenginepowered.com#g' /tmp/gsm_export.sql
+   LC_ALL=C grep -c 'goodshepherd\.local' /tmp/gsm_export.sql   # must print 0
+   ```
+
+   A full media import produces **~3,300 replacements, not 26**. Verify that the answer is 0 afterwards; do not compare against a fixed count.
+
+3. `gzip -9 -c /tmp/gsm_export.sql > _migration/stage-db-final.sql.gz`, then `gzip -t` (~2.6 MB)
+4. rsync to `/sites/goodshephe3dev/gsm-import.sql.gz`. **There is no `~/.ssh/config` on this machine yet** — create it with the quoted `IdentityFile` before this step will work.
 5. Import, then **`wp cache flush`**, then delete the dump from the webroot
-6. Verify all 16 routes
+6. Flush Elementor CSS on stage (below), then verify all 16 routes
+
+### A database push does not carry files
+
+The import replaces tables only. These live on the filesystem and must already be on stage or be copied separately:
+
+| Not carried | Symptom if missing on stage |
+|---|---|
+| `mu-plugins/gsm-redirects.php`, `gsm-security.php`, `gsm-seo.php` | `/ways-to-give/` and `/donate/` 404 instead of 301; SureForms URLs return to the sitemap |
+| `uploads/elementor/css/post-*.css` | pages serve stale CSS — flush and regenerate after the import |
+| `uploads/` media | any photo added locally breaks on stage |
+| plugin and theme files | the DB references widgets/options the stage code cannot render |
+
+Before pushing, confirm stage runs the same versions as Local (Elementor 4.3.3, Astra 4.14.0, SureForms 2.12.8 at time of writing).
+
+### What an import changes on stage besides content
+
+- **Users are replaced** by whatever exists on Local — currently a single `develop@cloudmellow.com` administrator. Anyone with a stage login loses it. Have that password to hand, and remember a reset email now goes to `info@goodshepherdmanor.org`, not to you.
+- **`admin_email` becomes `info@goodshepherdmanor.org`**, so form submissions and password resets during staging QA reach GSM. Fine if the client expects it; warn them if not.
+- **`blog_public` is `0`** on Local, so stage imports as `noindex, nofollow`. Harmless on stage, but **flip it back on production** or the live site ships invisible.
 
 ### Environment gotchas (each one cost real debugging time)
 
