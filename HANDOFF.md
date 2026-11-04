@@ -89,6 +89,11 @@ no code or CSS involved.
 They live in `wp-content/mu-plugins/`, load automatically, and **do not appear in the
 Plugins screen**. Do not move them into a normal plugin and do not delete them.
 
+A copy of all three is tracked in this repo at `_migration/mu-plugins/` and is kept in
+sync with the live site, so a fresh environment can be given them with `git checkout`
+rather than a manual copy. If you change one in `wp-content/mu-plugins/`, copy it back
+there or the two will drift.
+
 | File | What it does |
 |---|---|
 | `gsm-redirects.php` | 301s `/ways-to-give/` → `/support-gsm/#ways-to-give`, `/donate/` → `/support-gsm`, `/sitemap.xml` → `/sitemap_index.xml`, plus old flat post URLs → `/news/<slug>/`. Local runs nginx, so `.htaccess` is not an option — this keeps the redirect table in version control. |
@@ -193,5 +198,24 @@ Users: **one administrator** — `develop@cloudmellow.com`. Site admin email is
 Verified after the pass: 16/16 routes return 200, no horizontal overflow at 390 / 1024 /
 1440, every internal link and anchor resolves, no Elementor notices, no broken images,
 sitemap contains 16 pages + 7 posts and no SureForms URLs.
+
+### Follow-up fixes (same day)
+
+- **Hiring banner at ≤921px** restyled into a two-line stack with a white pill CTA, then
+  brought to a 44px tap target and 14px type to match the rest of the site.
+- **Newsletter band “Sign Up”** moved from `#0089DF` (3.72:1, failed AA) to `#006BB3`
+  (5.59:1).
+- **Mobile-menu logo swap** rewritten — `content: url()` on an `<img>` is ignored by
+  Firefox, which left a white logo on the white bar. The colour logo is now painted on
+  the wrapping link with the bitmap hidden.
+- **Endowment membership table** no longer pushes the page 2px wide below ~387px; the
+  columns share the width and wrap under 400px.
+- **Push runbook corrected** in `AGENTS.md` — the documented `wp db export` did not work
+  and the expected replacement count was off by two orders of magnitude.
+- **Database dumps ignored in git** — the runbook writes them into `_migration/`, which
+  is tracked, so they would have been committed with `wp_users` hashes.
+
+Re-verified: 16 pages × 8 widths (320–1440), no overflow anywhere, all 200; and a
+restore test of the 2026-11-04 backup matched the live database exactly.
 
 `.mcp.json` is untracked and git-ignored — it holds machine-specific absolute paths.
