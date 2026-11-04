@@ -1,8 +1,19 @@
 name: GitHub Pages
 
+# Publishes the static client demo, which lives on the `gh-pages` branch.
+#
+# The snapshot is produced from the Local WordPress site (see _tools/demo_snapshot.py
+# and HANDOFF.md) and committed to `gh-pages`; nothing is built here. The deploy
+# job has to run from `main` because the github-pages environment only permits
+# deployments from the default branch.
+#
+# To refresh the demo: push a new snapshot to `gh-pages`, then run this workflow
+# (Actions → GitHub Pages → Run workflow) or push any commit to `main`.
+
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,18 +32,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-        env:
-          GITHUB_PAGES: 'true'
-      - run: cp dist/index.html dist/404.html
+          ref: gh-pages
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: '.'
       - id: deployment
         uses: actions/deploy-pages@v4
