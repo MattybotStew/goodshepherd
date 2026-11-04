@@ -47,3 +47,8 @@ __pycache__/
 
 # Local MCP server config (absolute machine paths, never commit)
 .mcp.json
+
+# Database dumps: contain wp_users password hashes. Keep them out of git —
+# AGENTS.md step 3 writes the stage dump into _migration/.
+_migration/*.sql
+_migration/*.sql.gz
