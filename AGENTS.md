@@ -389,6 +389,11 @@ The socket is `~/Library/Application Support/Local/run/<id>/mysql/mysqld.sock`; 
 **Verifying a change** (the loop used while building these pages):
 
 ```sh
+# 0. assert the documented state: page IDs/slugs, builder mode, form IDs and
+#    recipients, newsletter template + footer slot, the 28 program anchors,
+#    /news links, image files on disk. Exits non-zero on any failure.
+./_tools/wp.sh eval-file _tools/verify_site.php
+
 # 1. every route returns 200
 for p in "" about programs support-gsm events news newsletters careers contact privacy; do
   printf '%-14s ' "/$p"; curl -sk -o /dev/null -w '%{http_code}\n' "https://goodshepherd.local/$p/"
@@ -398,7 +403,12 @@ done
 #    (Playwright MCP: contexts need ignoreHTTPSErrors:true for .local)
 ```
 
+`verify_site.php` finds the repo through `GSM_REPO`, falling back to
+`$HOME/Developer/goodshepherd`. Point it elsewhere on another machine.
+
 A page is "done" when it renders at 1440/1024/390 with no horizontal overflow, the H1 is correct, and every image resolves.
+
+The last full pass (2026-11-04) checked all 16 pages at **320 / 360 / 390 / 768 / 921 / 922 / 1024 / 1440** with no overflow anywhere.
 
 ## Build order (WordPress)
 
