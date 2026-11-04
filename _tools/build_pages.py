@@ -246,6 +246,60 @@ def prose_section(cid, title, children, bg="#FFFFFF", padding=(0, 24, 88, 24), a
 
 # ------------------------------------------------------------------ pages
 
+PROGRAM_NAV = [
+    ("Community Day Services", "community-day-services"),
+    ("Community Engagement", "special-olympics"),
+    ("Vocational Program", "vocational"),
+    ("Residential Living", "residential-living"),
+    ("Health & Well Being", "health-well-being"),
+]
+
+
+def program_sidebar(current_slug):
+    """Figma 9560:437 — Programs label and a ruled list of program pages.
+    The current page is blue. Rows are pages, not on-page anchors."""
+    rows = []
+    for label, slug in PROGRAM_NAV:
+        active = slug == current_slug
+        kids = [link_button(
+            f"nav_{slug.replace('-', '_')}", label, f"/programs/{slug}/",
+            color="#0089DF" if active else INK,
+            size_px=15, weight="600",
+            margin=(10, 0, 10, 0),
+        )]
+        rows.append(container(f"navrow_{slug.replace('-', '_')}", {
+            "content_width": "full",
+            "flex_direction": "column",
+            "border_border": "solid",
+            "border_width": px(0, 0, 1, 0),
+            "border_color": "#C8D4E0",
+        }, kids, inner=True))
+
+    return container("pg_side", {
+        "content_width": "full",
+        "width": size(240, "px"),
+        "width_tablet": size(240, "px"),
+        "width_mobile": size(100, "%"),
+        "flex_direction": "column",
+        "flex_align_items": "stretch",
+        "_flex_size": "none",
+        "sticky": "top",
+        "sticky_on": ["desktop", "tablet"],
+        "sticky_offset": 120,
+    }, [
+        heading("pg_side_label", "Programs", "p", color="#0089DF", size_px=13,
+                weight="700", line_height=1.6, letter_spacing=1.04,
+                text_transform="uppercase", margin=(0, 0, 10, 0)),
+        container("pg_side_list", {
+            "content_width": "full",
+            "flex_direction": "column",
+            "border_border": "solid",
+            "border_width": px(1, 0, 0, 0),
+            "border_color": "#C8D4E0",
+        }, rows, inner=True),
+    ], inner=True)
+
+
 def program_page(data, img, slug_prefix, gallery=False):
     name = data["name"]
     blocks = []
@@ -268,40 +322,22 @@ def program_page(data, img, slug_prefix, gallery=False):
 
     content_col = container("pg_content", {
         "content_width": "full",
-        "width": {"unit": "%", "size": 76, "sizes": []},
+        "width": {"unit": "custom", "size": "calc(100% - 296px)", "sizes": []},
+        "width_tablet": {"unit": "custom", "size": "calc(100% - 296px)", "sizes": []},
         "width_mobile": {"unit": "%", "size": 100, "sizes": []},
         "flex_direction": "column",
+        "_flex_size": "none",
     }, children, inner=True)
 
-    side_items = [{"text": "Programs & Services", "link": {"url": "/programs/"}}]
-    for s in data.get("sections", []):
-        side_items.append({"text": s["title"],
-                           "link": {"url": f"/programs/{slug_prefix}/#{s['id']}"}})
-    sidebar = container("pg_side", {
-        "content_width": "full",
-        "width": {"unit": "%", "size": 20, "sizes": []},
-        "width_mobile": {"unit": "%", "size": 100, "sizes": []},
-        "flex_direction": "column",
-    }, [
-        heading("pg_side_label", "On this page", "p", color=LINK, size_px=13,
-                weight="700", line_height=1.4, letter_spacing=1.04,
-                text_transform="uppercase", margin=(0, 0, 12, 0)),
-        widget("pg_side_list", "icon-list", {
-            "icon_list": side_items,
-            "space_between": {"unit": "px", "size": 10, "sizes": []},
-            "icon_color": LINK,
-            "text_color": INK,
-            "icon_typography_typography": "custom",
-            "icon_typography_font_size": size(15),
-            "icon_typography_font_weight": "600",
-        }),
-    ], inner=True)
+    sidebar = program_sidebar(slug_prefix)
 
     body = container("pg_body", {
         "content_width": "full",
         "flex_direction": "row",
+        "flex_direction_mobile": "column",
         "flex_gap": gap(56),
-        "flex_wrap": "wrap",
+        "flex_wrap": "nowrap",
+        "flex_wrap_mobile": "wrap",
         "flex_align_items": "flex-start",
     }, [sidebar, content_col], inner=True)
 

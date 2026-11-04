@@ -16,6 +16,10 @@ export const programs = [
     path: "/programs/special-olympics",
   },
   {
+    name: "Vocational Program",
+    path: "/programs/vocational",
+  },
+  {
     name: "Residential Living",
     path: "/programs/residential-living",
   },
