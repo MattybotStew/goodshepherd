@@ -45,7 +45,7 @@
   margin: 0 auto 48px;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--ast-color-0, #0089df);
+  color: var(--ast-color-link);
   text-decoration: none;
 }
 
@@ -112,7 +112,7 @@
 .support-card__num {
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--ast-color-0, #0089df);
+  color: var(--ast-color-link);
   letter-spacing: 0.04em;
 }
 
@@ -134,5 +134,5 @@
 .support-card__link {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--ast-color-0, #0089df);
+  color: var(--ast-color-link);
 }

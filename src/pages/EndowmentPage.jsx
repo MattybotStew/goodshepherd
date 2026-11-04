@@ -76,24 +76,26 @@ function EndowmentPage() {
         <section className="rte anchor" id="membership">
           <h2>Membership</h2>
           <p>{membershipIntro}</p>
-          <table className="rte-table">
-            <thead>
-              <tr>
-                <th scope="col">Member Levels</th>
-                <th scope="col">Current Gift</th>
-                <th scope="col">Deferred Gift</th>
-              </tr>
-            </thead>
-            <tbody>
-              {membershipLevels.map((row) => (
-                <tr key={row.level}>
-                  <th scope="row">{row.level}</th>
-                  <td>{row.current}</td>
-                  <td>{row.deferred}</td>
+          <div className="rte-table-wrap">
+            <table className="rte-table">
+              <thead>
+                <tr>
+                  <th scope="col">Member Levels</th>
+                  <th scope="col">Current Gift</th>
+                  <th scope="col">Deferred Gift</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {membershipLevels.map((row) => (
+                  <tr key={row.level}>
+                    <th scope="row">{row.level}</th>
+                    <td>{row.current}</td>
+                    <td>{row.deferred}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <p>{membershipOutro}</p>
           <Link to="/contact" className="text-link">
             Ask about joining &rarr;

@@ -45,7 +45,7 @@
   flex-shrink: 0;
   font-size: 18px;
   font-weight: 700;
-  color: #0089df;
+  color: var(--ast-color-link);
 }
 
 .programs-services__scroll-bar {
@@ -111,7 +111,7 @@
 }
 
 .programs-services__link:hover {
-  color: #0089df;
+  color: var(--ast-color-link);
 }
 
 @media (max-width: 1100px) {

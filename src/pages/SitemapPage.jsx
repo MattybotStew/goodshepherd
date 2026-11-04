@@ -6,23 +6,23 @@ const navGroups = [
   ]},
   { name: 'Programs & Services', pages: [
     { name: 'Programs & Services', page: 3, note: 'Landing' },
-    { name: 'Community Day Services', page: 4, sections: ['Digital Den'] },
+    { name: 'Community Day Services', page: 4, sections: ['Economics', 'Personal Living Skills', 'Digital Den', 'Physical Fitness', 'Vocational Classroom', 'Seniors', 'Additional Activities'] },
     { name: 'Vocational Program', page: 5, note: 'TBD' },
-    { name: 'Special Olympics', page: 6, note: 'New — Erin feedback' },
-    { name: 'Residential Living', page: 7 },
-    { name: 'Health & Well Being', page: 8, sections: ['Nursing Services', 'On-site Clinic', 'Pharmacy Services', 'Community Supports', 'Transportation Assistance'] },
+    { name: 'Community Engagement', page: 6, sections: ['Outings', 'Special Olympics', 'Arts', 'Outdoors', 'Volunteering', 'GSM Events'] },
+    { name: 'Residential Living', page: 7, sections: ['Personalized Support', 'Leadership', 'Staff', 'Comfort & Safety', 'Staying Connected', 'History'] },
+    { name: 'Health & Well Being', page: 8, sections: ['McAllister Infirmary', 'Nursing', 'Voice in Care', 'Consistent Support', 'Community Care'] },
   ]},
   { name: 'Support GSM', pages: [
-    { name: 'Support GSM Foundation', page: 9, note: 'Merged: GSM Foundation + Ways to Give' },
+    { name: 'Support GSM Foundation', page: 9, note: 'Merged: GSM Foundation + Ways to Give', sections: ['GSM Foundation', 'Ways to Give', 'Shepherds Endowment Society', 'Events'] },
     { name: 'Shepherd Endowment Society', page: 10 },
-    { name: 'Events', page: 11, sections: ['Fall Festival', 'Brunch Auction', 'Golf Invitational', 'Family Events'] },
+    { name: 'Events', page: 11, sections: ['Fall Festival', 'Golf Invitational', 'Brunch Auction', 'Community & Family Events'] },
   ]},
   { name: 'News', pages: [
     { name: 'News & Updates', page: 12, note: 'Blog / press' },
-    { name: 'Newsletters & Family Resources', page: 13, sections: ['Archive + signup'] },
+    { name: 'Newsletters & Family Resources', page: 13, sections: ['The Messenger signup', 'Recent Issues'] },
   ]},
   { name: 'Careers', pages: [
-    { name: 'Careers', page: 14, sections: ['Job Openings (DSP hiring)', 'Benefits'] },
+    { name: 'Careers', page: 14, sections: ['Benefits', 'Our Culture', 'Job Openings', 'Apply Today'] },
   ]},
   { name: 'Contact', pages: [
     { name: 'Contact Us', page: 15, sections: ['Contact form', 'Staff directory', 'Map', 'Thank a Staff Member'] },
@@ -125,7 +125,8 @@ function SitemapPage() {
               <li><strong>Affiliations</strong> &rarr; section of <em>About Us</em></li>
               <li><strong>Accessibility Statement</strong> &rarr; section of <em>About Us</em> (also footer link)</li>
               <li><strong>Digital Den</strong> &rarr; section of <em>Community Day Services</em></li>
-              <li><strong>Nursing / Clinic / Pharmacy / Supports / Transportation</strong> &rarr; sections of <em>Health &amp; Well Being</em></li>
+              <li><strong>Nursing / Infirmary / Community Care</strong> &rarr; sections of <em>Health &amp; Well Being</em></li>
+              <li><strong>Special Olympics / Arts / Outdoors / Volunteering / GSM Events</strong> &rarr; sections of <em>Community Engagement</em></li>
               <li><strong>Fall Festival / Brunch Auction / Golf Invitational / Family Events</strong> &rarr; sections of <em>Events</em></li>
               <li><strong>Job Openings / Benefits</strong> &rarr; sections of <em>Careers</em></li>
               <li><strong>Contact form / Staff directory / Map / Thank a Staff Member</strong> &rarr; sections of <em>Contact Us</em></li>
@@ -140,7 +141,7 @@ function SitemapPage() {
               <li><strong>Programs &amp; Services</strong> (3) — landing</li>
               <li><strong>Community Day Services</strong> (4)</li>
               <li><strong>Vocational Program</strong> (5) — TBD</li>
-              <li><strong>Special Olympics</strong> (6) — new per client feedback</li>
+              <li><strong>Community Engagement</strong> (6) — Special Olympics is a section</li>
               <li><strong>Residential Living</strong> (7)</li>
               <li><strong>Health &amp; Well Being</strong> (8)</li>
               <li><strong>Support GSM Foundation</strong> (9) — merged GSM Foundation + Ways to Give</li>
@@ -162,7 +163,7 @@ function SitemapPage() {
               <li><strong>Events with sub-sections</strong> — Fall Festival, Brunch Auction, Golf Invitational, and Family Events as anchor-linked sections</li>
               <li><strong>Vocational TBD</strong> — client flagged it; cheapest release valve if scope tightens</li>
               <li><strong>Support GSM merged</strong> — GSM Foundation + Ways to Give combined into one page (page 9) per Erin's feedback. The "Get Involved" nav renamed to "Support GSM."</li>
-              <li><strong>Special Olympics added</strong> — new program page after Vocational, keeping total at 15 by merging Foundation + Donate</li>
+              <li><strong>Special Olympics → Community Engagement</strong> — page 6 keeps the `/programs/special-olympics` URL but is presented as Community Engagement, with Special Olympics as a section; total stays at 15</li>
               <li><strong>Phase-2 promotion</strong> — any section can become a page without breaking URLs; keep teaser anchors when promoting</li>
             </ul>
           </div>

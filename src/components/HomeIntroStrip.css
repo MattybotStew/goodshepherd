@@ -29,7 +29,9 @@
 
 /* Home + About feature cards: three columns */
 .home-intro--home .home-intro__card,
-.home-intro--about .home-intro__card {
+.home-intro--about .home-intro__card,
+.home-intro--involved .home-intro__card,
+.home-intro--page .home-intro__card {
   grid-template-columns: repeat(3, 1fr);
 }
 
@@ -65,6 +67,15 @@
 .home-intro__col {
   padding: 32px 40px 36px;
   border-right: 1px solid #e8edf2;
+  /* Column layout so every card's "Learn more" sits on the same baseline even
+     when descriptions differ in length. */
+  display: flex;
+  flex-direction: column;
+}
+
+.home-intro__col > a {
+  margin-top: auto;
+  align-self: flex-start;
 }
 
 .home-intro__col:last-child {
@@ -76,7 +87,8 @@
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.04em;
-  color: #c8d4e0;
+  /* Was #c8d4e0 (1.5:1 on white). Large text still needs 3:1. */
+  color: #7d93a8;
   margin: 0 0 16px;
 }
 
@@ -103,7 +115,7 @@
 }
 
 .home-intro__col a:hover {
-  color: #0089df;
+  color: var(--ast-color-link);
 }
 
 @media (max-width: 900px) {
@@ -136,6 +148,14 @@
   }
 
   .home-intro--about .home-intro__card {
+    grid-template-columns: 1fr;
+  }
+
+  .home-intro--involved .home-intro__card {
+    grid-template-columns: 1fr;
+  }
+
+  .home-intro--page .home-intro__card {
     grid-template-columns: 1fr;
   }
 

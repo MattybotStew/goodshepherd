@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import '../styles/starter.css'
 
+const isExternal = (to) => /^https?:\/\//.test(to)
+
 export default function SplitSection({
   id,
   eyebrow,
@@ -27,11 +29,20 @@ export default function SplitSection({
           {eyebrow && <span className="eyebrow">{eyebrow}</span>}
           {title && <h2>{title}</h2>}
           {children}
-          {linkTo && linkLabel && (
+          {linkTo && linkLabel && isExternal(linkTo) ? (
+            <a
+              href={linkTo}
+              className="text-link"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {linkLabel}
+            </a>
+          ) : linkTo && linkLabel ? (
             <Link to={linkTo} className="text-link">
               {linkLabel}
             </Link>
-          )}
+          ) : null}
         </div>
         {imageSrc ? (
           <img src={imageSrc} alt={imageAlt} className={imageClass} />

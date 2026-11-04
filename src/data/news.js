@@ -153,6 +153,101 @@ export const newsArticles = [
       },
     ],
   },
+  {
+    slug: '4th-annual-touch-a-truck',
+    date: 'Oct 2026',
+    tag: 'Events',
+    title: "GSM's 4th Annual Touch A Truck",
+    lede: "GSM's 4th Annual Touch A Truck brought families, neighbors and the men together to explore vehicles, meet local heroes, and enjoy free community fun.",
+    overview: {
+      blocks: [
+        { type: 'p', text: LOREM_XXL },
+        { type: 'p', text: LOREM_XL },
+        {
+          type: 'figure',
+          caption: 'Placeholder photo — Touch A Truck on the Momence campus.',
+        },
+        { type: 'p', text: LOREM_LONG },
+      ],
+    },
+    sections: [
+      {
+        id: 'meet-local-heroes',
+        title: 'Meet the people behind the vehicles',
+        blocks: [
+          { type: 'p', text: LOREM_XXL },
+          {
+            type: 'ul',
+            items: [LOREM_SHORT, LOREM, LOREM_EXTRA],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'annual-christmas-appeal',
+    date: 'Nov 2026',
+    tag: 'Foundation',
+    title: 'Annual Christmas Appeal',
+    lede: "Look for Brother Alphonsus' letter in our Annual Christmas Appeal and discover how your generosity can make an impact at GSM this Christmas.",
+    overview: {
+      blocks: [
+        { type: 'p', text: LOREM_XXL },
+        { type: 'p', text: LOREM_XL },
+        {
+          type: 'quote',
+          text: LOREM_LONG,
+          cite: 'Placeholder quote',
+        },
+        { type: 'p', text: LOREM_LONG },
+      ],
+    },
+    sections: [
+      {
+        id: 'how-to-give',
+        title: 'How to give this Christmas',
+        blocks: [
+          { type: 'p', text: LOREM_XXL },
+          {
+            type: 'link',
+            to: '/support-gsm#ways-to-give',
+            label: 'Ways to give',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'special-olympics-acting-out-theater',
+    date: 'Nov 2026',
+    tag: 'Programs',
+    title: 'Special Olympics & Acting Out Theater',
+    lede: "GSM men share their talents through Special Olympics & Acting Out Theater, from sports achievements to November's upcoming stage production.",
+    overview: {
+      blocks: [
+        { type: 'p', text: LOREM_XXL },
+        { type: 'p', text: LOREM_XL },
+        {
+          type: 'figure',
+          caption: 'Placeholder photo — athletics and the stage.',
+        },
+        { type: 'p', text: LOREM_LONG },
+      ],
+    },
+    sections: [
+      {
+        id: 'on-stage',
+        title: 'Taking the stage',
+        blocks: [
+          { type: 'p', text: LOREM_XXL },
+          {
+            type: 'ul',
+            items: [LOREM_SHORT, LOREM, LOREM_EXTRA],
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 export const getNewsArticle = (slug) =>

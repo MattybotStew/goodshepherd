@@ -11,7 +11,7 @@
 }
 
 .home-btn--blue {
-  background: var(--ast-color-0);
+  background: var(--ast-color-link);
   color: var(--ast-color-5);
 }
 

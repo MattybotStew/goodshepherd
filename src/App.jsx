@@ -7,7 +7,7 @@ import AboutPage from './pages/AboutPage'
 import ProgramsPage from './pages/ProgramsPage'
 import CommunityDayPage from './pages/CommunityDayPage'
 import VocationalPage from './pages/VocationalPage'
-import SpecialOlympicsPage from './pages/SpecialOlympicsPage'
+import CommunityEngagementPage from './pages/CommunityEngagementPage'
 import ResidentialPage from './pages/ResidentialPage'
 import HealthWellBeingPage from './pages/HealthWellBeingPage'
 import FoundationPage from './pages/FoundationPage'
@@ -33,7 +33,7 @@ function App() {
           <Route path="/programs" element={<ProgramsPage />} />
           <Route path="/programs/community-day-services" element={<CommunityDayPage />} />
           <Route path="/programs/vocational" element={<VocationalPage />} />
-          <Route path="/programs/special-olympics" element={<SpecialOlympicsPage />} />
+          <Route path="/programs/special-olympics" element={<CommunityEngagementPage />} />
           <Route path="/programs/residential-living" element={<ResidentialPage />} />
           <Route path="/programs/health-well-being" element={<HealthWellBeingPage />} />
           <Route path="/support-gsm" element={<FoundationPage />} />

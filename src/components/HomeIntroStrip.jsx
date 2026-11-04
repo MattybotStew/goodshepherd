@@ -103,16 +103,21 @@ export default function HomeIntroStrip({ variant = 'home', columns: columnsProp 
         Ways to engage
       </h2>
       <div className="home-intro__card">
-        {columns.map((col) => (
-          <article className="home-intro__col" key={col.num}>
-            <p className="home-intro__num">{col.num}</p>
-            <h3>{col.title}</h3>
-            <p>{col.description}</p>
-            <Link to={col.path}>
-              {col.linkLabel ? `${col.linkLabel} \u2192` : 'Learn more \u2192'}
-            </Link>
-          </article>
-        ))}
+        {columns.map((col) => {
+          const label = col.linkLabel ? `${col.linkLabel} \u2192` : 'Learn more \u2192'
+          return (
+            <article className="home-intro__col" key={col.num}>
+              <p className="home-intro__num">{col.num}</p>
+              <h3>{col.title}</h3>
+              <p>{col.description}</p>
+              {col.path.startsWith('#') ? (
+                <a href={col.path}>{label}</a>
+              ) : (
+                <Link to={col.path}>{label}</Link>
+              )}
+            </article>
+          )
+        })}
       </div>
     </section>
   )

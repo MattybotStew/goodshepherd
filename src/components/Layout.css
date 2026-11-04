@@ -38,7 +38,7 @@ html {
   left: 16px;
   z-index: 300;
   padding: 12px 20px;
-  background: var(--ast-color-0);
+  background: var(--ast-color-2);
   color: var(--ast-color-5);
   font-size: 14px;
   font-weight: 700;
@@ -92,7 +92,10 @@ a {
   font-size: 14px;
   font-weight: 400;
   position: relative;
-  z-index: 110;
+  /* Below the sticky header (z 100): the mobile drawer lives inside the header
+     stacking context, so a higher banner z-index would cover the drawer's
+     close button. */
+  z-index: 90;
 }
 
 .hiring-banner__text {
@@ -100,8 +103,18 @@ a {
 }
 
 .hiring-banner__link {
-  color: var(--ast-color-0);
+  /* On the navy banner the blue accent drops to ~2.6:1; this light blue is 7:1. */
+  color: #9fd0ff;
   font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  /* Keep the arrow attached to the label instead of orphaning it on its own
+     line when the banner wraps on phones. */
+  white-space: nowrap;
+}
+
+.hiring-banner__text {
+  min-width: 0;
 }
 
 .hiring-banner__link:hover {
@@ -201,7 +214,7 @@ a {
 
 .header__nav-link:hover,
 .header__nav-link.is-active {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .header__nav-toggle {
@@ -273,12 +286,12 @@ a {
 
 .header__dropdown-link:hover,
 .header__dropdown-link.is-active {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
   background: var(--ast-color-4);
 }
 
 .header__donate {
-  background: var(--ast-color-0);
+  background: var(--ast-color-link);
   color: var(--ast-color-5);
   font-family: var(--ast-font);
   font-size: 16px;
@@ -346,6 +359,18 @@ a {
     rgba(0, 20, 36, 0.55) 0%,
     rgba(0, 20, 36, 0.72) 100%
   );
+}
+
+/* On phones the deck sits directly over faces; deepen the scrim so body copy
+   keeps its contrast. */
+@media (max-width: 900px) {
+  .home-hero__photo--image::after {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 20, 36, 0.64) 0%,
+      rgba(0, 20, 36, 0.8) 100%
+    );
+  }
 }
 
 .home-hero__photo--gradient {
@@ -538,7 +563,7 @@ a {
 
 .layout--hero-header .header:not(.is-solid) .header__dropdown-link:hover,
 .layout--hero-header .header:not(.is-solid) .header__dropdown-link.is-active {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .layout--hero-header .header.is-solid {
@@ -786,6 +811,8 @@ a {
 
 .footer__links a {
   transition: color 0.15s ease;
+  /* 15px text sits at ~20px; padding brings the target to 28px. */
+  padding-block: 4px;
 }
 
 .footer__contact-col .footer__contact:first-of-type {
@@ -828,6 +855,8 @@ a {
 .footer__copy a {
   color: var(--ast-color-5);
   transition: color 0.15s ease;
+  display: inline-block;
+  padding-block: 4px;
 }
 
 .footer__socials {
@@ -995,7 +1024,13 @@ a {
   .header__drawer-close {
     background: none;
     border: none;
-    padding: 0 4px;
+    /* 44×44 minimum touch target */
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
     font-size: 32px;
     line-height: 1;
     color: var(--ast-color-2);
@@ -1023,6 +1058,19 @@ a {
     padding: 14px 24px;
     font-size: 14px;
     white-space: normal;
+  }
+
+  /* The drawer is a white panel even when the header above it is transparent
+     over a hero photo. Without this the labels inherit the transparent-header
+     white and disappear. */
+  .layout--hero-header .header .header__nav .header__nav-link,
+  .layout--hero-header .header .header__nav .header__nav-toggle {
+    color: var(--ast-color-2);
+  }
+
+  .layout--hero-header .header .header__nav .header__nav-link.is-active,
+  .layout--hero-header .header .header__nav .header__nav-link:hover {
+    color: var(--ast-color-link);
   }
 
   .header__nav-toggle {

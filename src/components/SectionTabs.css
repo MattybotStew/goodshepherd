@@ -53,7 +53,7 @@
 }
 
 .section-tabs__tab:hover {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .section-tabs__tab:focus-visible {
@@ -63,8 +63,8 @@
 }
 
 .section-tabs__tab.is-active {
-  color: var(--ast-color-0);
-  border-bottom-color: var(--ast-color-0);
+  color: var(--ast-color-link);
+  border-bottom-color: var(--ast-color-link);
 }
 
 @media (max-width: 921px) {

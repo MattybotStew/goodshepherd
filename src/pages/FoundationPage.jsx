@@ -1,8 +1,8 @@
+import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import SectionTabs from '../components/SectionTabs'
 import SplitSection from '../components/SplitSection'
-import { getInvolvedSections } from '../data/getInvolved'
-import { LOREM_LONG } from '../data/placeholders'
+import { foundationIntroColumns, getInvolvedSections } from '../data/getInvolved'
 import '../styles/starter.css'
 
 function FoundationPage() {
@@ -10,9 +10,12 @@ function FoundationPage() {
     <article>
       <PageHero
         crumbs={[{ label: 'Support GSM' }]}
-        title="Support GSM Foundation"
-        lede={LOREM_LONG}
+        title="GSM Foundation"
+        lede="Founded in 1981, GSM’s Foundation has provided continual support for the programs, services and operating costs of the Manor, allowing us to go above and beyond what the state mandates and provides."
       />
+
+      {/* Numbered cards — 01 Donate / 02 Volunteer / 03 Make A Lasting Impact */}
+      <HomeIntroStrip variant="involved" columns={foundationIntroColumns} />
 
       {/* Jump bar — tabs scroll to the stacked anchor sections below */}
       <SectionTabs sections={getInvolvedSections} />

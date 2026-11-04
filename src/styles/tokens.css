@@ -9,6 +9,11 @@
   --ast-color-5: #ffffff;
   --ast-color-6: #c8d4e0;
   --ast-color-7: #000000;
+  /* Functional blue for text on white/near-white surfaces. The brand accent
+     (#0089DF) only reaches 3.59:1 on white, which fails WCAG AA for body-size
+     text; #006BB3 is 5.46:1 and already the documented hover tone. */
+  --ast-color-link: #006bb3;
+  --ast-color-link-hover: #004f85;
   --ast-container: 1200px;
   --ast-font: 'DM Sans', sans-serif;
   --type-display: clamp(44px, 6vw, 84px);

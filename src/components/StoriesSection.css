@@ -60,7 +60,7 @@
   flex-shrink: 0;
   font-size: 16px;
   font-weight: 700;
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .home-stories__rows {
@@ -134,7 +134,7 @@
 }
 
 .home-stories__link:hover {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .home-stories__link-icon {

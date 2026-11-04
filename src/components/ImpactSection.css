@@ -73,10 +73,16 @@
 
 .home-impact__mosaic {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
+  /* minmax(0, …) stops the tall cells' min-height/aspect-ratio from forcing
+     the track wider than the container at tablet widths. */
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: 20px;
   align-items: end;
   margin: 24px 0 8px;
+}
+
+.home-impact__mosaic > * {
+  min-width: 0;
 }
 
 .home-impact__ph {
@@ -142,12 +148,15 @@
   }
 
   .home-impact__mosaic {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .home-impact__ph--wide,
   .home-impact__ph--tall {
-    min-height: 220px;
+    /* min-height + aspect-ratio would derive a width from the min height and
+       overflow narrow screens; drive the box from its width instead. */
+    width: 100%;
+    min-height: 0;
     aspect-ratio: 16 / 10;
   }
 

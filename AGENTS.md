@@ -2,6 +2,8 @@
 
 Instructions for any LLM or agent working in this repo or on the production site.
 
+> **Picking this up mid-build?** Read **§Handoff: current build state** first. It lists the page IDs, the generator scripts, the SureForms form IDs, the tooling that lives outside the repo, and the traps that have already cost debugging time.
+
 ## What this project is
 
 Good Shepherd Manor (GSM) is a residential care community in Momence, IL for men with intellectual and developmental disabilities. This repo is a **wireframe prototype only** (Vite + React). It is not the production frontend.
@@ -90,22 +92,22 @@ Canonical source in this repo: `src/pages/SitemapPage.jsx`.
 | 1 | Home | `/` | Gateway |
 | 2 | About Us | `/about` | Sections: History; Mission, Vision & Values; Affiliations; Accessibility |
 | 3 | Programs & Services | `/programs` | Landing |
-| 4 | Community Day Services | `/programs/community-day-services` | Section: Digital Den |
+| 4 | Community Day Services | `/programs/community-day-services` | Sections: the seven CDS classes + Additional Activities; Digital Den is the `#digital-den` section |
 | 5 | Vocational Program | `/programs/vocational` | Client TBD — cheapest scope cut |
-| 6 | Special Olympics | `/programs/special-olympics` | New per Erin feedback |
-| 7 | Residential Living | `/programs/residential-living` | |
-| 8 | Health & Well Being | `/programs/health-well-being` | Sections: nursing, clinic, pharmacy, supports, transportation |
-| 9 | Support GSM Foundation | `/support-gsm` | Merged: GSM Foundation + Ways to Give (Erin feedback). Jump-bar with sections for Foundation, Ways to Give, Endowment, Events, Memorial/Tribute. |
+| 6 | Community Engagement | `/programs/special-olympics` | Was the Special Olympics page; keeps that locked slug. Special Olympics is now a section. Sections: outings, Special Olympics, arts, outdoors, volunteering, GSM events |
+| 7 | Residential Living | `/programs/residential-living` | Sections: personalized support, leadership, staff, comfort/safety, communications, history, closing |
+| 8 | Health & Well Being | `/programs/health-well-being` | Sections: supporting health, McAllister Infirmary, nursing, voice in care, consistent support, community care, closing |
+| 9 | Support GSM Foundation | `/support-gsm` | Merged: GSM Foundation + Ways to Give (Erin feedback). Numbered cards + jump bar with sections for Foundation, Ways to Give, Endowment, Events. Memorial/tribute gifts live inside Ways to Give. |
 | 10 | Shepherd Endowment Society | `/shepherd-endowment-society` | Real copy in `src/data/endowment.js` (from production site) |
-| 11 | Events | `/events` | Sections: Fall Festival, Brunch Auction, Golf Invitational, Family Events |
+| 11 | Events | `/events` | Real copy. Numbered cards + sections: Fall Festival, Golf Invitational, Brunch Auction, Community & Family Events |
 | 12 | News & Updates | `/news` | Blog hub (counts as a page) |
-| 13 | Newsletters & Family Resources | `/newsletters` | Archive + signup |
-| 14 | Careers | `/careers` | Job openings + benefits |
-| 15 | Contact Us | `/contact` | Form, staff directory, map, Thank a Staff Member |
+| 13 | Newsletters & Family Resources | `/newsletters` | Real copy: The Messenger signup + Recent Issues archive (3 issues). PDFs still placeholders |
+| 14 | Careers | `/careers` | Real copy. Sections: intro feature, Benefits, Our Culture, Job Openings (DSP + RSD), Apply Today. Images pending (In-Progress) |
+| 15 | Contact Us | `/contact` | Real copy. Form, staff directory, map link, Thank a Staff Member. Facebook is the only social profile GSM maintains |
 
 Utility (not in the 15): `/privacy`. Accessibility lives on About (`/about#accessibility`) and in the footer.
 
-Programs is a **parent page** with five children (added Special Olympics) so breadcrumbs read `Home › Programs › Health & Well Being`.
+Programs is a **parent page** with five children (Community Day Services, Vocational, Community Engagement, Residential Living, Health & Well Being) so breadcrumbs read `Home › Programs › Health & Well Being`.
 
 Do **not** publish the React `/sitemap` diagram. It is a project artifact.
 
@@ -128,15 +130,39 @@ Phase 2 may promote a section to a page. Keep the original hash when promoting s
 
 Duplicate those same layouts for GSM Foundation, Endowment, Events, Newsletters, and Careers. Do not start blank Elementor canvases.
 
-Homepage spec is **`src/pages/HomePage.jsx`** (Figma `9137:3182`) — *not* the older `9009:2` wire (`design/node-9009-2.png`). Client decision 2026-10-02: the React proto wins; the 9009:2 order below it is superseded. Live page is **315**, built with Elementor. Section order:
+Homepage spec is **`src/pages/HomePage.jsx`** (Figma `9137:3182`) — *not* the older `9009:2` wire (`design/node-9009-2.png`). Client decision 2026-10-02: the React proto wins; the 9009:2 order below it is superseded. Live page is **315**, built with Elementor.
 
-1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: “Now Hiring! Apply Today” → `/careers`. Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
-2. Intro strip — Figma `9046:813` overlapping the hero: 01 Projects → `/programs` / 02 Support GSM → `/support-gsm` / 03 Donate → `/support-gsm`, greek body, Learn more.
-3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (55 years / 100+ men / **5 programs** / 1971 founded). No eyebrow label above the h2, no donate band.
-4. Our Programs & Services — **5** cards (Community Day, TBD Vocational, Special Olympics, Residential Living, Health) + View all. `TBD Vocational Program` is deliberate (`site.js` `homeName`).
-5. About Us / Mission — eyebrow → **real `<h2>`** → two paragraphs → Read More, staggered photo mosaic. The heading must be `header_size: h2`, not `p` — otherwise the section has no heading element at all.
+**Page 315 is generated, not hand-built.** `_tools/build_home_replica.py` emits the page as native Elementor containers + heading / text-editor / button / image widgets (no raw HTML, no custom CSS on the page), so it stays editable in the Elementor editor:
+
+```sh
+python3 _tools/build_home_replica.py                 # writes /tmp/home_replica.json
+./_tools/apply_elementor.sh 315 /tmp/home_replica.json
+```
+
+**Every other content page is generated by `_tools/build_pages.py`**, which shares `_tools/elementor_kit.py` with the home builder:
+
+```sh
+python3 _tools/build_pages.py all                    # /tmp/page_<id>.json for all 13
+python3 _tools/build_pages.py 2088                   # just Community Day Services
+./_tools/apply_elementor.sh 2088 /tmp/page_2088.json
+```
+
+Page IDs in the script: 316 About, 317 Programs, 2088 Community Day, 2089 Vocational, 2127 Community Engagement, 2090 Residential, 2091 Health, 2092 Support GSM, 2093 Endowment, 2094 Events, 318 News, 2095 Newsletters, 2096 Careers, 319 Contact. Copy is read from `_tools/page_data.json` (a JSON dump of `src/data/*.js`); regenerate it when the data files change.
+
+Contact embeds two SureForms forms by ID — **2056** (Simple Contact Form → “Send Message”) and **2370** (Thank a Staff Member → “Send thanks”). The builder references them with the `sureforms_form` widget, so editing a form in SureForms updates the page without touching the script.
+
+Edit the scripts and re-apply when the wire changes, rather than editing pages in Elementor and letting the two diverge. Key conventions baked in: `content_width: 'full'` on anything with a `width`, `flex_*` prefixes for flex settings, `_element_id` for anchors, and responsive `typography_font_size_tablet/mobile` mirroring the wire's `clamp()` scale (h1 64 → 44 → 40; section h2 44/48 → 36).
+
+
+Section order:
+
+1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: **“Learn more” → `/about`** (the React wire is authoritative; an earlier “Now Hiring! Apply Today” CTA lives in the hiring banner, not the hero). Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
+2. Intro strip — Figma `9046:813` overlapping the hero (3 cards, white card with 1px dividers, pulled up 160px): 01 Get Involved → `/events` / 02 Donate → `/support-gsm` / 03 News You Can Use → `/news`, Learn more.
+3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (**55+** years / 100+ men / **2** core programs / 1971 founded). Heading left / statement right, then the counters. No eyebrow label above the h2, no donate band.
+4. Our Programs & Services — **4** cards (Community Day, Community Engagement, Residential Living, Health & Well Being) + View all. **Community Engagement** is the page at `/programs/special-olympics`; Special Olympics is a section there. Vocational is no longer in this row.
+5. About Us / Mission — eyebrow → **real `<h2>`** (“…for over 55 years.”) → one paragraph → bordered Read More, staggered 4-image mosaic. The heading must be `header_size: h2`, not `p` — otherwise the section has no heading element at all.
 6. Stories — “What's Happening at GSM” + 2 story cards. **Not in the proto; kept by client decision 2026-10-02** for events promotion. Sits above the foundation section.
-7. Support GSM Foundation — 4 cards: 01 GSM Foundation → `/support-gsm`, 02 Events → `/events`, 03 Shepherd Endowment Society → `/shepherd-endowment-society`, 04 Memorial or Tribute → `/support-gsm#memorial-tribute`. `#fafcfe` background, centered h2.
+7. Support GSM Foundation — 4 cards: 01 GSM Foundation → `/support-gsm`, 02 Events → `/events`, 03 Shepherd Endowment Society → `/shepherd-endowment-society`, 04 Memorial or Tribute → `/support-gsm#ways-to-give` (no standalone memorial section). `#fafcfe` background, centered h2.
 
 Home does **not** get `gsm_cta_band`, and the Get Involved (Donate/Volunteer/Careers) block was removed — client decision 2026-10-02. Every other content page keeps `gsm_cta_band`. Do not re-add either to page 315.
 
@@ -174,18 +200,20 @@ are inert: 5 cards at `width:20%` plus a `gap` exceeds 100% and would wrap. Only
 
 ## Support GSM Foundation wire (`/support-gsm`)
 
-**Merged page:** GSM Foundation + Ways to Give combined into one page per Erin feedback. The page uses a **tab-style jump bar** that scrolls to **stacked anchor sections**. The `SectionTabs` component renders five jump links labelled from each section's `eyebrow`; clicking smooth-scrolls to the matching `#id` anchor and the active tab highlights via scroll-spy. Content is fully stacked via `SplitSection`. Section data lives in `src/data/getInvolved.js`.
+**Merged page:** GSM Foundation + Ways to Give combined into one page per Erin feedback. The page uses a **tab-style jump bar** that scrolls to **stacked anchor sections**. The `SectionTabs` component renders four jump links labelled from each section's `eyebrow`; clicking smooth-scrolls to the matching `#id` anchor and the active tab highlights via scroll-spy. Content is fully stacked via `SplitSection`. Section data lives in `src/data/getInvolved.js`.
 
 Section order:
 
-1. **Hero** — breadcrumb "Support GSM", title **Support GSM Foundation**, lorem lede. `PageHero` + transparent header.
-2. **Jump bar** — `SectionTabs` directly under hero; **sticky** just below the header once you scroll. Five scroll-to links: GSM Foundation, Ways to Give, Shepherd Endowment Society, Events, Memorial or Tribute. Active link gets a blue underline.
-3. **GSM Foundation** — `SplitSection` `#foundation`: copy left, image right. Eyebrow + title "Supporting the Manor for over 40 years".
-4. **Ways to Give** — `#ways-to-give`, **flipped** (image left). Details: one-time gift, monthly giving, planned/memorial gifts. Link stays on same page at `#ways-to-give-details`.
-5. **Shepherd Endowment Society** — `#endowment-society`, normal split. Title "Stewardship that outlives a gift"; link → `/shepherd-endowment-society`. Uses real copy from `src/data/endowment.js`.
-6. **Events** — `#events`, **flipped**, soft image placeholder. Bullets: Fall Festival, Brunch Auction, Golf Invitational, Family Events. Link → `/events`.
-7. **Memorial or Tribute** — `#memorial-tribute`, normal split. Title "Honor a loved one through giving".
+1. **Hero** — breadcrumb "Support GSM", title **GSM Foundation** (client content matrix 2026-11-04; the page is still named "Support GSM Foundation" in nav and metadata), real lede about the Foundation founded in 1981. `PageHero` + transparent header.
+2. **Numbered cards** — `HomeIntroStrip variant="involved"` with `foundationIntroColumns`: 01 Donate → `#ways-to-give`, 02 Volunteer → `#events`, 03 Make A Lasting Impact → `/shepherd-endowment-society`. Hash targets render as native anchors so they scroll (React Router `Link` does not).
+3. **Jump bar** — `SectionTabs` **sticky** just below the header once you scroll. Four scroll-to links: GSM Foundation, Ways to Give, Shepherds Endowment Society, Events. Active link gets a blue underline.
+4. **GSM Foundation** — `SplitSection` `#foundation`: copy left, image right. Eyebrow + title "Supporting the Manor for over 45 years" (Foundation founded 1981).
+5. **Ways to Give** — `#ways-to-give`, **flipped** (image left). Title "Every gift stays on campus". Copy covers the three signature events, Christmas Appeal, general gifts, Family Donor Program, tribute and memorial gifts, and the Endowment Society. The "Ways to Give →" CTA links to the Qgiv giving form that backs the live Foundation donation page (`https://secure.qgiv.com/for/wdof/`, external, opens in a new tab).
+6. **Shepherds Endowment Society** — `#endowment-society`, normal split. Title "Your Legacy. Their Future."; link → `/shepherd-endowment-society`.
+7. **Events** — `#events`, **flipped**. Bullets: Fall Festival, Golf Invitational, Brunch Auction, Community & Family Events. Link → `/events`.
 8. **Global Support GSM CTA** — `GetInvolvedCta` in `Layout.jsx` (blue band before footer newsletter, title updated to "Support GSM Foundation"). Not duplicated on the page canvas.
+
+**Memorial/Tribute is no longer its own section or tab** (client content matrix 2026-11-04). Memorial and tribute gifts are described inside Ways to Give, so the header dropdown and footer "Memorial or Tribute" links now target `/support-gsm#ways-to-give`.
 ### Reusable section modules (React wires)
 
 Extracted from About and reused on inner pages — **do not** invent new layout patterns when these fit:
@@ -245,6 +273,20 @@ Astra 04 layout, GSM blue as the primary (replace 04 lime in Customizer).
 
 Home uses Astra’s transparent header over the hero (white type, white Donate). Inner pages use a solid white header and navy type. Footer is white with a top rule — not a dark bar.
 
+### Contrast: use `#006BB3` for blue text and button fills
+
+`#0089DF` on white is **3.59:1**, and white on `#0089DF` is the same — both fail WCAG AA for body-size text (4.5:1). The React wire therefore keeps `#0089DF` only for decorative fills and graphics, and uses two derived tokens for anything readable:
+
+| Token | Value | Ratio on white |
+|---|---|---|
+| `--ast-color-link` | `#006BB3` | 5.46:1 |
+| `--ast-color-link-hover` | `#004F85` | 7.9:1 |
+
+Applied to: `.text-link`, card/CTA links, eyebrows and labels in the article sidebar, timeline years, breadcrumb hover, primary buttons (`.btn--primary`, `.home-btn--blue`, `.header__donate`), and the skip link (navy background). The hiring banner keeps a light blue `#9FD0FF` (7:1) on navy. The required-field asterisk is `#B42318`.
+
+**When the site moves to WordPress:** set the Astra *button* and *link* colours to `#006BB3` in the Customizer (or accept AA failure). This is a client decision — the brand accent stays `#0089DF` for graphics.
+
+
 ## Content sources in this repo
 
 Use these for copy, section order, and IA. Do not treat their CSS as a spec.
@@ -268,9 +310,94 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | `src/components/ProgramPage.jsx` | Program page **section order** only |
 | `design/sitemap-structure.md` | Figma extract (older; SitemapPage wins on conflicts) |
 
-> **Current state (client review round):** Descriptive body copy is placeholder **lorem ipsum** (Home, About, Support GSM Foundation, programs, news, careers, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review. **Exception — `/shepherd-endowment-society` is fully real copy** (sourced 2026-10-02 from the client's own production page `goodshepherdmanor.org/foundation/shepherds-endowment-society/`); `src/data/endowment.js` matches it. Use that production URL as the reference for other real GSM prose.
+> **Current state (client review round):** Descriptive body copy is placeholder **lorem ipsum** (Home, About, Support GSM Foundation, the Vocational program page, news article bodies, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review. **Exceptions — fully real copy:** `/shepherd-endowment-society` (sourced 2026-10-02 from the client's own production page `goodshepherdmanor.org/foundation/shepherds-endowment-society/`; `src/data/endowment.js` matches it), `/programs/community-day-services` (client-supplied 2026-11-04; `src/data/programs.js` `communityDay`), `/programs/residential-living` (client-supplied 2026-11-04; `src/data/programs.js` `residential`), `/programs/health-well-being` (client-supplied 2026-11-04; `src/data/health.js`), `/programs/special-olympics` (client-supplied 2026-11-04; `src/data/programs.js` `communityEngagement` — the page is presented as Community Engagement), `/events` (client-supplied 2026-11-04; `src/pages/EventsPage.jsx`), `/careers` (client-supplied 2026-11-04; `src/data/careers.js`), `/newsletters` (client-supplied 2026-11-04; `src/pages/NewslettersPage.jsx`), `/contact` (client-supplied), and the `/news` hub page furniture (client-supplied 2026-11-04; `src/pages/NewsPage.jsx` + `site.js` `newsItems` — article bodies are still lorem). Use those as the reference for other real GSM prose.
 
-Health & Well Being is the first program to build. Its section IDs: `nursing`, `clinic`, `pharmacy`, `supports`, `transportation`.
+Health & Well Being is the first program to build. Its section IDs: `supporting-health`, `mcallister-infirmary`, `nursing`, `voice-in-care`, `consistent-support`, `community-care`, `closing`. These replace the earlier placeholder anchors (`clinic`, `pharmacy`, `supports`, `transportation`); production page 317 still carries those until it is rebuilt from this content.
+
+Community Day Services is fully real copy (client-supplied 2026-11-04). Its section IDs: `economics`, `personal-living-skills`, `digital-den`, `civic-engagement`, `physical-fitness`, `vocational-classroom`, `seniors`, `activities`. The `/news/digital-den-community-day` article keeps `#digital-den` pointing here.
+
+Residential Living is fully real copy (client-supplied 2026-11-04). Its section IDs: `personalized-support`, `leadership`, `our-team`, `comfort-safety`, `staying-connected`, `history`, `making-home-happen`.
+
+Community Engagement is fully real copy (client-supplied 2026-11-04) and lives at the locked `/programs/special-olympics` slug — the home card and nav already label it Community Engagement. Its section IDs: `following-interests`, `special-olympics`, `arts`, `outdoors`, `giving-back`, `gsm-events`. CDS, Community Engagement, Residential, and Health all list their sections in `ArticleSidebar` via `SECTIONS_BY_PATH`; `site.js` `programs` must include a page for its sidebar entry to appear.
+
+## Handoff: current build state (read this first)
+
+**Where things are**
+
+| Thing | Location |
+|---|---|
+| WordPress site (canonical) | Local by Flywheel, `~/Local Sites/goodshepherd`, https://goodshepherd.local |
+| Search-replace target for stage | `goodshephe3dev.wpenginepowered.com` |
+| React wire (source of truth for content) | this repo, `src/` |
+| Elementor page generators | this repo, `_tools/` |
+| WP-CLI wrapper | `~/Local Sites/goodshepherd/_tools/wp.sh` — **outside the repo**, see below |
+
+**All 15 SOW pages plus Privacy are built** in Elementor on Local, generated from the React wire. Nothing on the WordPress side is hand-drawn: it is all native containers + heading / text-editor / button / image / icon-list widgets.
+
+```
+_tools/elementor_kit.py        shared helpers (px, gap, heading, text, button, image, section)
+_tools/build_home_replica.py   page 315
+_tools/build_pages.py          every other page (`all`, or a single page ID)
+_tools/page_data.json          JSON dump of src/data/*.js — copy source for the generators
+_tools/refresh_page_data.sh    regenerates page_data.json from src/data
+_tools/apply_elementor.sh      applies a JSON file to a post + clears Elementor caches
+```
+
+Rebuild loop:
+
+```sh
+./_tools/refresh_page_data.sh                 # only after editing src/data/*.js
+python3 _tools/build_pages.py all             # -> /tmp/page_<id>.json
+./_tools/apply_elementor.sh 2088 /tmp/page_2088.json
+```
+
+**Page IDs:** 315 Home · 316 About · 317 Programs · 2088 Community Day · 2089 Vocational · 2127 Community Engagement · 2090 Residential · 2091 Health · 2092 Support GSM · 2093 Endowment · 2094 Events · 318 News · 2095 Newsletters · 2096 Careers · 319 Contact · 3 Privacy (plain content, not generated).
+
+**Forms** (SureForms, referenced by ID — editing a form updates the page, no rebuild needed):
+- **2056** Simple Contact Form → “Send Message”
+- **2370** Thank a Staff Member → “Send thanks”
+- **2202** Newsletter Signup → “Sign Up”, rendered in the site-wide signup band (Astra above-footer HTML, `astra-settings` → `footer-html-1`)
+
+**Media:** the client's live media library was imported (209 attachments as of 2026-11-04): program photography, `/dollars-at-work/` set, golf galleries, event flyers, plus four pre-cropped mosaic images (2371–2374) at the wire's ratios. Real GSM photos are used everywhere; the Unsplash stand-ins exist only in the React prototype.
+
+**Tooling that lives outside the repo.** `apply_elementor.sh` expects `~/Local Sites/goodshepherd/_tools/wp.sh`; it is not committed. Recreate it if missing:
+
+```sh
+# PHP ships with Local; WP-CLI does not
+curl -sSLo ~/Local\ Sites/goodshepherd/_tools/wp-cli.phar \
+  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+# wrapper: Local PHP + per-site MySQL socket, see the file itself
+```
+The socket is `~/Library/Application Support/Local/run/<id>/mysql/mysqld.sock`; the wrapper discovers it.
+
+**Gotchas that already cost time**
+- A stray `app/public/.maintenance` file appears after some WP-CLI runs and puts the whole site into a 503. Delete it.
+- Elementor caches `_elementor_element_cache`, `_elementor_css` and `uploads/elementor/css/post-<id>.css`. Always apply through `apply_elementor.sh`, never `wp post meta update` directly.
+- The Astra custom CSS (`astra-settings` / `wp_get_custom_css`) contains legacy `!important` rules for SureForms (`.gsm-signup input`, `.srfm-submit-button`). New rules lose to them unless they also use `!important` or carry higher specificity.
+- The mobile drawer lives inside `.header` (z-index 100) — the hiring banner must stay below that (`z-index: 90`) or it swallows the drawer's close button.
+
+**Well-known content gaps (not build bugs)**
+- Vocational (2089) is lorem in both React and WordPress — waiting on the client.
+- “Apply for Clinical Service Provider →” under the RSD posting is the client's verbatim text; likely a copy-paste slip, left as supplied.
+- Newsletter archive entries are placeholders — the client's site has no 2025/2026 issues.
+- Contact has Facebook only. No Instagram or LinkedIn profile exists.
+- The map is a “Open in Google Maps” button, not an embedded map (Local has no Maps API key).
+
+**Do not** hand-edit generated pages in Elementor and expect it to survive: change the script and re-apply, or accept the drift and stop using the generator for that page.
+
+**Verifying a change** (the loop used while building these pages):
+
+```sh
+# 1. every route returns 200
+for p in "" about programs support-gsm events news newsletters careers contact privacy; do
+  printf '%-14s ' "/$p"; curl -sk -o /dev/null -w '%{http_code}\n' "https://goodshepherd.local/$p/"
+done
+
+# 2. no horizontal scroll at 390 / 1024 / 1440, plus a full-page screenshot
+#    (Playwright MCP: contexts need ignoreHTTPSErrors:true for .local)
+```
+
+A page is "done" when it renders at 1440/1024/390 with no horizontal overflow, the H1 is correct, and every image resolves.
 
 ## Build order (WordPress)
 

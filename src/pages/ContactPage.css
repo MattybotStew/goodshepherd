@@ -60,7 +60,7 @@
 }
 
 .contact-bar__value a:hover {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .contact-touch {
@@ -139,7 +139,18 @@
 }
 
 .contact-office__link:hover {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
+}
+
+.contact-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+}
+
+.contact-follow h3 {
+  flex-basis: 100%;
 }
 
 .contact-follow__link {
@@ -157,7 +168,7 @@
 }
 
 .contact-follow__link:hover {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .contact-field {
@@ -174,7 +185,7 @@
 }
 
 .contact-field label span {
-  color: #d92d20;
+  color: #b42318;
 }
 
 .contact-field input,

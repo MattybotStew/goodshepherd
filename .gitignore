@@ -40,3 +40,7 @@ designs-branch-home-5174.png
 dev-home-5173.png
 gsm-home.png
 design/home.png
+
+# Python tooling
+__pycache__/
+*.pyc

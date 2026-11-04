@@ -3,9 +3,16 @@ import AboutMissionSection from '../components/AboutMissionSection'
 import HomeIntroStrip from '../components/HomeIntroStrip'
 import PageHero from '../components/PageHero'
 import SplitSection from '../components/SplitSection'
-import { jobs } from '../data/site'
+import {
+  careersApply,
+  careersBenefits,
+  careersCulture,
+  careersIntro,
+  careersIntroColumns,
+  careersJobs,
+  careersOpenings,
+} from '../data/careers'
 import { stockImages } from '../data/stockImages'
-import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
 
 function CareersPage() {
@@ -15,7 +22,7 @@ function CareersPage() {
         align="left"
         crumbs={[{ label: 'Careers' }]}
         title="Careers"
-        lede={LOREM_LONG}
+        lede="Build a career with purpose at Good Shepherd Manor. Join a caring team that supports men with intellectual and developmental disabilities in living full, meaningful lives."
       />
 
       {/* Intro / culture — mirrors About's mission section */}
@@ -23,87 +30,102 @@ function CareersPage() {
         showReadMore={false}
         overlapHero
         compactBottom
-        placeholderCopy
-        eyebrow="Careers at Good Shepherd Manor"
-        title="Build a career with purpose"
+        eyebrow={careersIntro.eyebrow}
+        title={careersIntro.title}
+        paragraphs={careersIntro.paragraphs}
         mosaicImages={stockImages.careersMosaic}
       />
 
-      <HomeIntroStrip variant="page" />
+      <HomeIntroStrip variant="page" columns={careersIntroColumns} />
 
       {/* Benefits */}
       <SplitSection
-        id="benefits"
-        eyebrow="Benefits"
-        title="Rewards that support you"
+        id={careersBenefits.id}
+        eyebrow={careersBenefits.eyebrow}
+        title={careersBenefits.title}
         imageSrc={stockImages.careers}
         imageAlt="Coworkers talking together in a bright office"
       >
-        <p>{LOREM_LONG}</p>
-        <p>{LOREM}</p>
+        {careersBenefits.paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
         <ul>
-          <li>Lorem ipsum dolor sit amet</li>
-          <li>Consectetur adipiscing elit sed do eiusmod</li>
-          <li>Tempor incididunt ut labore et dolore</li>
-          <li>Magna aliqua ut enim ad minim veniam</li>
+          {careersBenefits.listItems.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
         </ul>
       </SplitSection>
 
       {/* Culture */}
       <SplitSection
-        id="culture"
-        eyebrow="Our Culture"
-        title="A workplace that cares"
+        id={careersCulture.id}
+        eyebrow={careersCulture.eyebrow}
+        title={careersCulture.title}
         flip
         alt
         imageSrc={stockImages.culture}
         imageAlt="A team collaborating around a table"
       >
-        <p>{LOREM_LONG}</p>
-        <p>{LOREM}</p>
+        {careersCulture.paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
       </SplitSection>
 
       {/* Job openings */}
       <SplitSection
-        id="openings"
-        eyebrow="Job Openings"
-        title="Join our team"
+        id={careersOpenings.id}
+        eyebrow={careersOpenings.eyebrow}
+        title={careersOpenings.title}
         imageSrc={stockImages.openings}
         imageAlt="Staff meeting in a workplace"
       >
-        <p>{LOREM}</p>
+        <p>{careersOpenings.lede}</p>
         <ul className="rte-links">
-          {jobs.map((job, i) => (
-            <li key={`${job.title}-${job.type}-${i}`}>
+          {careersJobs.map((job) => (
+            <li key={job.title}>
               <h3>{job.title}</h3>
-              <p>
-                {job.type}. {job.note}
-              </p>
-              <Link to="/contact" className="text-link">
-                Apply for {job.title}
+              <p>{job.body}</p>
+              <Link to={job.applyTo} className="text-link">
+                {job.applyLabel}
               </Link>
             </li>
           ))}
         </ul>
+        <p>
+          Apply online at{' '}
+          <a
+            href={careersOpenings.indeedUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-link"
+          >
+            Indeed.com
+          </a>
+          , or call or text{' '}
+          <a href={careersOpenings.phoneHref} className="text-link">
+            {careersOpenings.phone}
+          </a>
+          .
+        </p>
       </SplitSection>
 
       {/* Closing CTA */}
       <SplitSection
-        id="apply"
-        eyebrow="Apply Today"
-        title="Ready to make a difference?"
+        id={careersApply.id}
+        eyebrow={careersApply.eyebrow}
+        title={careersApply.title}
         alt
         imageSrc={stockImages.apply}
         imageAlt="Colleagues walking and talking together"
-        linkTo="/contact"
-        linkLabel="Contact us to apply →"
+        linkTo={careersApply.linkTo}
+        linkLabel={careersApply.linkLabel}
       >
-        <p>{LOREM_LONG}</p>
-        <p>{LOREM}</p>
+        {careersApply.paragraphs.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
       </SplitSection>
     </article>
   )
 }
 
 export default CareersPage
-

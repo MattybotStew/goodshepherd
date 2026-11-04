@@ -1,11 +1,13 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { healthData } from '../data/health'
-import { communityDay } from '../data/programs'
+import { communityDay, communityEngagement, residential } from '../data/programs'
 import { programs } from '../data/site'
 import './ArticleSidebar.css'
 
 const SECTIONS_BY_PATH = {
   '/programs/community-day-services': communityDay.sections,
+  '/programs/special-olympics': communityEngagement.sections,
+  '/programs/residential-living': residential.sections,
   '/programs/health-well-being': healthData.sections,
 }
 

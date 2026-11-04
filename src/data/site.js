@@ -12,6 +12,10 @@ export const programs = [
     path: "/programs/community-day-services",
   },
   {
+    name: "Community Engagement",
+    path: "/programs/special-olympics",
+  },
+  {
     name: "Residential Living",
     path: "/programs/residential-living",
   },
@@ -36,36 +40,28 @@ export const stories = [
 
 export const newsItems = [
   {
-    date: "Aug 2026",
-    tag: "News",
     title: "GSM's 35th Annual Fall Festival",
     excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "September's Fall Festival brought families, friends, and community together for family and fun while supporting the men of Good Shepherd Manor.",
     path: "/news/35th-annual-fall-festival",
   },
   {
-    date: "Jul 2026",
-    tag: "Programs",
-    title: "GSM's New Digital Den in Community Day Services",
+    title: "GSM's 4th Annual Touch A Truck",
     excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    path: "/news/digital-den-community-day",
+      "GSM's 4th Annual Touch A Truck brought families, neighbors and the men together to explore vehicles, meet local heroes, and enjoy free community fun.",
+    path: "/news/4th-annual-touch-a-truck",
   },
   {
-    date: "Jun 2026",
-    tag: "Events",
-    title: "30th Anniversary Golf Invitational Sponsors",
+    title: "Annual Christmas Appeal",
     excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    path: "/news/30th-golf-invitational",
+      "Look for Brother Alphonsus' letter in our Annual Christmas Appeal and discover how your generosity can make an impact at GSM this Christmas.",
+    path: "/news/annual-christmas-appeal",
   },
   {
-    date: "May 2026",
-    tag: "Community",
-    title: "Family Cookouts and campus gatherings",
+    title: "Special Olympics & Acting Out Theater",
     excerpt:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    path: "/events#family",
+      "GSM men share their talents through Special Olympics & Acting Out Theater, from sports achievements to November's upcoming stage production.",
+    path: "/news/special-olympics-acting-out-theater",
   },
 ];
 
@@ -74,15 +70,4 @@ export const affiliations = [
   "Special Olympics",
 ];
 
-export const jobs = [
-  {
-    title: "Direct Service Provider",
-    type: "Full-time",
-    note: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-  },
-  {
-    title: "Direct Service Provider",
-    type: "Openings",
-    note: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-  },
-];
+

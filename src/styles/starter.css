@@ -1,5 +1,20 @@
 @import './tokens.css';
 
+/* Long compound tokens ("Technology/Communications", emails, URLs) must break
+   instead of widening their column and creating horizontal scroll on mobile.
+   `break-word` only kicks in when a word cannot fit a line on its own. */
+h1,
+h2,
+h3,
+h4,
+p,
+li,
+dt,
+dd,
+figcaption {
+  overflow-wrap: break-word;
+}
+
 .wrap {
   max-width: var(--ast-container);
   margin: 0 auto;
@@ -51,7 +66,7 @@
 }
 
 .page-hero__crumbs a:hover {
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .split {
@@ -107,11 +122,24 @@
   margin-top: 16px;
   font-size: 16px;
   font-weight: 700;
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
 }
 
 .text-link:hover {
-  color: var(--ast-color-1);
+  color: var(--ast-color-link-hover);
+}
+
+/* Standalone text links are the only pointer targets in body copy. A few
+   pixels of block padding lifts them from 18–21px to the 24px minimum
+   target size (WCAG 2.5.8) without moving the layout. */
+a.text-link,
+.home-intro__col a,
+.home-stories__link,
+.programs-services__link,
+.contact-office__link,
+.contact-follow__link,
+.page-hero__crumbs a {
+  padding-block: 4px;
 }
 
 .impact {
@@ -169,7 +197,8 @@
 }
 
 .btn--primary {
-  background: var(--ast-color-0);
+  /* #006BB3 keeps white label text at 5.46:1 (AA); the #0089DF accent is 3.6:1. */
+  background: var(--ast-color-link);
   color: var(--ast-color-5);
 }
 
@@ -230,6 +259,12 @@
   align-items: start;
 }
 
+/* Grid items default to min-width:auto, so one wide child (a long heading or
+   an image) can push the whole column past the container. */
+.page-body--with-nav > * {
+  min-width: 0;
+}
+
 .rte {
   max-width: 720px;
 }
@@ -252,6 +287,9 @@
   letter-spacing: -0.4px;
   line-height: 1.25;
   margin: 0 0 16px;
+  /* Long compound tokens ("Technology/Communications") must break rather
+     than widen the column on narrow screens. */
+  overflow-wrap: break-word;
 }
 
 .rte h3 {
@@ -328,6 +366,18 @@
   font-size: 16px;
 }
 
+/* Wide tables scroll inside their own box instead of widening the page. */
+.rte-table-wrap {
+  margin: 0 0 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rte-table-wrap .rte-table {
+  margin: 0;
+  min-width: 460px;
+}
+
 .rte-table th,
 .rte-table td {
   padding: 12px 14px;
@@ -377,7 +427,7 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
   margin-bottom: 8px;
 }
 
@@ -429,7 +479,7 @@
   display: block;
   font-size: 15px;
   font-weight: 700;
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
   padding-top: 2px;
 }
 
@@ -541,8 +591,8 @@ a.partner-pill {
 }
 
 a.partner-pill:hover {
-  color: var(--ast-color-0);
-  border-color: var(--ast-color-0);
+  color: var(--ast-color-link);
+  border-color: var(--ast-color-link);
 }
 
 a.partner-pill:focus-visible {
@@ -623,7 +673,7 @@ a.partner-pill:focus-visible {
   display: block;
   font-size: 17px;
   font-weight: 700;
-  color: var(--ast-color-0);
+  color: var(--ast-color-link);
   margin: 0 0 10px;
 }
 
@@ -671,7 +721,7 @@ a.partner-pill:focus-visible {
   }
 
   .page-body--with-nav {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 40px;
   }
 

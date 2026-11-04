@@ -9,7 +9,7 @@ const PAGE_TITLES = {
   '/programs': 'Programs & Services',
   '/programs/community-day-services': 'Community Day Services',
   '/programs/vocational': 'Vocational Program',
-  '/programs/special-olympics': 'Special Olympics',
+  '/programs/special-olympics': 'Community Engagement',
   '/programs/residential-living': 'Residential Living',
   '/programs/health-well-being': 'Health & Well Being',
   '/support-gsm': 'Support GSM Foundation',

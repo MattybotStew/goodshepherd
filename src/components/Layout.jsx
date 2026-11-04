@@ -20,7 +20,7 @@ const FOOTER_GIVE = [
   { label: 'GSM Foundation', path: '/support-gsm' },
   { label: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
   { label: 'Events', path: '/events' },
-  { label: 'Memorial or Tribute', path: '/support-gsm#memorial-tribute' },
+  { label: 'Memorial or Tribute', path: '/support-gsm#ways-to-give' },
 ]
 
 const FOOTER_SOCIALS = [

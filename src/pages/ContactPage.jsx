@@ -3,29 +3,11 @@ import FormStatus from '../components/FormStatus'
 import PageHero from '../components/PageHero'
 import { useFormSubmit } from '../lib/forms'
 import facebookIcon from '../assets/footer/facebook.svg'
-import { LOREM, LOREM_LONG } from '../data/placeholders'
 import '../styles/starter.css'
 import './ContactPage.css'
 
 const PHONE = '(815) 472-3700'
 const FACEBOOK = 'https://www.facebook.com/goodshepherdmanormomence/'
-
-const STAFF = [
-  {
-    title: 'Front office',
-    lines: [PHONE, '4129 N. State Route 1-17', 'Momence, IL 60954'],
-  },
-  {
-    title: 'GSM Foundation',
-    lines: ['P.O. Box 260', 'Momence, IL 60954'],
-  },
-  {
-    title: 'Careers',
-    lines: [PHONE],
-    linkTo: '/careers',
-    linkLabel: 'View openings →',
-  },
-]
 
 function ContactPage() {
   const contactForm = useFormSubmit()
@@ -60,7 +42,7 @@ function ContactPage() {
           <article className="contact-bar__col">
             <p className="contact-bar__label">Need Assistance?</p>
             <p className="contact-bar__value">
-              <a href="#thank">Our Team Is Here to Help</a>
+              <a href="#visit">Our Team Is Here to Help</a>
             </p>
           </article>
         </div>
@@ -92,6 +74,7 @@ function ContactPage() {
 
             <div className="contact-follow">
               <h3>Follow us on:</h3>
+              {/* Facebook is the only social profile GSM maintains (live site, 2026-11). */}
               <a
                 className="contact-follow__link"
                 href={FACEBOOK}
@@ -100,22 +83,6 @@ function ContactPage() {
               >
                 <img src={facebookIcon} alt="" aria-hidden="true" />
                 Facebook
-              </a>
-              <a
-                className="contact-follow__link"
-                href={FACEBOOK}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Instagram
-              </a>
-              <a
-                className="contact-follow__link"
-                href={FACEBOOK}
-                target="_blank"
-                rel="noreferrer"
-              >
-                LinkedIn
               </a>
             </div>
           </div>

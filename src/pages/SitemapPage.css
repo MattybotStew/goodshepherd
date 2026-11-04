@@ -215,7 +215,7 @@
   font-weight: 600;
   letter-spacing: 0.72px;
   text-transform: uppercase;
-  color: #0089df;
+  color: var(--ast-color-link);
 }
 
 .global-elements__list {
@@ -238,7 +238,7 @@
 
 .global-elements__list li::before {
   content: '\2022';
-  color: #0089df;
+  color: var(--ast-color-link);
   font-weight: 700;
 }
 

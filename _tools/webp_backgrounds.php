@@ -10,7 +10,8 @@
 $B = 'https://goodshepherd.local/wp-content/uploads/2026/10/';
 $css = wp_get_custom_css();
 $add = "/* WebP backgrounds (plugin rewrites these URLs to the WebP passthru) */\n"
-     . ".gsm-bg-hero{background-image:url(\"{$B}hero.jpg\")!important;}\n"
+     // Program/service heroes opt out via gsm-hero-gradient (Elementor gradient).
+     . ".gsm-bg-hero:not(.gsm-hero-gradient){background-image:url(\"{$B}hero.jpg\")!important;}\n"
      . ".gsm-bg-cta{background-image:url(\"{$B}cta-greenhouse.jpg\")!important;}\n"
      . ".gsm-bg-donate{background-image:url(\"{$B}donate-picnic.jpg\")!important;}\n";
 if ( strpos( $css, 'WebP backgrounds (plugin rewrites' ) === false ) {
