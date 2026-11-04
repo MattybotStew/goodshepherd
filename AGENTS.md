@@ -62,6 +62,7 @@ Chosen as the production starter. It ships Home, About Us, Our Work, Stories, Do
 - Colors, typography, container width
 - Header: logo + nav + Support GSM button → `/support-gsm`
 - Above-header bar: “Now Hiring — Direct Service Providers. Apply Today →” `/careers`
+- The hiring bar is restyled by Additional CSS at `max-width: 921px` into a two-line stack with a white pill CTA. The pill is `min-height: 44px` and 14px to match the site's tap-target and type standard — keep both if you touch that block, and reset the bar to the inline underlined link at ≥922px.
 - Footer: contact, quick links, newsletter, Facebook, Privacy, Accessibility, copyright
 - Sticky header
 
@@ -271,7 +272,7 @@ Astra 04 layout, GSM blue as the primary (replace 04 lime in Customizer).
 | Font | | DM Sans |
 | Container | | 1200px |
 
-Home uses Astra’s transparent header over the hero (white type, white Donate). Inner pages use a solid white header and navy type. Footer is white with a top rule — not a dark bar.
+Home uses Astra’s transparent header over the hero (white type, white logo). Inner pages use a solid white header and navy type. While the mobile menu is open (`body.ast-main-header-nav-open`), Additional CSS forces that header bar solid white and swaps the logo to `gsm-logo-color.svg` so the white logo is not left sitting on the hero photo. Footer columns are the Astra builder; the newsletter band above them is a separate Elementor template (below).
 
 ### Contrast: use `#006BB3` for blue text and button fills
 
@@ -356,7 +357,7 @@ python3 _tools/build_pages.py all             # -> /tmp/page_<id>.json
 **Forms** (SureForms, referenced by ID — editing a form updates the page, no rebuild needed):
 - **2056** Simple Contact Form → “Send Message”
 - **2370** Thank a Staff Member → “Send thanks”
-- **2202** Newsletter Signup → “Sign Up”, rendered in the site-wide signup band (Astra above-footer HTML, `astra-settings` → `footer-html-1`)
+- **2202** Newsletter Signup → “Sign Up”. The site-wide band is the Elementor section template **Newsletter band** (post **2375**, Templates → Saved Templates). Astra’s above-footer HTML (`astra-settings` → `footer-html-1`) is only `[elementor-template id="2375"]`. Edit the heading, lede, and form widget in that template. Do not replace the shortcode with raw HTML (`_tools/wire_forms.php` will not). The glass pill, blue glow, and vertically centered field text are Additional CSS scoped to `.elementor-element-nlband` and `.elementor-element-nlright`. Newsletters embeds form 2202 with a **SureForms Form widget** (`srfm_form_block: 2202`), not a shortcode, so it is editable in Elementor like any other widget.
 
 **Media:** the client's live media library was imported (209 attachments as of 2026-11-04): program photography, `/dollars-at-work/` set, golf galleries, event flyers, plus four pre-cropped mosaic images (2371–2374) at the wire's ratios. Real GSM photos are used everywhere; the Unsplash stand-ins exist only in the React prototype.
 
@@ -373,8 +374,8 @@ The socket is `~/Library/Application Support/Local/run/<id>/mysql/mysqld.sock`; 
 **Gotchas that already cost time**
 - A stray `app/public/.maintenance` file appears after some WP-CLI runs and puts the whole site into a 503. Delete it.
 - Elementor caches `_elementor_element_cache`, `_elementor_css` and `uploads/elementor/css/post-<id>.css`. Always apply through `apply_elementor.sh`, never `wp post meta update` directly.
-- The Astra custom CSS (`astra-settings` / `wp_get_custom_css`) contains legacy `!important` rules for SureForms (`.gsm-signup input`, `.srfm-submit-button`). New rules lose to them unless they also use `!important` or carry higher specificity.
-- The mobile drawer lives inside `.header` (z-index 100) — the hiring banner must stay below that (`z-index: 90`) or it swallows the drawer's close button.
+- Additional CSS (`wp_posts` ID 2078, `wp_get_custom_css`) still has a global `.srfm-submit-button { border-radius: 8px !important }`. The newsletter pill wins only because `.elementor-element-nlright .srfm-submit-button` is more specific and also uses `!important`. Old `.gsm-signup` rules are dead; do not add new ones.
+- The mobile drawer lives inside `.header` (z-index 100) — the hiring banner must not cover the drawer's close button. In practice the bar sits above the header in normal flow (Additional CSS gives it `z-index: 101`), so they never overlap; measured at 360px and 390px with the menu open, the bar ends at 85px, the close button starts at 109px, a 24px gap. Re-check that gap if you change the bar's padding or stack it further.
 
 **Well-known content gaps (not build bugs)**
 - Vocational (2089) is lorem in both React and WordPress — waiting on the client.
