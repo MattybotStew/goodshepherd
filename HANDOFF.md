@@ -132,6 +132,43 @@ site will be invisible to Google.
 
 ---
 
+## The public demo (GitHub Pages)
+
+**https://mattybotstew.github.io/goodshepherd/**
+
+This is a **static snapshot** of the WordPress build, published for client review
+before WP Engine exists. It is not the site and has no server behind it.
+
+| Works | Doesn't (no PHP) |
+|---|---|
+| All 16 pages, desktop → phone | Form submission (contact, thank-a-staff, newsletter) |
+| Every photo, logo, icon | Site search |
+| Support GSM jump bar, program sidebars | Comments |
+| Mobile menu, dropdowns, back-to-top | |
+
+**Refreshing it** after a content change on Local:
+
+```sh
+_tools/demo_snapshot.sh          # mirror → normalise → push to gh-pages
+gh workflow run pages.yml        # or push any commit to main
+```
+
+`demo_snapshot.py` is not optional — a raw `wget` mirror of this build is broken
+four ways (WebP passthru image URLs, `?ver=` asset names, HTML-escaped URLs, and
+root-absolute content links that break under a subpath). The script's header
+explains each fix; read it before changing anything.
+
+**Why the deploy runs from `main`:** the `github-pages` environment only permits
+deployments from the default branch. The workflow checks out `gh-pages` for the
+content, so the snapshot still lives on its own branch with its own history and
+`main` stays free of 23 MB of generated HTML.
+
+The React prototype no longer publishes. That also removed the internal
+`/sitemap` diagram, which AGENTS.md says must never be public — it now returns
+404.
+
+---
+
 ## Licences the client must keep
 
 | Service | Why |
