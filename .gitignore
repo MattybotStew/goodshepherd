@@ -44,3 +44,6 @@ design/home.png
 # Python tooling
 __pycache__/
 *.pyc
+
+# Local MCP server config (absolute machine paths, never commit)
+.mcp.json
