@@ -98,6 +98,16 @@ GA_BLOCK = re.compile(
     r"<script>.*?gtag\('config'[^;]*;.*?</script>",
     re.S,
 )
+# A static mirror cannot accept a submission, so every SureForms form would
+# answer with "There was an error trying to submit your form". Say so up front.
+# Injected as CSS so the note adds no markup and cannot break a form's layout.
+FORM_NOTE = (
+    '<style id="gsm-demo-note">'
+    '.srfm-form-container::before{content:"Preview only: forms are disabled in this demo.";'
+    'display:block;font-size:13px;line-height:1.45;color:#4B5563;margin:0 0 12px;}'
+    '.elementor-element-nlright .srfm-form-container::before{color:rgba(255,255,255,.75);}'
+    '</style>'
+)
 
 changed = 0
 for dirpath, _dirs, files in os.walk(ROOT):
@@ -135,6 +145,8 @@ for dirpath, _dirs, files in os.walk(ROOT):
 
         text = CSS_URL_ABS.sub(rel_css_url, text)
         text = GA_BLOCK.sub("", text)
+        if name.endswith(".html") and FORM_NOTE not in text and "</head>" in text:
+            text = text.replace("</head>", FORM_NOTE + "</head>", 1)
         for noise in ("&amp;nocache=1", "&nocache=1"):
             text = text.replace(noise, "")
 
