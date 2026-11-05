@@ -310,10 +310,20 @@ def program_page(data, img, slug_prefix, gallery=False):
                                 line_height=1.25, letter_spacing=-0.4, margin=(0, 0, 16, 0)))
         children.extend(rich_blocks(overview["blocks"], "ov"))
     for s in data.get("sections", []):
-        children.append(heading(f"s_{s['id']}_h2", s["title"], "h2", size_px=30,
-                                weight="600", line_height=1.25, letter_spacing=-0.4,
-                                margin=(48, 0, 16, 0)))
-        children.extend(rich_blocks(s["blocks"], s["id"]))
+        # Each section is wrapped so it carries the anchor id its siblings and
+        # the news articles link to (e.g. #digital-den). Without the wrapper the
+        # h2 id is all that exists and the fragment does not resolve.
+        children.append(container(f"sec_{s['id']}", {
+            "content_width": "full",
+            "flex_direction": "column",
+            "padding": px(0),
+            "_element_id": s["id"],
+        }, [
+            heading(f"s_{s['id']}_h2", s["title"], "h2", size_px=30,
+                    weight="600", line_height=1.25, letter_spacing=-0.4,
+                    margin=(48, 0, 16, 0)),
+            *rich_blocks(s["blocks"], s["id"]),
+        ], inner=True))
     if gallery:
         children.append(heading("gal_h2", "Photo gallery", "h2", size_px=30, weight="600",
                                 line_height=1.25, letter_spacing=-0.4, margin=(48, 0, 16, 0)))
@@ -811,6 +821,44 @@ def page_endowment():
     ]
 
 
+def section_tabs(prefix, tabs):
+    """Sticky jump bar for the Support GSM page (wire: SectionTabs).
+
+    Real anchors over stacked sections — clicking scrolls, nothing is hidden.
+    Styling lives in Additional CSS, scoped to .elementor-element-sg_tabs.
+    """
+    links = [
+        link_button(f"{prefix}_tab{i}", label, f"#{slug}",
+                    color=LINK, size_px=15, weight="700", margin=(0, 0, 0, 0))
+        for i, (slug, label) in enumerate(tabs)
+    ]
+    row = container(f"{prefix}_row", {
+        "content_width": "full",
+        "flex_direction": "row",
+        "flex_gap": gap(36),
+        "flex_wrap": "wrap",
+        "flex_justify_content": "center",
+        "flex_align_items": "center",
+    }, links, inner=True)
+
+    return container("sg_tabs", {
+        "content_width": "full",
+        "flex_direction": "column",
+        "flex_align_items": "center",
+        "background_background": "classic",
+        "background_color": "#FFFFFF",
+        "border_border": "solid",
+        "border_width": px(0, 0, 1, 0),
+        "border_color": "#E8EDF2",
+        "padding": px(0, 24, 0, 24),
+        "sticky": "top",
+        "sticky_on": ["desktop", "tablet"],
+        "sticky_offset": 92,
+        "z_index": 10,
+        "_element_id": "support-tabs",
+    }, [inner("sg_tabs_inner", [row])])
+
+
 def page_support():
     cards = [
         ("01.", "Donate",
@@ -828,6 +876,12 @@ def page_support():
              "Founded in 1981, GSM’s Foundation has provided continual support for the programs, services and operating costs of the Manor, allowing us to go above and beyond what the state mandates and provides.",
              height=520, align="left"),
         cards_strip("sg", cards),
+        section_tabs("sg", [
+            ("foundation", "GSM Foundation"),
+            ("ways-to-give", "Ways to Give"),
+            ("endowment-society", "Shepherds Endowment Society"),
+            ("events", "Events"),
+        ]),
         split("foundation", "GSM Foundation", "Supporting the Manor for over 45 years", [
             "Then Board President William J. McAllister called the Foundation an important step toward financial stability and excellent care. Its goals included facility improvements, unbudgeted needs, and a permanent endowment that would take shape in later years.",
             "Today, the Foundation helps bridge a funding gap of more than $20,000 per man each year beyond state support, sustaining the daily care, programs, and services that enrich life at Good Shepherd Manor.",
@@ -837,7 +891,7 @@ def page_support():
             "Other opportunities to give are through the Family Donor Program, honoring someone special with a tribute, remember a loved one with a memorial gift, or supporting the Manor’s future through the Shepherds Endowment Society.",
         ], "golf", flip=True, bg=ALT,
             link=("Ways to Give →", "https://secure.qgiv.com/for/wdof/")),
-        split("endowment", "Shepherds Endowment Society", "Your Legacy. Their Future.", [
+        split("endowment-society", "Shepherds Endowment Society", "Your Legacy. Their Future.", [
             "Established in 2007 within the Good Shepherd Manor Foundation, the Shepherds Endowment Society generates income for GSM in perpetuity. Endowment gifts are invested rather than spent, generating annual income that extends beyond the life of the donor.",
             "Investment income provides a stable source of funding for GSM’s future operating expenses. Your legacy helps sustain compassionate care, meaningful opportunities, and a welcoming home for generations.",
         ], "chapel", bg="#FFFFFF",
@@ -1048,7 +1102,7 @@ def page_contact():
     }, [
         heading("ct_follow_h", "Follow us on:", "h3", color=INK, size_px=18, weight="700",
                 line_height=1.3, letter_spacing=0, margin=(0, 0, 8, 0)),
-        link_button("ct_fb", "Facebook", "https://www.facebook.com/goodshepherdmanormomence/",
+        link_button("ct_fb", "Facebook", "https://www.facebook.com/goodshepherdmanor/",
                     margin=(0, 0, 0, 0)),
     ], inner=True)
 
