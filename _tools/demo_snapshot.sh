@@ -22,6 +22,11 @@ PUBLISH=1
 command -v wget >/dev/null || { echo "wget missing: brew install wget" >&2; exit 1; }
 curl -sk -o /dev/null "https://goodshepherd.local/" || { echo "Local site not responding" >&2; exit 1; }
 
+# WP-CLI and Local occasionally leave this behind; the whole site 503s and a
+# mirror comes back with a handful of pages.
+MAINT="$HOME/Local Sites/goodshepherd/app/public/.maintenance"
+[[ -f "$MAINT" ]] && { echo "stray $MAINT — delete it first" >&2; exit 1; }
+
 echo "==> mirroring $SITE"
 rm -rf "$WORK"
 mkdir -p "$WORK"
@@ -46,6 +51,29 @@ SNAP="$WORK/goodshepherd.local"
 PAGES=$(find "$SNAP" -name index.html | wc -l | tr -d ' ')
 SIZE=$(du -sh "$SNAP" | cut -f1)
 echo "==> snapshot: $PAGES pages, $SIZE"
+
+# A partial mirror must never be published. WordPress drops into maintenance
+# mode (a stray app/public/.maintenance) partway through a crawl, which used to
+# leave 4 pages behind and push them over the real demo. Check the required
+# routes before publishing; see HANDOFF.md.
+REQUIRED=(
+  index.html about/index.html programs/index.html support-gsm/index.html
+  events/index.html news/index.html newsletters/index.html careers/index.html
+  contact/index.html privacy/index.html
+  programs/community-day-services/index.html programs/special-olympics/index.html
+  programs/vocational/index.html programs/residential-living/index.html
+  programs/health-well-being/index.html
+)
+MISSING=()
+for r in "${REQUIRED[@]}"; do
+  [[ -f "$SNAP/$r" ]] || MISSING+=("$r")
+done
+if (( ${#MISSING[@]} )); then
+  echo "snapshot is incomplete — missing:" >&2
+  printf '  %s\n' "${MISSING[@]}" >&2
+  echo "not publishing. Check for app/public/.maintenance, delete it, rerun." >&2
+  exit 1
+fi
 
 if [[ $PUBLISH -eq 0 ]]; then
   echo "built only. view with:  python3 -m http.server 8000 --directory $SNAP"
