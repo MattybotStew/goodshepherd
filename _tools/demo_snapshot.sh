@@ -42,6 +42,15 @@ wget --mirror --page-requisites --adjust-extension --no-parent \
      --no-check-certificate --domains=goodshepherd.local --execute robots=off \
      --timeout=30 --tries=3 "$SITE/newsletters/" >/dev/null 2>&1 || true
 
+# Elementor loads widget handler chunks at runtime, which wget never sees. They
+# 404 in the browser and show up as console errors on every page.
+CHUNKS="$HOME/Local Sites/goodshepherd/app/public/wp-content/plugins/elementor/assets/js/chunks"
+if [[ -d "$CHUNKS" ]]; then
+  DEST="$WORK/goodshepherd.local/wp-content/plugins/elementor/assets/js/chunks"
+  mkdir -p "$DEST"
+  cp "$CHUNKS"/*.min.js "$DEST"/ 2>/dev/null || true
+fi
+
 echo "==> normalising"
 python3 "$REPO/_tools/demo_snapshot.py" "$WORK/goodshepherd.local"
 

@@ -86,6 +86,18 @@ PASSTHRU = re.compile(
     r"(?:&amp;|&)nocache=1"
 )
 ROOT_ABS = re.compile(r'(?P<attr>\b(?:href|src|action)=)"/(?P<path>[^"]*)"')
+# CSS url(/wp-content/...) inside a stylesheet also drops the subpath. Astra's
+# local-fonts.css is the one that matters: if its @font-face srcs 404, the
+# whole demo renders in a fallback sans-serif.
+CSS_URL_ABS = re.compile(r'url\((?P<q>["\']?)/(?P<path>[^)"\']*)')
+# The demo must not report to Google Analytics — the property is still the
+# plugin's placeholder ID, and real visits would pollute client stats.
+GA_BLOCK = re.compile(
+    r"\s*<!-- GA Google Analytics.*?-->\s*"
+    r'<script async src="https://www\.googletagmanager\.com/gtag/js\?id=[^"]*"></script>\s*'
+    r"<script>.*?gtag\('config'[^;]*;.*?</script>",
+    re.S,
+)
 
 changed = 0
 for dirpath, _dirs, files in os.walk(ROOT):
@@ -113,6 +125,16 @@ for dirpath, _dirs, files in os.walk(ROOT):
             return f'{attr}"{prefix}{target}"'
 
         text = ROOT_ABS.sub(rel_root, text)
+
+        def rel_css_url(m):
+            q = m.group("q")
+            target = m.group("path")
+            if target.startswith("/"):  # protocol-relative url(//host/...)
+                return m.group(0)
+            return f"url({q}{prefix}{target}{q}"
+
+        text = CSS_URL_ABS.sub(rel_css_url, text)
+        text = GA_BLOCK.sub("", text)
         for noise in ("&amp;nocache=1", "&nocache=1"):
             text = text.replace(noise, "")
 
