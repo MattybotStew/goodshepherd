@@ -853,7 +853,7 @@ def section_tabs(prefix, tabs):
         "padding": px(0, 24, 0, 24),
         "sticky": "top",
         "sticky_on": ["desktop", "tablet"],
-        "sticky_offset": 92,
+        "sticky_offset": 0,
         "z_index": 10,
         "_element_id": "support-tabs",
     }, [inner("sg_tabs_inner", [row])])
@@ -876,7 +876,7 @@ def page_support():
              "Founded in 1981, GSM’s Foundation has provided continual support for the programs, services and operating costs of the Manor, allowing us to go above and beyond what the state mandates and provides.",
              height=520, align="left"),
         cards_strip("sg", cards),
-        section_tabs("sg", [
+        section_tabs("sgt", [
             ("foundation", "GSM Foundation"),
             ("ways-to-give", "Ways to Give"),
             ("endowment-society", "Shepherds Endowment Society"),
