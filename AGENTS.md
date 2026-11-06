@@ -174,6 +174,19 @@ Header nav: About, Programs & Services, Support GSM, News & Updates, Careers, Co
 
 Elementor only prints `--width` when the container's `content_width` is `'full'` — see the `width` control's `'condition'` in `wp-content/plugins/elementor/includes/elements/container.php`. A card with `width: 20%` and no `content_width` renders at the default `100%` and stacks vertically, silently. Every card in a horizontal row on Home (and any new one) must set `content_width: 'full'`. This cost a full debug cycle on page 315.
 
+### Page JSON must stay host-agnostic
+
+`_tools/elementor_kit.py` and `_tools/build_home_replica.py` emit upload URLs
+root-relative (`/wp-content/uploads/...`), never `https://goodshepherd.local/...`.
+The same generated JSON is applied to Local **and** to stage, so an absolute URL
+bakes the Local domain into the stage pages — the WebP passthru then wraps it a
+second time and the background silently dies. If a page's `_elementor_data`
+contains `goodshepherd.local` on stage, that page was applied from a stale or
+hand-edited file.
+
+The same rule applies to Additional CSS: the hero / CTA / donate backgrounds use
+root-relative URLs so one stylesheet serves both hosts.
+
 ### Responsive layout: three fixed breakpoint traps
 
 All three were found by resizing real pages, not by the overflow sweep — the

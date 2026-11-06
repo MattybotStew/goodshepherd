@@ -11,7 +11,8 @@ Elementor editor.
 
 import json
 
-BASE = "https://goodshepherd.local/wp-content/uploads/"
+# Host-agnostic: the same JSON has to render on Local and on stage.
+BASE = "/wp-content/uploads/"
 
 # ---------------------------------------------------------------- helpers
 
