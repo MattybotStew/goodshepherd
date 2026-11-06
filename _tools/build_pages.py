@@ -309,14 +309,16 @@ def program_sidebar(current_slug):
     return container("pg_side", {
         "content_width": "full",
         "width": size(240, "px"),
-        "width_tablet": size(240, "px"),
+        # Below Elementor's tablet breakpoint the row stacks, so the column has
+        # to go full width or it leaves a 296px dead gutter beside the article.
+        "width_tablet": size(100, "%"),
         "width_mobile": size(100, "%"),
         "flex_direction": "column",
         "flex_align_items": "stretch",
         "_flex_size": "none",
-        "sticky": "top",
-        "sticky_on": ["desktop", "tablet"],
-        "sticky_offset": 120,
+        # No Elementor sticky here: its JS pins the column with position:fixed
+        # and keeps it on top of the newsletter band after the article ends.
+        # Additional CSS does it with position:sticky, which stops at the row.
     }, [
         heading("pg_side_label", "Programs", "p", color="#0089DF", size_px=13,
                 weight="700", line_height=1.6, letter_spacing=1.04,
@@ -377,7 +379,7 @@ def program_page(data, img, slug_prefix, gallery=None, figure_key="day"):
     content_col = container("pg_content", {
         "content_width": "full",
         "width": {"unit": "custom", "size": "calc(100% - 296px)", "sizes": []},
-        "width_tablet": {"unit": "custom", "size": "calc(100% - 296px)", "sizes": []},
+        "width_tablet": {"unit": "%", "size": 100, "sizes": []},
         "width_mobile": {"unit": "%", "size": 100, "sizes": []},
         "flex_direction": "column",
         "_flex_size": "none",
@@ -388,9 +390,11 @@ def program_page(data, img, slug_prefix, gallery=None, figure_key="day"):
     body = container("pg_body", {
         "content_width": "full",
         "flex_direction": "row",
+        "flex_direction_tablet": "column",
         "flex_direction_mobile": "column",
         "flex_gap": gap(56),
         "flex_wrap": "nowrap",
+        "flex_wrap_tablet": "wrap",
         "flex_wrap_mobile": "wrap",
         "flex_align_items": "flex-start",
     }, [sidebar, content_col], inner=True)

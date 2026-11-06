@@ -174,6 +174,20 @@ Header nav: About, Programs & Services, Support GSM, News & Updates, Careers, Co
 
 Elementor only prints `--width` when the container's `content_width` is `'full'` — see the `width` control's `'condition'` in `wp-content/plugins/elementor/includes/elements/container.php`. A card with `width: 20%` and no `content_width` renders at the default `100%` and stacks vertically, silently. Every card in a horizontal row on Home (and any new one) must set `content_width: 'full'`. This cost a full debug cycle on page 315.
 
+### Responsive layout: three fixed breakpoint traps
+
+All three were found by resizing real pages, not by the overflow sweep — the
+automated check reported "no issues" because none of them widen the document.
+
+| Band | Trap | Fix (already applied) |
+|---|---|---|
+| any | Elementor's **Sticky** setting on the program sidebar pins it with `position: fixed` and keeps it on top of the newsletter band after the article ends | sidebar carries no Elementor sticky; Additional CSS does `position: sticky` at `min-width: 1025px`, which stops at the article row |
+| 768–921 | the program row kept `calc(100% - 296px)` for the article and a 240px sidebar, so the column scrolled away and left a 296px dead gutter with 205px gallery tiles | `flex_direction_tablet: column` on `pg_body`, both columns `width_tablet: 100%` |
+| 923–1010 | logo + six nav items + the Support GSM button have a hard minimum of 1008px, so the page scrolled sideways at tablet widths | Additional CSS hides the duplicate header CTA in `923–1024px`; the nav's own Support GSM item covers it |
+
+The nav container does not shrink with its type size — at 13px/5px padding it
+still bottomed out at 952px — so shrinking text is not a fix for that band.
+
 ### Elementor: flex settings need the `flex_` prefix
 
 Same silent failure, different keys. Flex is a **group control**
