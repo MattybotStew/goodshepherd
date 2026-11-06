@@ -16,7 +16,7 @@ function NewsPage() {
     <article>
       <PageHero
         align="left"
-        crumbs={[{ label: 'News' }]}
+        crumbs={[{ label: 'News & Updates' }]}
         title="News & Updates"
         lede="Stay connected with the men and life at GSM. Find latest updates, event news, and stories from our community, along with The Messenger, our twice-yearly newsletter celebrating the people of the Manor."
       />

@@ -224,7 +224,7 @@ The site-wide CTA band is a solid GSM blue band with white type. The footer is w
 
 **Before the call**
 - Every frame reachable from the nav, and the nav matches the locked 6: About · Programs & Services · Get Involved (dropdown) · News · Careers · Contact, plus a Donate button
-- Above-header bar: "Now Hiring — Direct Service Providers. Apply Today →" → `/careers`
+- Above-header bar: "A Place to Belong. A Life to Thrive. Support our Mission →" → `/support-gsm#ways-to-give`
 - Footer: `(815) 472-3700` · P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954 · quick links · newsletter · Facebook · Privacy · Accessibility
 - The preview link is live. The GitHub Pages deploy runs on every push to `main` — check the repo's **Settings → Pages** for the URL.
 - Section order matches the wire above; no stray partners row, no Get Involved split card

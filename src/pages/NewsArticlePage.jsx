@@ -12,7 +12,7 @@ function NewsArticlePage() {
     return (
       <ArticleDetailPage
         crumbs={[
-          { label: 'News', to: '/news' },
+          { label: 'News & Updates', to: '/news' },
           { label: 'Article' },
         ]}
         title="Article not found"
@@ -30,7 +30,7 @@ function NewsArticlePage() {
       align="left"
       compact
       crumbs={[
-        { label: 'News', to: '/news' },
+        { label: 'News & Updates', to: '/news' },
         { label: article.title },
       ]}
       title={article.title}

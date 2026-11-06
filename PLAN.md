@@ -448,10 +448,10 @@ deleted as part of their rebuilds ✅.
 
 | Item | State |
 |---|---|
-| Above-header bar | ✅ "Now Hiring — Direct Service Providers. Apply Today →" → `/careers` — renders on all 16 pages |
+| Above-header bar | ✅ "A Place to Belong. A Life to Thrive. Support our Mission →" → `/support-gsm#ways-to-give` — renders on all 16 pages |
 | Header button | ✅ "Support GSM" → `/support-gsm` |
 | Transparent header | ✅ enabled site-wide (`transparent-header-enable = 1`); body class `ast-theme-transparent-header` observed only on `/` (home hero), inner pages inherit — matches AGENTS: every page has the photo hero |
-| Nav | ✅ About · Programs & Services · Support GSM (▸ Foundation, Events, Endowment, Memorial or Tribute) · News, Careers, Contact — 6 locked items + button |
+| Nav | ✅ About · Programs & Services · Support GSM (▸ Foundation, Events, Endowment, Memorial or Tribute) · News & Updates, Careers, Contact — 6 locked items + button |
 | Sticky header | ✅ `header-main-stick = 1`, `sticky-header-on-devices = both`, style `slide` |
 | ⚠️ Bugs | ✅ all fixed — nav parent → `/support-gsm`, Foundation child → `/support-gsm/#foundation`; **logo swapped to the real GSM lockup** and **header button styled**. See "Logo + button" below. |
 

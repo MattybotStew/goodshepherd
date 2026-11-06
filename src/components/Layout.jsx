@@ -163,7 +163,7 @@ function HeaderNav({ mobileOpen, onClose }) {
 }
 
 function Layout() {
-  const [hiringDismissed, setHiringDismissed] = useState(false)
+  const [alertDismissed, setAlertDismissed] = useState(false)
   const [headerSolid, setHeaderSolid] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const signupForm = useFormSubmit()
@@ -233,7 +233,7 @@ function Layout() {
       ro.disconnect()
       layout.style.removeProperty('--header-h')
     }
-  }, [heroHeader, hiringDismissed])
+  }, [heroHeader, alertDismissed])
 
   return (
     <div
@@ -241,22 +241,24 @@ function Layout() {
       className={[
         'layout',
         heroHeader ? 'layout--hero-header' : '',
-        hiringDismissed ? 'layout--banner-off' : '',
+        alertDismissed ? 'layout--banner-off' : '',
       ].filter(Boolean).join(' ')}
     >
       <a className="skip-link" href="#main-content">
         Skip to main content
       </a>
 
-      {!hiringDismissed && (
-        <div className="hiring-banner">
-          <span className="hiring-banner__text">
-            Now Hiring — Direct Service Providers.{' '}
-            <Link to="/careers" className="hiring-banner__link">Apply Today &rarr;</Link>
+      {!alertDismissed && (
+        <div className="alert-banner">
+          <span className="alert-banner__text">
+            A Place to Belong. A Life to Thrive.{' '}
+            <Link to="/support-gsm#ways-to-give" className="alert-banner__link">
+              Support our Mission &rarr;
+            </Link>
           </span>
           <button
-            className="hiring-banner__close"
-            onClick={() => setHiringDismissed(true)}
+            className="alert-banner__close"
+            onClick={() => setAlertDismissed(true)}
             aria-label="Dismiss banner"
           >
             &times;
@@ -359,7 +361,8 @@ function Layout() {
               />
             </Link>
             <p className="footer__tagline">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              A residential care community in Momence, Illinois, serving men
+              with intellectual and developmental disabilities since 1971.
             </p>
           </div>
 

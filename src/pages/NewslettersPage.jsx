@@ -19,7 +19,7 @@ function NewslettersPage() {
   return (
     <article>
       <PageHero
-        crumbs={[{ label: 'News', to: '/news' }, { label: 'Newsletters' }]}
+        crumbs={[{ label: 'News & Updates', to: '/news' }, { label: 'Newsletters' }]}
         title="Newsletters & Family Resources"
         lede="Discover stories, photos and updates from life at GSM in The Messenger, our twice-yearly newsletter."
       />
