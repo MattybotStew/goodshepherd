@@ -38,6 +38,36 @@ IMG = {
     # Photo still used by the Careers benefits section (the Vocational page is gone).
     "vocational": (2326, "2026/11/Vocational-1.jpg"),
     "infirmary": (2288, "2026/11/Infirmary-1.jpg"),
+    # Client photo set delivered 2026-11-06 ("Good Shepard Images" on the
+    # Desktop), imported into the media library and filed by page.
+    "cds_hero": (2444, "2026/11/community-day-services-06-page.jpg"),
+    "cds_1": (2441, "2026/11/community-day-services-03-bill.jpg"),
+    "cds_2": (2442, "2026/11/community-day-services-04-mike-s.jpg"),
+    "cds_3": (2446, "2026/11/community-day-services-08-brad-digital-den.jpg"),
+    "cds_4": (2448, "2026/11/community-day-services-10-community-day-servies-cds-halloween.jpg"),
+    "ce_hero": (2414, "2026/11/community-engagement-12-rides-at-glad-fest.jpg"),
+    "ce_1": (2407, "2026/11/community-engagement-05-chorus-ff.jpg"),
+    "ce_2": (2410, "2026/11/community-engagement-08-harold-mike-and-josh-so.jpg"),
+    "ce_3": (2409, "2026/11/community-engagement-07-guys-out-to-movies.jpg"),
+    "ce_4": (2421, "2026/11/community-engagement-19-picnic.jpg"),
+    "res_hero": (2451, "2026/11/residential-living-03-yard.jpg"),
+    "res_1": (2457, "2026/11/residential-living-09-outside.jpg"),
+    "res_2": (2450, "2026/11/residential-living-02-anthonys-birthday.jpg"),
+    "res_3": (2455, "2026/11/residential-living-07-eddie-room.jpg"),
+    "res_4": (2459, "2026/11/residential-living-11-2.jpg"),
+    "health_hero": (2461, "2026/11/health-well-being-02-staff-man-daycare1.jpg"),
+    "health_1": (2462, "2026/11/health-well-being-03-staff-w-eddie-h.jpg"),
+    "health_2": (2460, "2026/11/health-well-being-01-joe.png"),
+    "health_3": (2463, "2026/11/health-well-being-04-ron-w.jpg"),
+    "health_4": (2464, "2026/11/health-well-being-05-andy.jpg"),
+    "prog_1": (2428, "2026/11/programs-01-programs-and-services-pagemutiple-digital-den.jpg"),
+    "prog_2": (2429, "2026/11/programs-02-don-c-experiment.jpg"),
+    "about_1": (2435, "2026/11/about-03-page-mike-c.jpg"),
+    "about_2": (2403, "2026/11/about-01-accessibility-mark-and-phil-digital-den.jpg"),
+    "about_3": (2438, "2026/11/about-06-partners-for-about-us-page-white-soxc-on-jumbotron.jpg"),
+    "about_4": (2436, "2026/11/about-04-navarro-farms.jpg"),
+    "careers_1": (2427, "2026/11/careers-04-photo.jpg"),
+    "careers_2": (2424, "2026/11/careers-01-qs.jpg"),
     "community": (2253, "2026/11/BGS-Momence-010.jpg"),
     "sing": (2263, "2026/11/dollars-at-work-2-scaled.jpg"),
     "chapel": (2265, "2026/11/dollars-at-work-4-scaled.jpg"),
@@ -57,7 +87,7 @@ CRUMB_PREFIX = "Programs & Services"
 
 # ------------------------------------------------------------------ blocks
 
-def rich_blocks(blocks, prefix):
+def rich_blocks(blocks, prefix, figure_key="day"):
     """Render React rich-text blocks as native Elementor widgets."""
     out = []
     for i, b in enumerate(blocks):
@@ -74,7 +104,7 @@ def rich_blocks(blocks, prefix):
             tag = "ul" if t == "ul" else "ol"
             out.append(text(cid, f"<{tag}>{items}</{tag}>", margin=(0, 0, 16, 0)))
         elif t == "figure":
-            out.append(image(cid, IMG["day"][0], IMG["day"][1], radius=16))
+            out.append(image(cid, IMG[figure_key][0], IMG[figure_key][1], radius=16))
             if b.get("caption"):
                 out.append(text(cid + "_cap", f"<p><em>{b['caption']}</em></p>",
                                 color="#5A6B7B", size_px=14, margin=(8, 0, 24, 0)))
@@ -301,7 +331,7 @@ def program_sidebar(current_slug):
     ], inner=True)
 
 
-def program_page(data, img, slug_prefix, gallery=False):
+def program_page(data, img, slug_prefix, gallery=None, figure_key="day"):
     name = data["name"]
     blocks = []
     overview = data.get("overview")
@@ -309,7 +339,7 @@ def program_page(data, img, slug_prefix, gallery=False):
     if overview:
         children.append(heading("ov_h2", "Overview", "h2", size_px=30, weight="600",
                                 line_height=1.25, letter_spacing=-0.4, margin=(0, 0, 16, 0)))
-        children.extend(rich_blocks(overview["blocks"], "ov"))
+        children.extend(rich_blocks(overview["blocks"], "ov", figure_key))
     for s in data.get("sections", []):
         # Each section is wrapped so it carries the anchor id its siblings and
         # the news articles link to (e.g. #digital-den). Without the wrapper the
@@ -323,13 +353,26 @@ def program_page(data, img, slug_prefix, gallery=False):
             heading(f"s_{s['id']}_h2", s["title"], "h2", size_px=30,
                     weight="600", line_height=1.25, letter_spacing=-0.4,
                     margin=(48, 0, 16, 0)),
-            *rich_blocks(s["blocks"], s["id"]),
+            *rich_blocks(s["blocks"], s["id"], figure_key),
         ], inner=True))
     if gallery:
         children.append(heading("gal_h2", "Photo gallery", "h2", size_px=30, weight="600",
                                 line_height=1.25, letter_spacing=-0.4, margin=(48, 0, 16, 0)))
-        for i, key in enumerate(["workshop", "kitchen", "garden", "porch"]):
-            children.append(image(f"gal_{i}", IMG[key][0], IMG[key][1], radius=12))
+        # Two-up: the client's programme photography is mostly portrait, and a
+        # full-width portrait would run two screens tall on its own.
+        tiles = [container(f"gal_{i}_cell", {
+            "content_width": "full",
+            "width": {"unit": "%", "size": 48.5, "sizes": []},
+            "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+            "flex_direction": "column",
+        }, [image(f"gal_{i}", IMG[key][0], IMG[key][1], radius=12)], inner=True)
+            for i, key in enumerate(gallery)]
+        children.append(container("gal_grid", {
+            "content_width": "full",
+            "flex_direction": "row",
+            "flex_wrap": "wrap",
+            "flex_gap": gap(16),
+        }, tiles, inner=True))
 
     content_col = container("pg_content", {
         "content_width": "full",
@@ -401,8 +444,8 @@ def page_programs_landing():
                 "flex_direction": "row",
                 "flex_gap": gap(20),
             }, [
-                image("pi_img1", IMG["workshop"][0], IMG["workshop"][1], radius=16),
-                image("pi_img2", IMG["kitchen"][0], IMG["kitchen"][1], radius=16),
+                image("pi_img1", IMG["prog_1"][0], IMG["prog_1"][1], radius=16),
+                image("pi_img2", IMG["prog_2"][0], IMG["prog_2"][1], radius=16),
             ], inner=True),
         ], inner=True),
     ])])
@@ -746,10 +789,10 @@ def page_careers():
         ], width=900)]),
         cards_strip("cr", cards, bg=SOFT, overlap=False),
         split("cr_benefits", c["careersBenefits"]["eyebrow"], c["careersBenefits"]["title"],
-              c["careersBenefits"]["paragraphs"], "vocational", bg="#FFFFFF",
+              c["careersBenefits"]["paragraphs"], "careers_1", bg="#FFFFFF",
               list_items=c["careersBenefits"]["listItems"]),
         split("cr_culture", c["careersCulture"]["eyebrow"], c["careersCulture"]["title"],
-              c["careersCulture"]["paragraphs"], "community", flip=True, bg=ALT),
+              c["careersCulture"]["paragraphs"], "careers_2", flip=True, bg=ALT),
         container("cr_jobs", {
             "content_width": "full",
             "flex_direction": "column",
@@ -934,12 +977,12 @@ def page_about():
     return [
         hero("About Us",
              "Since 1971, Good Shepherd Manor has offered men with disabilities compassionate care, purpose, and a place to call home.",
-             height=560, align="left"),
+             img="about_3", height=560, align="left"),
         split("about_overview", "About Us",
               "A community of care, growth, and dignity for over 55 years.", [
                   "Rooted in compassion, we help men with disabilities lead meaningful lives through personalized support, lasting friendships and opportunities to grow.",
                   "Our welcoming homes and dedicated staff create a family atmosphere where each man receives personalized support, builds daily living skills, and enjoys meaningful connections on campus and in the surrounding community.",
-              ], "porch", bg=ALT),
+              ], "about_1", bg=ALT),
         cards_strip("ab", [
             ("01.", "Programs & Services",
              "Personalized programs and compassionate services help each man learn, connect, and thrive.", "/programs"),
@@ -951,7 +994,7 @@ def page_about():
         split("mission", "Who We Are", "The Heart of Our Mission", [
             "Our Mission is to serve men with intellectual and developmental disabilities by providing high quality & compassionate care. Our vision is to meet individual needs, build individual abilities, and make each day meaningful and rewarding.",
             "Our Values are guided by our legacy of compassion, honoring each man's dignity and envisioning a community where all feel valued, supported and truly at home.",
-        ], "chapel", bg="#FFFFFF"),
+        ], "about_2", bg="#FFFFFF"),
         container("ab_history", {
             "content_width": "full",
             "flex_direction": "column",
@@ -975,7 +1018,7 @@ def page_about():
         ])]),
         split("affiliations", "Memberships", "Member Organizations or Affiliations", [
             "GSM is a member of a variety of local professional and civic organizations, as well as statewide organizations such as the Kankakee & Momence Chamber of Commerce, Intersect For Ability, United Way of Kankakee County, Special Olympics & ARC of IL.",
-        ], "community", bg="#FFFFFF", link=("ARC of Illinois", "#")),
+        ], "about_4", bg="#FFFFFF", link=("ARC of Illinois", "#")),
         split("accessibility", "Accessibility Statement", "Website Accessibility Statement", [
             "Good Shepherd Manor is committed to treating every person with dignity and respect. In keeping with our mission of providing high-quality, compassionate care to men with intellectual and developmental disabilities, we strive to make our website accessible and welcoming to people of all abilities. Our goal is to continually improve the accessibility and usability of our website so everyone can learn about our programs, access resources, and connect with our mission.",
             "If you experience difficulty accessing any part of our website or need information in an alternative format, please contact us at 815-472-3700 or info@goodshepherdmanor.org. Please include the page address and a brief description of the difficulty so we can better assist you.",
@@ -993,13 +1036,21 @@ BUILDERS = {
     2095: ("Newsletters & Family Resources", page_newsletters),
     2096: ("Careers", page_careers),
     2088: ("Community Day Services",
-           lambda: program_page(DATA["programs"]["communityDay"], "day", "community-day-services")),
+           lambda: program_page(DATA["programs"]["communityDay"], "cds_hero",
+                                "community-day-services", figure_key="cds_4",
+                                gallery=["cds_1", "cds_2", "cds_3", "cds_4"])),
     2127: ("Community Engagement",
-           lambda: program_page(DATA["programs"]["communityEngagement"], "community", "special-olympics")),
+           lambda: program_page(DATA["programs"]["communityEngagement"], "ce_hero",
+                                "special-olympics", figure_key="ce_2",
+                                gallery=["ce_1", "ce_2", "ce_3", "ce_4"])),
     2090: ("Residential Living",
-           lambda: program_page(DATA["programs"]["residential"], "porch", "residential-living")),
+           lambda: program_page(DATA["programs"]["residential"], "res_hero",
+                                "residential-living", figure_key="res_1",
+                                gallery=["res_1", "res_2", "res_3", "res_4"])),
     2091: ("Health & Well Being",
-           lambda: program_page(DATA["health"]["healthData"], "infirmary", "health-well-being")),
+           lambda: program_page(DATA["health"]["healthData"], "health_hero",
+                                "health-well-being", figure_key="health_2",
+                                gallery=["health_1", "health_2", "health_3", "health_4"])),
 }
 
 
