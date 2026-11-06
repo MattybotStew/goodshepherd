@@ -4,7 +4,6 @@ export const HERO_HEADER_PATHS = [
   '/about',
   '/programs',
   '/programs/community-day-services',
-  '/programs/vocational',
   '/programs/special-olympics',
   '/programs/residential-living',
   '/programs/health-well-being',
@@ -40,29 +39,26 @@ export const NAV_ITEMS = [
     children: [
       { label: 'Programs & Services', path: '/programs' },
       { label: 'Community Day Services', path: '/programs/community-day-services' },
-      { label: 'Vocational Program', path: '/programs/vocational' },
-      { label: 'Community Engagement', path: '/programs/special-olympics' },
       { label: 'Residential Living', path: '/programs/residential-living' },
       { label: 'Health & Well Being', path: '/programs/health-well-being' },
+      { label: 'Community Engagement', path: '/programs/special-olympics' },
     ],
   },
   {
     label: 'Support GSM',
     path: '/support-gsm',
     children: [
-      { label: 'GSM Foundation', path: '/support-gsm' },
+      { label: 'GSM Foundation', path: '/support-gsm#foundation' },
       { label: 'Events', path: '/events' },
       { label: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
       { label: 'Memorial or Tribute', path: '/support-gsm#ways-to-give' },
     ],
   },
   {
-    label: 'News',
+    // Plain link, matching the WP Primary Menu (no dropdown). /newsletters is
+    // reached from page content, not the header — see AGENTS.md.
+    label: 'News & Updates',
     path: '/news',
-    children: [
-      { label: 'News & Updates', path: '/news' },
-      { label: 'Newsletters & Family Resources', path: '/newsletters' },
-    ],
   },
   { label: 'Careers', path: '/careers' },
   { label: 'Contact', path: '/contact' },

@@ -219,50 +219,6 @@ export const communityDay = {
   ],
 }
 
-export const vocational = {
-  name: 'Vocational Program',
-  tagline: LOREM_SHORT,
-  overview: {
-    blocks: [
-      { type: 'p', text: LOREM_XXL },
-      { type: 'p', text: LOREM_XL },
-      { type: 'h3', text: 'How work is structured' },
-      { type: 'p', text: LOREM_LONG },
-      {
-        type: 'ol',
-        items: [
-          LOREM,
-          LOREM_SHORT,
-          LOREM_EXTRA,
-          'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.',
-        ],
-      },
-      {
-        type: 'callout',
-        title: 'Scope',
-        text: 'This program page is a placeholder while vocational offerings are confirmed. Body copy is dummy text only.',
-      },
-      { type: 'h3', text: 'Skills and routines' },
-      { type: 'p', text: LOREM_XXL },
-      {
-        type: 'ul',
-        items: [LOREM_SHORT, LOREM, LOREM_EXTRA],
-      },
-      {
-        type: 'figure',
-        caption: 'Placeholder photo — work settings and coaching.',
-      },
-      { type: 'p', text: LOREM_XL },
-      {
-        type: 'link',
-        to: '/contact',
-        label: 'Ask about vocational services',
-      },
-    ],
-  },
-  sections: [],
-}
-
 export const residential = {
   name: 'Residential Living',
   tagline: 'Making Home Happen',

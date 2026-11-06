@@ -1,14 +1,13 @@
 export const SITE_NAME = 'Good Shepherd Manor'
 
 export const DEFAULT_DESCRIPTION =
-  'Good Shepherd Manor is a residential care community in Momence, Illinois, supporting men with intellectual and developmental disabilities through community day services, vocational programs, residential living, and health and well-being supports.'
+  'Good Shepherd Manor is a residential care community in Momence, Illinois, supporting men with intellectual and developmental disabilities through community day services, residential living, health and well-being supports, and community engagement.'
 
 const PAGE_TITLES = {
   '/': 'Good Shepherd Manor — Compassionate Care Since 1971',
   '/about': 'About Us',
   '/programs': 'Programs & Services',
   '/programs/community-day-services': 'Community Day Services',
-  '/programs/vocational': 'Vocational Program',
   '/programs/special-olympics': 'Community Engagement',
   '/programs/residential-living': 'Residential Living',
   '/programs/health-well-being': 'Health & Well Being',

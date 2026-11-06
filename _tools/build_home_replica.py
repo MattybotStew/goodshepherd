@@ -187,12 +187,12 @@ MOSAIC = [
     (2371, "2026/11/mosaic-garden-short.jpg", "short"),
     (2373, "2026/11/mosaic-porch-tall.jpg", "tall"),
 ]
-PROGRAM_ICONS = [
-    (2176, "2026/10/community-day.svg"),
-    (2178, "2026/10/special-olympics.svg"),
-    (2179, "2026/10/residential.svg"),
-    (2180, "2026/10/health.svg"),
-]
+PROGRAM_ICONS = {
+    "/programs/community-day-services": (2176, "2026/10/community-day.svg"),
+    "/programs/special-olympics": (2178, "2026/10/special-olympics.svg"),
+    "/programs/residential-living": (2179, "2026/10/residential.svg"),
+    "/programs/health-well-being": (2180, "2026/10/health.svg"),
+}
 
 INTRO_CARDS = [
     ("01.", "Get Involved",
@@ -213,15 +213,17 @@ STATS = [
     ("1971", "Founded in Momence, IL"),
 ]
 
+# Client order (2026-11-06): CDS, Residential, Health, Community Engagement.
+# Vocational is not a program page — its content lives inside Community Day Services.
 PROGRAMS = [
     ("Community Day Services", "Our Community Day Services build skills, friendships, and meaningful community connections.",
      "/programs/community-day-services"),
-    ("Community Engagement", "Explore interests and connect with others through activities, outings and Special Olympics.",
-     "/programs/special-olympics"),
     ("Residential Living", "Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence",
      "/programs/residential-living"),
     ("Health & Well Being", "Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.",
      "/programs/health-well-being"),
+    ("Community Engagement", "Explore interests and connect with others through activities, outings and Special Olympics.",
+     "/programs/special-olympics"),
 ]
 
 STORIES = [
@@ -448,7 +450,7 @@ def build_programs():
                 "border_radius": px(12),
                 "margin": px(0, 0, 16, 0),
             }, [
-                image(f"prog_iconimg{i}", PROGRAM_ICONS[i][0], PROGRAM_ICONS[i][1], radius=0),
+                image(f"prog_iconimg{i}", PROGRAM_ICONS[url][0], PROGRAM_ICONS[url][1], radius=0),
             ], inner=True),
             heading(f"prog_title{i}", name, "h3", color="#002A4E", size_px=22,
                     weight="700", line_height=1.2, letter_spacing=0, margin=(0, 0, 10, 0)),

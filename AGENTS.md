@@ -61,8 +61,8 @@ Chosen as the production starter. It ships Home, About Us, Our Work, Stories, Do
 
 - Colors, typography, container width
 - Header: logo + nav + Support GSM button → `/support-gsm`
-- Above-header bar: “Now Hiring — Direct Service Providers. Apply Today →” `/careers`
-- The hiring bar is restyled by Additional CSS at `max-width: 921px` into a two-line stack with a white pill CTA. The pill is `min-height: 44px` and 14px to match the site's tap-target and type standard — keep both if you touch that block, and reset the bar to the inline underlined link at ≥922px.
+- Above-header bar: “A Place to Belong. A Life to Thrive. Support our Mission →” `/support-gsm#ways-to-give` (was the “Now Hiring — Direct Service Providers” careers bar; Erin changed it 2026-11-05. Copy is the client-approved Top Banner line from the content document.)
+- The above-header bar is restyled by Additional CSS at `max-width: 921px` into a two-line stack with a white pill CTA. The pill is `min-height: 44px` and 14px to match the site's tap-target and type standard — keep both if you touch that block, and reset the bar to the inline underlined link at ≥922px.
 - Footer: contact, quick links, newsletter, Facebook, Privacy, Accessibility, copyright
 - Sticky header
 
@@ -84,31 +84,32 @@ Do **not** rebuild header or footer in Elementor.
 
 **Elementor Pro** — skip unless Theme Builder or popup forms become necessary. They should not.
 
-## The 15 pages (SOW)
+## The 15-page SOW (14 pages built)
 
 Canonical source in this repo: `src/pages/SitemapPage.jsx`.
+
+**Vocational Program is gone.** Client direction 2026-11-06: its content now lives inside Community Day Services (the `vocational-classroom` section), so there are 14 main pages — one under the SOW cap. Page 2089 is a **draft** and `/programs/vocational/` 301s to `/programs/community-day-services/#vocational-classroom` (rule in `mu-plugins/gsm-redirects.php`). Do not resurrect the page or re-add it to a menu.
 
 | # | Page | Slug | Notes |
 |---|---|---|---|
 | 1 | Home | `/` | Gateway |
 | 2 | About Us | `/about` | Sections: History; Mission, Vision & Values; Affiliations; Accessibility |
 | 3 | Programs & Services | `/programs` | Landing |
-| 4 | Community Day Services | `/programs/community-day-services` | Sections: the seven CDS classes + Additional Activities; Digital Den is the `#digital-den` section |
-| 5 | Vocational Program | `/programs/vocational` | Client TBD — cheapest scope cut |
-| 6 | Community Engagement | `/programs/special-olympics` | Was the Special Olympics page; keeps that locked slug. Special Olympics is now a section. Sections: outings, Special Olympics, arts, outdoors, volunteering, GSM events |
-| 7 | Residential Living | `/programs/residential-living` | Sections: personalized support, leadership, staff, comfort/safety, communications, history, closing |
-| 8 | Health & Well Being | `/programs/health-well-being` | Sections: supporting health, McAllister Infirmary, nursing, voice in care, consistent support, community care, closing |
-| 9 | Support GSM Foundation | `/support-gsm` | Merged: GSM Foundation + Ways to Give (Erin feedback). Numbered cards + jump bar with sections for Foundation, Ways to Give, Endowment, Events. Memorial/tribute gifts live inside Ways to Give. |
-| 10 | Shepherd Endowment Society | `/shepherd-endowment-society` | Real copy in `src/data/endowment.js` (from production site) |
-| 11 | Events | `/events` | Real copy. Numbered cards + sections: Fall Festival, Golf Invitational, Brunch Auction, Community & Family Events |
-| 12 | News & Updates | `/news` | Blog hub (counts as a page) |
-| 13 | Newsletters & Family Resources | `/newsletters` | Real copy: The Messenger signup + Recent Issues archive (3 issues). PDFs still placeholders |
-| 14 | Careers | `/careers` | Real copy. Sections: intro feature, Benefits, Our Culture, Job Openings (DSP + RSD), Apply Today. Images pending (In-Progress) |
-| 15 | Contact Us | `/contact` | Real copy. Form, staff directory, map link, Thank a Staff Member. Facebook is the only social profile GSM maintains |
+| 4 | Community Day Services | `/programs/community-day-services` | Sections: the seven CDS classes + Additional Activities; Digital Den is the `#digital-den` section; absorbs the old Vocational content |
+| 5 | Residential Living | `/programs/residential-living` | Sections: personalized support, leadership, staff, comfort/safety, communications, history, closing |
+| 6 | Health & Well Being | `/programs/health-well-being` | Sections: supporting health, McAllister Infirmary, nursing, voice in care, consistent support, community care, closing |
+| 7 | Community Engagement | `/programs/special-olympics` | Was the Special Olympics page; keeps that locked slug. Special Olympics is now a section. Sections: outings, Special Olympics, arts, outdoors, volunteering, GSM events |
+| 8 | Support GSM Foundation | `/support-gsm` | Merged: GSM Foundation + Ways to Give (Erin feedback). Numbered cards + jump bar with sections for Foundation, Ways to Give, Endowment, Events. Memorial/tribute gifts live inside Ways to Give. |
+| 9 | Shepherd Endowment Society | `/shepherd-endowment-society` | Real copy in `src/data/endowment.js` (from production site) |
+| 10 | Events | `/events` | Real copy. Numbered cards + sections: Fall Festival, Golf Invitational, Brunch Auction, Community & Family Events |
+| 11 | News & Updates | `/news` | Blog hub (counts as a page) |
+| 12 | Newsletters & Family Resources | `/newsletters` | Real copy: The Messenger signup + Recent Issues archive (3 issues). PDFs still placeholders |
+| 13 | Careers | `/careers` | Real copy. Sections: intro feature, Benefits, Our Culture, Job Openings (DSP + RSD), Apply Today. Images pending (In-Progress) |
+| 14 | Contact Us | `/contact` | Real copy. Form, staff directory, map link, Thank a Staff Member. Facebook is the only social profile GSM maintains |
 
-Utility (not in the 15): `/privacy`. Accessibility lives on About (`/about#accessibility`) and in the footer.
+Utility (not in the 14): `/privacy`. Accessibility lives on About (`/about#accessibility`) and in the footer.
 
-Programs is a **parent page** with five children (Community Day Services, Vocational, Community Engagement, Residential Living, Health & Well Being) so breadcrumbs read `Home › Programs › Health & Well Being`.
+Programs is a **parent page** with four children, in this order — Community Day Services, Residential Living, Health & Well Being, Community Engagement — so breadcrumbs read `Home › Programs › Residential Living`. The header dropdown, the program-page sidebar, the Programs landing cards and the homepage cards all use that same order (client direction 2026-11-06). Keep them in sync.
 
 Do **not** publish the React `/sitemap` diagram. It is a project artifact.
 
@@ -148,7 +149,7 @@ python3 _tools/build_pages.py 2088                   # just Community Day Servic
 ./_tools/apply_elementor.sh 2088 /tmp/page_2088.json
 ```
 
-Page IDs in the script: 316 About, 317 Programs, 2088 Community Day, 2089 Vocational, 2127 Community Engagement, 2090 Residential, 2091 Health, 2092 Support GSM, 2093 Endowment, 2094 Events, 318 News, 2095 Newsletters, 2096 Careers, 319 Contact. Copy is read from `_tools/page_data.json` (a JSON dump of `src/data/*.js`); regenerate it when the data files change.
+Page IDs in the script: 316 About, 317 Programs, 2088 Community Day, 2127 Community Engagement, 2090 Residential, 2091 Health, 2092 Support GSM, 2093 Endowment, 2094 Events, 318 News, 2095 Newsletters, 2096 Careers, 319 Contact. (2089 Vocational is a draft — it has no builder entry.) Copy is read from `_tools/page_data.json` (a JSON dump of `src/data/*.js`); regenerate it when the data files change.
 
 Contact embeds two SureForms forms by ID — **2056** (Simple Contact Form → “Send Message”) and **2370** (Thank a Staff Member → “Send thanks”). The builder references them with the `sureforms_form` widget, so editing a form in SureForms updates the page without touching the script.
 
@@ -157,17 +158,17 @@ Edit the scripts and re-apply when the wire changes, rather than editing pages i
 
 Section order:
 
-1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: **“Learn more” → `/about`** (the React wire is authoritative; an earlier “Now Hiring! Apply Today” CTA lives in the hiring banner, not the hero). Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
+1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: **“Learn more” → `/about`** (the React wire is authoritative; an earlier “Now Hiring! Apply Today” CTA lives in the above-header banner, not the hero). Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
 2. Intro strip — Figma `9046:813` overlapping the hero (3 cards, white card with 1px dividers, pulled up 160px): 01 Get Involved → `/events` / 02 Donate → `/support-gsm` / 03 News You Can Use → `/news`, Learn more.
 3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (**55+** years / 100+ men / **2** core programs / 1971 founded). Heading left / statement right, then the counters. No eyebrow label above the h2, no donate band.
-4. Our Programs & Services — **4** cards (Community Day, Community Engagement, Residential Living, Health & Well Being) + View all. **Community Engagement** is the page at `/programs/special-olympics`; Special Olympics is a section there. Vocational is no longer in this row.
+4. Our Programs & Services — **4** cards, in client order (2026-11-06): Community Day, Residential Living, Health & Well Being, Community Engagement, + View all. **Community Engagement** is the page at `/programs/special-olympics`; Special Olympics is a section there. Vocational is not a page and not in this row.
 5. About Us / Mission — eyebrow → **real `<h2>`** (“…for over 55 years.”) → one paragraph → bordered Read More, staggered 4-image mosaic. The heading must be `header_size: h2`, not `p` — otherwise the section has no heading element at all.
 6. Stories — “What's Happening at GSM” + 2 story cards. **Not in the proto; kept by client decision 2026-10-02** for events promotion. Sits above the foundation section.
 7. Support GSM Foundation — 4 cards: 01 GSM Foundation → `/support-gsm`, 02 Events → `/events`, 03 Shepherd Endowment Society → `/shepherd-endowment-society`, 04 Memorial or Tribute → `/support-gsm#ways-to-give` (no standalone memorial section). `#fafcfe` background, centered h2.
 
 Home does **not** get `gsm_cta_band`, and the Get Involved (Donate/Volunteer/Careers) block was removed — client decision 2026-10-02. Every other content page keeps `gsm_cta_band`. Do not re-add either to page 315.
 
-Header nav: About, Programs & Services, Support GSM, News, Careers, Contact + Support GSM button.
+Header nav: About, Programs & Services, Support GSM, News & Updates, Careers, Contact + Support GSM button (About and Programs & Services carry dropdowns, as in WordPress).
 
 ### Elementor: container width needs `content_width: 'full'`
 
@@ -242,16 +243,18 @@ The React prototype has leftover hash URLs. They are wrong. Use the table above.
 |---|---|
 | `/programs#health` | `/programs/health-well-being` |
 | `/programs#community-day` | `/programs/community-day-services` |
-| `/programs#vocational` | `/programs/vocational` |
+| `/programs#vocational` | `/programs/community-day-services#vocational-classroom` (page retired; old URL 301s there) |
 | `/programs/special-olympics` (new) | `/programs/special-olympics` |
 | `/programs#residential` | `/programs/residential-living` |
 | `/support-gsm#events` | `/events` |
 
 ## Global chrome
 
-Header nav (6 items): About, Programs & Services, **Support GSM** (dropdown → Foundation, Events, Endowment, Memorial or Tribute), News, Careers, Contact. Plus Support GSM button → `/support-gsm`.
+Header nav (6 items): **About** (dropdown → About Us, Mission, Vision & Values, Our History, Affiliations, Accessibility), **Programs & Services** (dropdown → Programs & Services + the five program pages), **Support GSM** (dropdown → GSM Foundation, Events, Shepherd Endowment Society, Memorial or Tribute), **News & Updates** (plain link to `/news` — no dropdown), Careers, Contact. Plus Support GSM button → `/support-gsm`. `/newsletters` is deliberately **not** in the header on either side; it is reached from page content (client call, 2026-11-05).
 
-Footer: phone `(815) 472-3700`, P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954; quick links; newsletter (real list, labeled field); real GSM Facebook URL; Privacy; Accessibility; `© 2026 The Good Shepherd Manor`. In WordPress the footer is two columns — free Astra caps it there.
+The header nav and the React wire's `NAV_ITEMS` are kept identical — same labels, same order, same targets — including the `#foundation` / `#ways-to-give` hashes. `_tools/verify_site.php`-style checks aside, when you change one, change the other the same day. Menu item padding is `header-menu1-menu-spacing` desktop `10px` (tablet `12px`); the six items plus the About caret overflow the header and wrap Contact onto a broken second row at ≥1280 when it is left at the Astra default of `16px`.
+
+Footer: phone `(815) 472-3700`, P.O. Box 260, 4129 N. State Route 1-17, Momence, IL 60954; quick links; newsletter (real list, labeled field); Facebook `https://www.facebook.com/goodshepherdmanormomence/` (the client's own legacy `facebook.com/pages/Good-Shepherd-Manor/121959794503212` redirects here — `goodshepherdmanor` is a different, unused page); Privacy; Accessibility; `© 2026 The Good Shepherd Manor`. In WordPress the footer is two columns — free Astra caps it there.
 
 ## Design tokens (Astra Customizer only)
 
@@ -283,7 +286,7 @@ Home uses Astra’s transparent header over the hero (white type, white logo). I
 | `--ast-color-link` | `#006BB3` | 5.46:1 |
 | `--ast-color-link-hover` | `#004F85` | 7.9:1 |
 
-Applied to: `.text-link`, card/CTA links, eyebrows and labels in the article sidebar, timeline years, breadcrumb hover, primary buttons (`.btn--primary`, `.home-btn--blue`, `.header__donate`), and the skip link (navy background). The hiring banner keeps a light blue `#9FD0FF` (7:1) on navy. The required-field asterisk is `#B42318`.
+Applied to: `.text-link`, card/CTA links, eyebrows and labels in the article sidebar, timeline years, breadcrumb hover, primary buttons (`.btn--primary`, `.home-btn--blue`, `.header__donate`), and the skip link (navy background). The above-header banner keeps a light blue `#9FD0FF` (7:1) on navy. The required-field asterisk is `#B42318`.
 
 **When the site moves to WordPress:** set the Astra *button* and *link* colours to `#006BB3` in the Customizer (or accept AA failure). This is a client decision — the brand accent stays `#0089DF` for graphics.
 
@@ -307,11 +310,11 @@ Use these for copy, section order, and IA. Do not treat their CSS as a spec.
 | `src/data/programs.js` / `src/data/health.js` | Program page copy and section IDs |
 | `src/data/header.js` | Nav items, hero-header slug list, active-state helpers |
 | `src/styles/starter.css` | Shared 04-style layout classes (not a WP spec) |
-| `src/components/Layout.jsx` | Nav labels, footer contact, hiring banner, Donate, `GetInvolvedCta` |
+| `src/components/Layout.jsx` | Nav labels, footer contact, above-header banner, Donate, `GetInvolvedCta` |
 | `src/components/ProgramPage.jsx` | Program page **section order** only |
 | `design/sitemap-structure.md` | Figma extract (older; SitemapPage wins on conflicts) |
 
-> **Current state (client review round):** Descriptive body copy is placeholder **lorem ipsum** (Home, About, Support GSM Foundation, the Vocational program page, news article bodies, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review. **Exceptions — fully real copy:** `/shepherd-endowment-society` (sourced 2026-10-02 from the client's own production page `goodshepherdmanor.org/foundation/shepherds-endowment-society/`; `src/data/endowment.js` matches it), `/programs/community-day-services` (client-supplied 2026-11-04; `src/data/programs.js` `communityDay`), `/programs/residential-living` (client-supplied 2026-11-04; `src/data/programs.js` `residential`), `/programs/health-well-being` (client-supplied 2026-11-04; `src/data/health.js`), `/programs/special-olympics` (client-supplied 2026-11-04; `src/data/programs.js` `communityEngagement` — the page is presented as Community Engagement), `/events` (client-supplied 2026-11-04; `src/pages/EventsPage.jsx`), `/careers` (client-supplied 2026-11-04; `src/data/careers.js`), `/newsletters` (client-supplied 2026-11-04; `src/pages/NewslettersPage.jsx`), `/contact` (client-supplied), and the `/news` hub page furniture (client-supplied 2026-11-04; `src/pages/NewsPage.jsx` + `site.js` `newsItems` — article bodies are still lorem). Use those as the reference for other real GSM prose.
+> **Current state (client review round):** Descriptive body copy is placeholder **lorem ipsum** (Home, About, Support GSM Foundation, news article bodies, and the global CTA band). Keep headings, titles, slugs, eyebrow labels, contact data, structured lists (e.g. Endowment gift methods/levels), and timeline years as-is; only paragraph/body prose is placeholder. Replacing with real copy awaits client review. **Exceptions — fully real copy:** `/shepherd-endowment-society` (sourced 2026-10-02 from the client's own production page `goodshepherdmanor.org/foundation/shepherds-endowment-society/`; `src/data/endowment.js` matches it), `/programs/community-day-services` (client-supplied 2026-11-04; `src/data/programs.js` `communityDay`), `/programs/residential-living` (client-supplied 2026-11-04; `src/data/programs.js` `residential`), `/programs/health-well-being` (client-supplied 2026-11-04; `src/data/health.js`), `/programs/special-olympics` (client-supplied 2026-11-04; `src/data/programs.js` `communityEngagement` — the page is presented as Community Engagement), `/events` (client-supplied 2026-11-04; `src/pages/EventsPage.jsx`), `/careers` (client-supplied 2026-11-04; `src/data/careers.js`), `/newsletters` (client-supplied 2026-11-04; `src/pages/NewslettersPage.jsx`), `/contact` (client-supplied), and the `/news` hub page furniture (client-supplied 2026-11-04; `src/pages/NewsPage.jsx` + `site.js` `newsItems` — article bodies are still lorem). Use those as the reference for other real GSM prose.
 
 Health & Well Being is the first program to build. Its section IDs: `supporting-health`, `mcallister-infirmary`, `nursing`, `voice-in-care`, `consistent-support`, `community-care`, `closing`. These replace the earlier placeholder anchors (`clinic`, `pharmacy`, `supports`, `transportation`); production page 317 still carries those until it is rebuilt from this content.
 
@@ -352,7 +355,7 @@ python3 _tools/build_pages.py all             # -> /tmp/page_<id>.json
 ./_tools/apply_elementor.sh 2088 /tmp/page_2088.json
 ```
 
-**Page IDs:** 315 Home · 316 About · 317 Programs · 2088 Community Day · 2089 Vocational · 2127 Community Engagement · 2090 Residential · 2091 Health · 2092 Support GSM · 2093 Endowment · 2094 Events · 318 News · 2095 Newsletters · 2096 Careers · 319 Contact · 3 Privacy (plain content, not generated).
+**Page IDs:** 315 Home · 316 About · 317 Programs · 2088 Community Day · 2127 Community Engagement · 2090 Residential · 2091 Health · 2092 Support GSM · 2093 Endowment · 2094 Events · 318 News · 2095 Newsletters · 2096 Careers · 319 Contact · 3 Privacy (plain content, not generated) · 2089 Vocational (draft, 301s to CDS).
 
 **Forms** (SureForms, referenced by ID — editing a form updates the page, no rebuild needed):
 - **2056** Simple Contact Form → “Send Message”
@@ -375,10 +378,10 @@ The socket is `~/Library/Application Support/Local/run/<id>/mysql/mysqld.sock`; 
 - A stray `app/public/.maintenance` file appears after some WP-CLI runs and puts the whole site into a 503. Delete it.
 - Elementor caches `_elementor_element_cache`, `_elementor_css` and `uploads/elementor/css/post-<id>.css`. Always apply through `apply_elementor.sh`, never `wp post meta update` directly.
 - Additional CSS (`wp_posts` ID 2078, `wp_get_custom_css`) still has a global `.srfm-submit-button { border-radius: 8px !important }`. The newsletter pill wins only because `.elementor-element-nlright .srfm-submit-button` is more specific and also uses `!important`. Old `.gsm-signup` rules are dead; do not add new ones.
-- The mobile drawer lives inside `.header` (z-index 100) — the hiring banner must not cover the drawer's close button. In practice the bar sits above the header in normal flow (Additional CSS gives it `z-index: 101`), so they never overlap; measured at 360px and 390px with the menu open, the bar ends at 85px, the close button starts at 109px, a 24px gap. Re-check that gap if you change the bar's padding or stack it further.
+- The mobile drawer lives inside `.header` (z-index 100) — the above-header banner must not cover the drawer's close button. In practice the bar sits above the header in normal flow (Additional CSS gives it `z-index: 101`), so they never overlap; measured at 360px and 390px with the menu open, the bar ends at 85px, the close button starts at 109px, a 24px gap. Re-check that gap if you change the bar's padding or stack it further.
 
 **Well-known content gaps (not build bugs)**
-- Vocational (2089) is lorem in both React and WordPress — waiting on the client.
+- ~~Vocational (2089) is lorem in both React and WordPress — waiting on the client.~~ Resolved 2026-11-06: the page is retired (draft) and its content lives in Community Day Services.
 - “Apply for Clinical Service Provider →” under the RSD posting is the client's verbatim text; likely a copy-paste slip, left as supplied.
 - Newsletter archive entries are placeholders — the client's site has no 2025/2026 issues.
 - Contact has Facebook only. No Instagram or LinkedIn profile exists.
@@ -413,7 +416,7 @@ The last full pass (2026-11-04) checked all 16 pages at **320 / 360 / 390 / 768 
 ## Build order (WordPress)
 
 1. Import Non-Profit Organization 04 on staging
-2. Astra globals: colors, type, logo, header, hiring bar, footer, menus
+2. Astra globals: colors, type, logo, header, above-header banner, footer, menus
 3. Create the 15 pages with the slugs above (empty is fine)
 4. Home — swap copy into the imported layout
 5. Duplicate Services → Health & Well Being, then the other three programs
@@ -459,19 +462,22 @@ Edits go into Local, get verified, then the database is pushed to WP Engine stag
 
    Sanity check: the dump is ~24 MB for the current library.
 
-2. **Rewrite URLs.** Every `goodshepherd.local` string has to move — not just `home`/`siteurl`, but media meta and the WebP passthru paths in Additional CSS:
+2. **Do NOT sed the dump.** Rewriting `goodshepherd.local` → `goodshephe3dev.wpenginepowered.com` with `sed` **changes string lengths inside serialized option values**, so those arrays stop unserializing. Astra then silently rewrites `astra-settings` from defaults: the option drops from 2,291 keys to the 4 queue keys (`theme-auto-version`, `is_theme_queue_running`, `astra-addon-auto-version`, `is_astra_addon_queue_running`) and the above-header banner, colours, menu spacing and footer social URL all vanish. `theme_mods_astra` gets hollowed out the same way, and the result looks exactly like the object-cache trap below, which is what makes it expensive to find.
+
+   Import the dump **unmodified** and let WP-CLI do a serialization-aware replace on the server, *after* the import:
 
    ```sh
-   LC_ALL=C sed -i '' 's#goodshepherd\.local#goodshephe3dev.wpenginepowered.com#g' /tmp/gsm_export.sql
-   LC_ALL=C grep -c 'goodshepherd\.local' /tmp/gsm_export.sql   # must print 0
+   wp search-replace 'goodshepherd.local' 'goodshephe3dev.wpenginepowered.com' \
+     --all-tables --precise --report-changed-only --allow-root
+   wp cache flush --allow-root
    ```
 
-   A full media import produces **~3,300 replacements, not 26**. Verify that the answer is 0 afterwards; do not compare against a fixed count.
+   `--precise` re-serializes every affected value, so no string is left with a stale length. Expect **~2,400 replacements** for the current library (the count is printed at the end) — don't compare against a fixed number. Check `astra-settings` afterwards: `wp eval` it and confirm `count()` is ~2,291 and `header-html-1` is set.
 
-3. `gzip -9 -c /tmp/gsm_export.sql > _migration/stage-db-final.sql.gz`, then `gzip -t` (~2.6 MB)
-4. rsync to `/sites/goodshephe3dev/gsm-import.sql.gz`. **There is no `~/.ssh/config` on this machine yet** — create it with the quoted `IdentityFile` before this step will work.
-5. Import, then **`wp cache flush`**, then delete the dump from the webroot
-6. Flush Elementor CSS on stage (below), then verify all 16 routes
+3. `gzip -9 -c /tmp/gsm_export.sql > /tmp/gsm-raw.sql.gz`, then `gzip -t` (~2.6 MB)
+4. rsync to `/sites/goodshephe3dev/gsm-raw.sql.gz`. The key is Local's `~/Library/Application Support/Local/ssh/wpe-connect`, used as `goodshephe3dev@goodshephe3dev.ssh.wpengine.net`; no `~/.ssh/config` is needed, just pass `-e "ssh -i \"$KEY\" -o BatchMode=yes"` to rsync.
+5. Import with **`gunzip -c gsm-raw.sql.gz | wp db import - --allow-root`**. `wp db import file.sql.gz` does **not** decompress — it feeds gzip bytes to mysql and dies with `ASCII '\0' appeared in the statement`. Delete the dump from the webroot afterwards; it is publicly reachable.
+6. Run the `search-replace` from step 2, then **`wp cache flush`**, `wp page-cache flush`, `wp cdn-cache flush`, `wp elementor flush-css`, then verify all 16 routes
 
 ### A database push does not carry files
 
@@ -486,6 +492,17 @@ The import replaces tables only. These live on the filesystem and must already b
 
 Before pushing, confirm stage runs the same versions as Local (Elementor 4.3.3, Astra 4.14.0, SureForms 2.12.8 at time of writing).
 
+**Stage can be missing whole plugins.** A fresh stage may only carry Elementor, Premium Starter Templates (`astra-pro-sites`) and SureForms — which is not the stack Local runs. Check before importing, because `active_plugins` comes from the dump and WordPress silently skips files that are absent:
+
+```sh
+rsync -az --no-perms --no-owner --no-group -e "ssh -i \"$KEY\" -o BatchMode=yes" \
+  plugins/<name>/ goodshephe3dev@goodshephe3dev.ssh.wpengine.net:/sites/goodshephe3dev/wp-content/plugins/<name>/
+```
+
+Local's stack on 2026-11-05: `astra-addon` 4.13.10, `elementor` 4.3.3, `elementor-pro` 4.3.1, `webp-converter-for-media` 6.6.5, `seo-by-rank-math` 1.0.279, `ga-google-analytics`, `sureforms` 2.12.8. Missing `astra-addon` costs you the transparent/sticky header and the above-header banner; missing `webp-converter-for-media` 404s every image that routes through the passthru.
+
+Uploads are a separate rsync of `wp-content/uploads/` (additive, never `--delete`). Compare file counts afterwards with `find … -type f | wc -l` on both sides — stage had 325 files against Local's 1,223 before the last push.
+
 ### What an import changes on stage besides content
 
 - **Users are replaced** by whatever exists on Local — currently a single `develop@cloudmellow.com` administrator. Anyone with a stage login loses it. Have that password to hand, and remember a reset email now goes to `info@goodshepherdmanor.org`, not to you.
@@ -496,6 +513,7 @@ Before pushing, confirm stage runs the same versions as Local (Elementor 4.3.3, 
 
 - **WP Engine has a persistent object cache. Flush it after every DB import, or stage will silently serve pre-import options.** This is the single most important step. Symptom: the database row is correct when inspected with raw SQL, but `get_option()` returns a stale/short value and the front end renders old markup.
 - **WP-CLI is available on stage** at `/usr/local/bin/wp`. Use `wp --path=/sites/goodshephe3dev --allow-root`.
+- **`webpc-passthru.php` is generated per site.** WebP Converter for Media's passthru loader bakes an allowlist of `home_url()` prefixes into `wp-content/webpc-passthru.php` (`PassthruLoader::activate_loader()`). Copying the file from Local with the uploads rsync leaves it allowlisting `goodshepherd.local`, so on stage every image that routes through the passthru returns 404 while direct `.jpg` URLs still work. Re-bake it after a domain change with `wp eval 'do_action("webpc_refresh_loader", true, false);'` (or by re-saving the plugin settings), then confirm the allowlist in the file mentions the stage host.
 - **`scp` is blocked** for the `local+db+push+` user. Use an ssh config file for rsync (`IdentityFile` must be quoted — the key path has a space), and write remote scratch files over the shell instead of scp.
 - **WPE `/tmp` is ephemeral per SSH session.** Anything that must persist goes in `/sites/goodshephe3dev`.
 - **`sed` on the dump needs `LC_ALL=C`**, otherwise it dies with "illegal byte sequence".
@@ -514,7 +532,7 @@ Before pushing, confirm stage runs the same versions as Local (Elementor 4.3.3, 
 - Do not invent pages, slugs, or nav items.
 - Do not add extra pages beyond 15 or turn dropdown items into extra routes — they are four of the 15 SOW pages plus sections on `/support-gsm`.
 - Support GSM Foundation uses a `SectionTabs` jump bar above stacked `SplitSection`s (client direction) — tabs scroll to anchors, all content stays visible. Do not replace the stacked content with hidden tab panels.
-- Vocational is the approved scope cut if the build runs long.
+- Vocational was the approved scope cut and is now done: the page is a draft, `/programs/vocational/` 301s to the CDS vocational section, and no menu links to it.
 - Purge WP Engine cache after Elementor edits.
 
 ## Conflicts

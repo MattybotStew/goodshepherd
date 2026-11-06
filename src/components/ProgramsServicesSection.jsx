@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { programs } from '../data/site'
 import { LOREM, LOREM_SHORT } from '../data/placeholders'
 import communityDayIcon from '../assets/programs/community-day.svg'
-import vocationalIcon from '../assets/programs/vocational.svg'
 import specialOlympicsIcon from '../assets/programs/special-olympics.svg'
 import residentialIcon from '../assets/programs/residential.svg'
 import healthIcon from '../assets/programs/health.svg'
@@ -12,7 +11,6 @@ import './ProgramsServicesSection.css'
 
 const PROGRAM_ICONS = {
   '/programs/community-day-services': communityDayIcon,
-  '/programs/vocational': vocationalIcon,
   '/programs/special-olympics': specialOlympicsIcon,
   '/programs/residential-living': residentialIcon,
   '/programs/health-well-being': healthIcon,
@@ -91,11 +89,6 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
                 text: 'Our Community Day Services build skills, friendships, and meaningful community connections.',
               },
               {
-                name: 'Community Engagement',
-                path: '/programs/special-olympics',
-                text: 'Explore interests and connect with others through activities, outings and Special Olympics.',
-              },
-              {
                 name: 'Residential Living',
                 path: '/programs/residential-living',
                 text: 'Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence',
@@ -104,6 +97,11 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
                 name: 'Health & Well Being',
                 path: '/programs/health-well-being',
                 text: 'Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.',
+              },
+              {
+                name: 'Community Engagement',
+                path: '/programs/special-olympics',
+                text: 'Explore interests and connect with others through activities, outings and Special Olympics.',
               },
             ].map((p) => (
               <article className="programs-services__card" key={p.path}>

@@ -13,13 +13,12 @@ HOME = os.path.expanduser("~")
 WP = os.path.join(HOME, "Local Sites/goodshepherd/_tools/wp.sh")
 APPLY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apply_elementor.sh")
 
-PAGE_IDS = [2088, 2089, 2127, 2090, 2091]
+PAGE_IDS = [2088, 2127, 2090, 2091]
 PROGRAMS = [
     ("Community Day Services", "/programs/community-day-services/"),
-    ("Vocational Program", "/programs/vocational/"),
-    ("Special Olympics", "/programs/special-olympics/"),
     ("Residential Living", "/programs/residential-living/"),
     ("Health & Well Being", "/programs/health-well-being/"),
+    ("Community Engagement", "/programs/special-olympics/"),
 ]
 
 MENU_HTML = ('<ul class="gsm-sidebar">'

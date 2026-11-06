@@ -70,7 +70,7 @@ REQUIRED=(
   events/index.html news/index.html newsletters/index.html careers/index.html
   contact/index.html privacy/index.html
   programs/community-day-services/index.html programs/special-olympics/index.html
-  programs/vocational/index.html programs/residential-living/index.html
+  programs/residential-living/index.html
   programs/health-well-being/index.html
 )
 MISSING=()

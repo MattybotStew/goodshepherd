@@ -21,10 +21,9 @@ APPLY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "apply_elemento
 
 PROGRAMS = [
     ("Community Day Services", "/programs/community-day-services/"),
-    ("Vocational Program", "/programs/vocational/"),
-    ("Special Olympics", "/programs/special-olympics/"),
     ("Residential Living", "/programs/residential-living/"),
     ("Health & Well Being", "/programs/health-well-being/"),
+    ("Community Engagement", "/programs/special-olympics/"),
 ]
 
 # block spec: ('p'|'h3'|'ul'|'ol'|'quote'|'callout'|'figure'|'link', ...)
@@ -50,7 +49,6 @@ PAGE_DATA = {
         "sublinks": [("Nursing Services", "nursing"), ("On-site Clinic", "clinic"),
                      ("Pharmacy Services", "pharmacy"), ("Community Supports", "supports"),
                      ("Transportation Assistance", "transportation")]},
-    2089: {"sections": [], "sublinks": []},
     2127: {"sections": [], "sublinks": []},
     2090: {"sections": [], "sublinks": []},
 }
@@ -219,6 +217,6 @@ def edit(pid, active_name):
 
 
 if __name__ == "__main__":
-    for pid, (name, _) in zip([2088, 2089, 2127, 2090, 2091], PROGRAMS):
+    for pid, (name, _) in zip([2088, 2090, 2091, 2127], PROGRAMS):
         edit(pid, name)
     print("Done.")

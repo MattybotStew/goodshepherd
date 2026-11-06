@@ -12,20 +12,16 @@ export const programs = [
     path: "/programs/community-day-services",
   },
   {
-    name: "Community Engagement",
-    path: "/programs/special-olympics",
-  },
-  {
-    name: "Vocational Program",
-    path: "/programs/vocational",
-  },
-  {
     name: "Residential Living",
     path: "/programs/residential-living",
   },
   {
     name: "Health & Well Being",
     path: "/programs/health-well-being",
+  },
+  {
+    name: "Community Engagement",
+    path: "/programs/special-olympics",
   },
 ];
 

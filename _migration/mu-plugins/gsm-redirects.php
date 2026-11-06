@@ -17,6 +17,9 @@ add_action(
 			'/ways-to-give/' => '/support-gsm/#ways-to-give',
 			'/donate/' => '/support-gsm',
 			'/sitemap.xml' => '/sitemap_index.xml',
+			// The Vocational Program page was folded into Community Day
+			// Services (client direction, 2026-11-06). Keep old links alive.
+			'/programs/vocational/' => '/programs/community-day-services/#vocational-classroom',
 		);
 
 		$path = wp_parse_url( home_url( add_query_arg( array() ) ), PHP_URL_PATH );

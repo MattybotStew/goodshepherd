@@ -11,7 +11,7 @@ Canonical environment: **Local by Flywheel**, `~/Local Sites/goodshepherd`,
 
 ## Where page content is edited
 
-All 15 SOW pages are **Elementor canvases** built from native containers plus heading,
+All 14 SOW pages (plus Privacy) are **Elementor canvases** built from native containers plus heading,
 text-editor, button, image, icon-list and SureForms widgets. No raw HTML widgets, no
 Theme Builder templates.
 
@@ -24,7 +24,7 @@ path for a non-developer: change a heading, swap a photo, edit a link, add a sec
 | About Us | 316 | `/about` |
 | Programs & Services | 317 | `/programs` |
 | Community Day Services | 2088 | `/programs/community-day-services` |
-| Vocational Program | 2089 | `/programs/vocational` |
+| ~~Vocational Program~~ | 2089 | **draft** — 301s to `/programs/community-day-services/#vocational-classroom` |
 | Community Engagement | 2127 | `/programs/special-olympics` *(locked slug — do not rename)* |
 | Residential Living | 2090 | `/programs/residential-living` |
 | Health & Well Being | 2091 | `/programs/health-well-being` |
@@ -55,7 +55,7 @@ Support GSM Foundation is a **stacked anchor page** (`#foundation`, `#ways-to-gi
 
 **Not in Elementor.**
 
-- **Header, hiring bar, menu, Support GSM button** — Appearance → Customize → Header
+- **Header, above-header banner, menu, Support GSM button** — Appearance → Customize → Header
   Builder (Astra). Logo, colours and DM Sans are in Customize → Global / Typography.
   Sticky/transparent header settings: Customize → Header Builder → Transparent Header.
 - **Footer columns** — Appearance → Widgets → `footer-widget-1` … `footer-widget-4`
@@ -174,7 +174,7 @@ The React prototype no longer publishes. That also removed the internal
 | Service | Why |
 |---|---|
 | **WP Engine** | hosting (stage `goodshephe3dev`, then production) |
-| **Astra Pro** | the header/footer builder, above-header hiring bar, transparent header, footer widgets |
+| **Astra Pro** | the header/footer builder, above-header banner, transparent header, footer widgets |
 | **Elementor Pro** | currently active; the build does not depend on Theme Builder templates, but deactivating it will disable Pro widgets already in use |
 | **SureForms** | all three forms and their notification settings |
 | **Rank Math** | titles, descriptions, sitemap, noindex rules |
@@ -189,18 +189,28 @@ Users: **one administrator** — `develop@cloudmellow.com`. Site admin email is
 
 ## Known placeholders (client has not supplied copy)
 
-1. **`/programs/vocational` (2089)** — body copy is still lorem ipsum. The page carries a
-   visible “Scope” callout saying so. Vocational is the approved scope cut if the build
-   runs long. Replace the copy, then delete that callout.
-2. **News article bodies** — headings, titles and slugs are real; the article prose inside
+1. **News article bodies** — headings, titles and slugs are real; the article prose inside
    each post is lorem. The `/news` hub cards link to real published posts.
-3. **Newsletter archive** on `/newsletters` — three issues are listed but the client has no
+2. **Newsletter archive** on `/newsletters` — three issues are listed but the client has no
    PDFs. The “Download PDF” buttons were removed rather than left as dead `#` links. Add
    them back (button → media file URL) when the files arrive.
-4. **Affiliations** on `/about` — the ARC of Illinois button was removed because no
+3. **Affiliations** on `/about` — the ARC of Illinois button was removed because no
    destination was supplied. Add it when the client confirms the URL.
 
 ---
+
+## What was fixed in this pass (2026-11-06)
+
+- **Vocational Program retired.** Page 2089 is a draft, `/programs/vocational/` 301s to
+  `/programs/community-day-services/#vocational-classroom`, and the item is gone from the
+  Primary Menu and both the header wire (`src/data/header.js`) and the React route table.
+  Its content already lived on the CDS page, so nothing was lost.
+- **Program order changed** (client direction) to Community Day Services → Residential
+  Living → Health & Well Being → Community Engagement. Applied to the header dropdown, the
+  “On this page” program sidebar on all four program pages, the Programs landing cards
+  (317) and the homepage cards (315). Sources: `_tools/build_pages.py` `PROGRAM_NAV` and
+  its `page_programs_landing` cards, `_tools/build_home_replica.py` `PROGRAMS`, and
+  `src/data/header.js` / `src/data/site.js` for the React wire.
 
 ## What was fixed in this pass (2026-11-04)
 
@@ -238,7 +248,7 @@ sitemap contains 16 pages + 7 posts and no SureForms URLs.
 
 ### Follow-up fixes (same day)
 
-- **Hiring banner at ≤921px** restyled into a two-line stack with a white pill CTA, then
+- **Above-header banner at ≤921px** restyled into a two-line stack with a white pill CTA, then
   brought to a 44px tap target and 14px type to match the rest of the site.
 - **Newsletter band “Sign Up”** moved from `#0089DF` (3.72:1, failed AA) to `#006BB3`
   (5.59:1).

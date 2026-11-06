@@ -7,32 +7,31 @@ const navGroups = [
   { name: 'Programs & Services', pages: [
     { name: 'Programs & Services', page: 3, note: 'Landing' },
     { name: 'Community Day Services', page: 4, sections: ['Economics', 'Personal Living Skills', 'Digital Den', 'Physical Fitness', 'Vocational Classroom', 'Seniors', 'Additional Activities'] },
-    { name: 'Vocational Program', page: 5, note: 'TBD' },
-    { name: 'Community Engagement', page: 6, sections: ['Outings', 'Special Olympics', 'Arts', 'Outdoors', 'Volunteering', 'GSM Events'] },
-    { name: 'Residential Living', page: 7, sections: ['Personalized Support', 'Leadership', 'Staff', 'Comfort & Safety', 'Staying Connected', 'History'] },
-    { name: 'Health & Well Being', page: 8, sections: ['McAllister Infirmary', 'Nursing', 'Voice in Care', 'Consistent Support', 'Community Care'] },
+    { name: 'Residential Living', page: 5, sections: ['Personalized Support', 'Leadership', 'Staff', 'Comfort & Safety', 'Staying Connected', 'History'] },
+    { name: 'Health & Well Being', page: 6, sections: ['McAllister Infirmary', 'Nursing', 'Voice in Care', 'Consistent Support', 'Community Care'] },
+    { name: 'Community Engagement', page: 7, sections: ['Outings', 'Special Olympics', 'Arts', 'Outdoors', 'Volunteering', 'GSM Events'] },
   ]},
   { name: 'Support GSM', pages: [
-    { name: 'Support GSM Foundation', page: 9, note: 'Merged: GSM Foundation + Ways to Give', sections: ['GSM Foundation', 'Ways to Give', 'Shepherds Endowment Society', 'Events'] },
-    { name: 'Shepherd Endowment Society', page: 10 },
-    { name: 'Events', page: 11, sections: ['Fall Festival', 'Golf Invitational', 'Brunch Auction', 'Community & Family Events'] },
+    { name: 'Support GSM Foundation', page: 8, note: 'Merged: GSM Foundation + Ways to Give', sections: ['GSM Foundation', 'Ways to Give', 'Shepherds Endowment Society', 'Events'] },
+    { name: 'Shepherd Endowment Society', page: 9 },
+    { name: 'Events', page: 10, sections: ['Fall Festival', 'Golf Invitational', 'Brunch Auction', 'Community & Family Events'] },
   ]},
   { name: 'News', pages: [
-    { name: 'News & Updates', page: 12, note: 'Blog / press' },
-    { name: 'Newsletters & Family Resources', page: 13, sections: ['The Messenger signup', 'Recent Issues'] },
+    { name: 'News & Updates', page: 11, note: 'Blog / press' },
+    { name: 'Newsletters & Family Resources', page: 12, sections: ['The Messenger signup', 'Recent Issues'] },
   ]},
   { name: 'Careers', pages: [
-    { name: 'Careers', page: 14, sections: ['Benefits', 'Our Culture', 'Job Openings', 'Apply Today'] },
+    { name: 'Careers', page: 13, sections: ['Benefits', 'Our Culture', 'Job Openings', 'Apply Today'] },
   ]},
   { name: 'Contact', pages: [
-    { name: 'Contact Us', page: 15, sections: ['Contact form', 'Staff directory', 'Map', 'Thank a Staff Member'] },
+    { name: 'Contact Us', page: 14, sections: ['Contact form', 'Staff directory', 'Map', 'Thank a Staff Member'] },
   ]},
 ]
 
 const globalElements = [
   'Header with logo + navigation',
   'Support GSM button (header)',
-  '"Now Hiring" banner',
+  '"Support GSM" banner',
   'Footer with contact info',
   'Newsletter signup (footer)',
   'Social link (Facebook)',
@@ -73,7 +72,7 @@ function SitemapPage() {
         <div className="sitemap__meta">
           <span>CloudMellow</span>
           <span>September 2026</span>
-          <span>15 Pages</span>
+          <span>14 Pages</span>
         </div>
       </header>
 
@@ -134,23 +133,22 @@ function SitemapPage() {
           </div>
 
           <div className="consolidation-notes__col">
-            <h3>The 15 main pages</h3>
+            <h3>The 14 main pages</h3>
             <ul>
               <li><strong>Home</strong> (1) — gateway</li>
               <li><strong>About Us</strong> (2) — 4 sections, anchor-linked</li>
               <li><strong>Programs &amp; Services</strong> (3) — landing</li>
-              <li><strong>Community Day Services</strong> (4)</li>
-              <li><strong>Vocational Program</strong> (5) — TBD</li>
-              <li><strong>Community Engagement</strong> (6) — Special Olympics is a section</li>
-              <li><strong>Residential Living</strong> (7)</li>
-              <li><strong>Health &amp; Well Being</strong> (8)</li>
-              <li><strong>Support GSM Foundation</strong> (9) — merged GSM Foundation + Ways to Give</li>
-              <li><strong>Shepherd Endowment Society</strong> (10)</li>
-              <li><strong>Events</strong> (11) — includes Brunch Auction section</li>
-              <li><strong>News &amp; Updates</strong> (12)</li>
-              <li><strong>Newsletters &amp; Family Resources</strong> (13)</li>
-              <li><strong>Careers</strong> (14)</li>
-              <li><strong>Contact Us</strong> (15)</li>
+              <li><strong>Community Day Services</strong> (4) — includes the Vocational Classroom</li>
+              <li><strong>Residential Living</strong> (5)</li>
+              <li><strong>Health &amp; Well Being</strong> (6)</li>
+              <li><strong>Community Engagement</strong> (7) — Special Olympics is a section</li>
+              <li><strong>Support GSM Foundation</strong> (8) — merged GSM Foundation + Ways to Give</li>
+              <li><strong>Shepherd Endowment Society</strong> (9)</li>
+              <li><strong>Events</strong> (10) — includes Brunch Auction section</li>
+              <li><strong>News &amp; Updates</strong> (11)</li>
+              <li><strong>Newsletters &amp; Family Resources</strong> (12)</li>
+              <li><strong>Careers</strong> (13)</li>
+              <li><strong>Contact Us</strong> (14)</li>
             </ul>
           </div>
           <div className="consolidation-notes__col">
@@ -158,12 +156,12 @@ function SitemapPage() {
             <ul>
               <li><strong>About collapsed 4→1</strong> — static reference content; one page with anchor links saves slots</li>
               <li><strong>SOW counting</strong> — hub pages (News, Careers, Contact) count toward the 15; only individual posts/archive items are exempt</li>
-              <li><strong>Contact = Page 15</strong> — primary conversion path; belongs in top-level nav</li>
+              <li><strong>Contact = Page 14</strong> — primary conversion path; belongs in top-level nav</li>
               <li><strong>Newsletters &amp; Family Resources</strong> — combined newsletter archive and family communication into single page</li>
               <li><strong>Events with sub-sections</strong> — Fall Festival, Brunch Auction, Golf Invitational, and Family Events as anchor-linked sections</li>
-              <li><strong>Vocational TBD</strong> — client flagged it; cheapest release valve if scope tightens</li>
+              <li><strong>Vocational folded into CDS</strong> — the Vocational Program is no longer a page; its classroom and work-skills content lives inside Community Day Services, leaving 14 pages under the 15-page cap</li>
               <li><strong>Support GSM merged</strong> — GSM Foundation + Ways to Give combined into one page (page 9) per Erin's feedback. The "Get Involved" nav renamed to "Support GSM."</li>
-              <li><strong>Special Olympics → Community Engagement</strong> — page 6 keeps the `/programs/special-olympics` URL but is presented as Community Engagement, with Special Olympics as a section; total stays at 15</li>
+              <li><strong>Special Olympics → Community Engagement</strong> — page 7 keeps the `/programs/special-olympics` URL but is presented as Community Engagement, with Special Olympics as a section</li>
               <li><strong>Phase-2 promotion</strong> — any section can become a page without breaking URLs; keep teaser anchors when promoting</li>
             </ul>
           </div>
@@ -171,7 +169,7 @@ function SitemapPage() {
 
         <div className="consolidation-notes__footer">
           <p>
-            Every topic from both the Figma sitemap and the client&rsquo;s wireframe is represented. <strong>Dark blue boxes</strong> are the 15 main pages. <strong>Light pills</strong> are sections within those pages. Total: exactly 15 — SOW compliant.
+            Every topic from both the Figma sitemap and the client&rsquo;s wireframe is represented. <strong>Dark blue boxes</strong> are the 14 main pages. <strong>Light pills</strong> are sections within those pages. Total: 14 — inside the 15-page SOW cap.
           </p>
         </div>
       </section>
@@ -184,7 +182,7 @@ function SitemapPage() {
           </span>
           <span className="legend__item">
             <span className="legend__swatch legend__swatch--page" />
-            Main page (15 total)
+            Main page (14 total)
           </span>
           <span className="legend__item">
             <span className="legend__swatch legend__swatch--section" />

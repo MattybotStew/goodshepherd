@@ -33,7 +33,6 @@ $expected = [
 	316  => 'about',
 	317  => 'programs',
 	2088 => 'community-day-services',
-	2089 => 'vocational',
 	2127 => 'special-olympics',
 	2090 => 'residential-living',
 	2091 => 'health-well-being',
@@ -53,14 +52,28 @@ foreach ( $expected as $id => $slug ) {
 		$p ? $p->post_name . '/' . $p->post_status : 'missing' );
 }
 
+/* Vocational was folded into Community Day Services (2026-11-06). The page
+   stays as a draft so old links keep 301ing. */
+$voc = get_post( 2089 );
+check( 'page 2089 /vocational/ is a draft', $voc && 'vocational' === $voc->post_name && 'draft' === $voc->post_status,
+	$voc ? $voc->post_name . '/' . $voc->post_status : 'missing' );
+
 $builder = 0;
-foreach ( array_slice( array_keys( $expected ), 0, 15 ) as $id ) {
+foreach ( array_diff( array_keys( $expected ), [ 3 ] ) as $id ) {
 	if ( 'builder' === get_post_meta( $id, '_elementor_edit_mode', true ) ) {
 		$builder++;
 	}
 }
-check( '15 content pages use Elementor builder mode', 15 === $builder, "$builder/15" );
+check( '14 content pages use Elementor builder mode', 14 === $builder, "$builder/14" );
 check( 'privacy is a plain WordPress page', 'builder' !== get_post_meta( 3, '_elementor_edit_mode', true ) );
+
+/* ---- program menus (no Vocational anywhere) ---- */
+foreach ( [ 'primary-menu', 'programs-sidebar' ] as $menu_slug ) {
+	$menu = wp_get_nav_menu_object( $menu_slug );
+	$items = $menu ? wp_get_nav_menu_items( $menu->term_id ) : [];
+	$voc_items = array_filter( $items, fn( $i ) => false !== stripos( $i->url, '/programs/vocational' ) );
+	check( "menu $menu_slug has no Vocational item", 0 === count( $voc_items ), count( $voc_items ) . ' found' );
+}
 
 /* ---- forms ---- */
 $inbox = 'info@goodshepherdmanor.org';

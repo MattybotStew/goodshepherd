@@ -35,6 +35,7 @@ IMG = {
     "garden": (2174, "2026/10/mosaic-garden.jpg"),
     "porch": (2175, "2026/10/mosaic-porch.jpg"),
     "day": (2260, "2026/11/Day-Program-1.jpg"),
+    # Photo still used by the Careers benefits section (the Vocational page is gone).
     "vocational": (2326, "2026/11/Vocational-1.jpg"),
     "infirmary": (2288, "2026/11/Infirmary-1.jpg"),
     "community": (2253, "2026/11/BGS-Momence-010.jpg"),
@@ -248,10 +249,10 @@ def prose_section(cid, title, children, bg="#FFFFFF", padding=(0, 24, 88, 24), a
 
 PROGRAM_NAV = [
     ("Community Day Services", "community-day-services"),
-    ("Community Engagement", "special-olympics"),
-    ("Vocational Program", "vocational"),
     ("Residential Living", "residential-living"),
     ("Health & Well Being", "health-well-being"),
+    # Client order 2026-11-06: Community Engagement moves last.
+    ("Community Engagement", "special-olympics"),
 ]
 
 
@@ -410,15 +411,15 @@ def page_programs_landing():
         ("cds", "Community Day Services",
          "Our Community Day Services build skills, friendships, and meaningful community connections.",
          "/programs/community-day-services"),
-        ("engagement", "Community Engagement",
-         "Explore interests and connect with others through activities, outings and Special Olympics.",
-         "/programs/special-olympics"),
         ("residential", "Residential Living",
          "Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence",
          "/programs/residential-living"),
         ("health", "Health & Well Being",
          "Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.",
          "/programs/health-well-being"),
+        ("engagement", "Community Engagement",
+         "Explore interests and connect with others through activities, outings and Special Olympics.",
+         "/programs/special-olympics"),
     ]
     tiles = []
     for i, (key, title, desc, path) in enumerate(cards):
@@ -993,8 +994,6 @@ BUILDERS = {
     2096: ("Careers", page_careers),
     2088: ("Community Day Services",
            lambda: program_page(DATA["programs"]["communityDay"], "day", "community-day-services")),
-    2089: ("Vocational Program",
-           lambda: program_page(DATA["programs"]["vocational"], "vocational", "vocational")),
     2127: ("Community Engagement",
            lambda: program_page(DATA["programs"]["communityEngagement"], "community", "special-olympics")),
     2090: ("Residential Living",
