@@ -45,6 +45,69 @@ $removed = $before - count( $data );
 // ---------------------------------------------------------------- 3 + 4: cards
 $cards_done = 0;
 
+/**
+ * Hero copy: the client wants "What's Happening at GSM" and its lede in the
+ * hero rather than duplicated further down the page, so the cards section
+ * keeps only its grid.
+ */
+function gsm_news_hero_copy( array &$nodes ) {
+	$hero_text  = "What’s Happening at GSM";
+	$hero_lede  = "<p>See how the men of GSM are learning, connecting, and thriving. Explore the new stories, events, and everyday moments your support helps make possible.</p>";
+	$found = 0;
+
+	$walk = function ( array &$list ) use ( &$walk, &$found, $hero_text, $hero_lede ) {
+		foreach ( $list as &$node ) {
+			if ( ! is_array( $node ) ) {
+				continue;
+			}
+			$id = $node['id'] ?? '';
+
+			if ( 'hero_h1' === $id ) {
+				$node['settings']['title'] = $hero_text;
+				$found++;
+			}
+
+			if ( 'hero_p' === $id ) {
+				$node['settings']['editor'] = $hero_lede;
+				$found++;
+			}
+
+			// drop the now-duplicated section heading + lede
+			if ( in_array( $id, array( 'nw_cards_h2', 'nw_cards_p' ), true ) ) {
+				$node['__remove'] = true;
+			}
+
+			if ( ! empty( $node['elements'] ) ) {
+				$walk( $node['elements'] );
+			}
+		}
+	};
+
+	$walk( $nodes );
+
+	// strip marked widgets
+	$prune = function ( array &$list ) use ( &$prune ) {
+		foreach ( $list as $i => &$node ) {
+			if ( ! is_array( $node ) ) {
+				continue;
+			}
+			if ( ! empty( $node['__remove'] ) ) {
+				unset( $list[ $i ] );
+				continue;
+			}
+			if ( ! empty( $node['elements'] ) ) {
+				$prune( $node['elements'] );
+			}
+		}
+		$list = array_values( $list );
+	};
+	$prune( $nodes );
+
+	return $found;
+}
+
+$hero_changed = gsm_news_hero_copy( $data );
+
 $walk = function ( array &$nodes ) use ( &$walk, &$cards_done, $META ) {
 	foreach ( $nodes as &$node ) {
 		if ( ! is_array( $node ) ) {
@@ -103,7 +166,7 @@ delete_post_meta( $PAGE_ID, '_elementor_css' );
 delete_post_meta( $PAGE_ID, '_elementor_element_cache' );
 delete_post_meta( $PAGE_ID, '_elementor_page_assets' );
 
-WP_CLI::log( "removed {$removed} section(s); cards updated: {$cards_done}" );
+WP_CLI::log( "removed {$removed} section(s); cards updated: {$cards_done}; hero fields updated: {$hero_changed}" );
 
 // ---------------------------------------------------------------- styling
 $css   = wp_get_custom_css();
@@ -121,6 +184,7 @@ $cards = ':is(.elementor-element-nw_card0,.elementor-element-nw_card1,.elementor
 
 $add = "\n/* GSM news hub */\n" .
 	$cards . "{position:relative;transition:transform .18s ease,box-shadow .18s ease;}\n" .
+	"@media (min-width:1025px){" . $cards . "{flex:1 1 0!important;min-width:0;}}\n" .
 	$cards . ":hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(0,42,78,.10);}\n" .
 	$cards . ":focus-within{outline:2px solid #006BB3;outline-offset:4px;}\n" .
 	$cards . " .elementor-widget-button{position:static!important;}\n" .
