@@ -52,6 +52,7 @@ if ( $donor ) {
 $hero = gsm_el( 'post_hero', 'container', array(
 	'content_width'            => 'full',
 	'min_height'               => array( 'unit' => 'px', 'size' => 520, 'sizes' => array() ),
+	'min_height_mobile'        => array( 'unit' => 'px', 'size' => 420, 'sizes' => array() ),
 	'background_background'    => 'classic',
 	'background_color'         => '#002A4E',
 	'background_image'         => array( 'url' => '/wp-content/uploads/2026/10/hero.jpg', 'id' => '' ),
@@ -61,11 +62,11 @@ $hero = gsm_el( 'post_hero', 'container', array(
 	'background_overlay_background' => 'classic',
 	'background_overlay_color'      => '#001424',
 	'background_overlay_opacity'    => array( 'unit' => 'px', 'size' => 0.78, 'sizes' => array() ),
-	'padding'                  => gsm_px( 180, 40, 96, 40 ),
-	'padding_mobile'           => gsm_px( 120, 20, 64, 20 ),
+	'padding'                  => gsm_px( 120, 40, 120, 40 ),
+	'padding_mobile'           => gsm_px( 96, 20, 96, 20 ),
 	'flex_direction'           => 'column',
 	'flex_align_items'         => 'flex-start',
-	'flex_justify_content'     => 'flex-end',
+	'flex_justify_content'     => 'center',
 ), array(
 	gsm_el( 'post_hero_inner', 'container', array(
 		'content_width'    => 'boxed',
