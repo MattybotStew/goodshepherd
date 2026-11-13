@@ -174,14 +174,14 @@ update_post_meta( $post_id, '_elementor_template_type', 'single-post' );
 update_post_meta( $post_id, '_elementor_edit_mode', 'builder' );
 update_post_meta( $post_id, '_elementor_version', ELEMENTOR_VERSION );
 update_post_meta( $post_id, '_elementor_data', wp_slash( wp_json_encode( $data ) ) );
-update_post_meta( $post_id, '_elementor_conditions', array( 'include/general' ) );
+update_post_meta( $post_id, '_elementor_conditions', array( 'include/singular/post' ) );
 
 // Elementor Pro resolves templates from this option, not the post meta alone.
 $conditions = get_option( 'elementor_pro_theme_builder_conditions', array() );
 if ( ! is_array( $conditions ) ) {
 	$conditions = array();
 }
-$conditions['single'] = array( $post_id => array( 'include/general' ) );
+$conditions['single'] = array( $post_id => array( 'include/singular/post' ) );
 update_option( 'elementor_pro_theme_builder_conditions', $conditions );
 
 delete_post_meta( $post_id, '_elementor_css' );
