@@ -107,8 +107,12 @@ check( 'newsletters embeds the SureForms widget', 1 === ( $types['sureforms_form
 check( 'newsletters has no shortcode widget', 0 === ( $types['shortcode'] ?? 0 ) );
 
 /* ---- must-use plugins ---- */
+/* The install also carries plugin-supplied mu-plugins (force-strong-passwords,
+   WP Engine's own), so assert the GSM set is present rather than counting files. */
 $mu = glob( WPMU_PLUGIN_DIR . '/*.php' );
-check( 'three mu-plugins installed', 3 === count( $mu ), count( $mu ) . ' found' );
+foreach ( [ 'gsm-redirects.php', 'gsm-security.php', 'gsm-seo.php', 'gsm-mail.php' ] as $file ) {
+	check( "mu-plugin $file present", file_exists( WPMU_PLUGIN_DIR . '/' . $file ) );
+}
 
 /* The repo and the Local install live in unrelated trees, so the mirror is
    located from an explicit env var with a conventional fallback. */
@@ -125,7 +129,17 @@ foreach ( [ 'gsm-redirects.php', 'gsm-security.php', 'gsm-seo.php' ] as $file ) 
 /* ---- settings ---- */
 check( 'blog_public is 0 (Local stays out of search)', '0' === (string) get_option( 'blog_public' ), (string) get_option( 'blog_public' ) );
 check( "admin_email is $inbox", get_option( 'admin_email' ) === $inbox, get_option( 'admin_email' ) );
-check( 'exactly one user', 1 === count( get_users() ), (string) count( get_users() ) );
+/* Users are not build scope, but a stripped or role-less account set means an
+   import went wrong. Assert the known administrator and no role-less accounts. */
+$dev = get_user_by( 'login', 'develop' );
+check( 'develop is an administrator', $dev && in_array( 'administrator', (array) $dev->roles, true ) );
+$no_role = 0;
+foreach ( get_users() as $u ) {
+	if ( empty( $u->roles ) ) {
+		$no_role++;
+	}
+}
+check( 'no user has an empty role set', 0 === $no_role, "$no_role role-less" );
 check( 'active theme is astra', 'astra' === get_option( 'stylesheet' ), get_option( 'stylesheet' ) );
 check( 'comments closed by default', 'closed' === get_option( 'default_comment_status' ), get_option( 'default_comment_status' ) );
 $open = (int) $GLOBALS['wpdb']->get_var( "SELECT COUNT(*) FROM {$GLOBALS['wpdb']->posts} WHERE post_status='publish' AND comment_status='open'" );
