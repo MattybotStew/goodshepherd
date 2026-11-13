@@ -40,7 +40,16 @@ function gsm_clean_url( $url ) {
 	return $path ? $path : $url;
 }
 
-/** Sideload an image and return its URL, or '' on failure. */
+/** Render a Gutenberg image block so the client can edit/replace it inline. */
+function gsm_image_block( $id, $url, $alt ) {
+	$attr = $id ? sprintf( ' {"id":%d,"sizeSlug":"large","linkDestination":"none"}', $id ) : ' {"sizeSlug":"large","linkDestination":"none"}';
+	$cls  = $id ? ' class="wp-image-' . (int) $id . '"' : '';
+	return "<!-- wp:image" . $attr . " -->\n"
+		. '<figure class="wp-block-image size-large"><img src="' . esc_url( $url ) . '" alt="' . esc_attr( $alt ) . '"' . $cls . ' /></figure>' . "\n"
+		. '<!-- /wp:image -->';
+}
+
+/** Sideload an image; returns array( attachment_id, url ). */
 function gsm_import_image( $url, $post_id, $alt ) {
 	$url = preg_replace( '/-\d+x\d+(\.(?:jpg|jpeg|png|webp))$/i', '$1', $url );
 
@@ -53,13 +62,13 @@ function gsm_import_image( $url, $post_id, $alt ) {
 	) );
 
 	if ( $existing ) {
-		return gsm_clean_url( wp_get_attachment_url( $existing[0] ) );
+		return array( (int) $existing[0], gsm_clean_url( wp_get_attachment_url( $existing[0] ) ) );
 	}
 
 	$tmp = download_url( $url );
 	if ( is_wp_error( $tmp ) ) {
 		WP_CLI::warning( 'download failed: ' . $url );
-		return '';
+		return array( 0, '' );
 	}
 
 	$file = array(
@@ -71,13 +80,13 @@ function gsm_import_image( $url, $post_id, $alt ) {
 	if ( is_wp_error( $id ) ) {
 		@unlink( $tmp );
 		WP_CLI::warning( 'sideload failed: ' . $url );
-		return '';
+		return array( 0, '' );
 	}
 
 	update_post_meta( $id, '_gsm_source_url', $url );
 	update_post_meta( $id, '_wp_attachment_image_alt', $alt );
 
-	return gsm_clean_url( wp_get_attachment_url( $id ) );
+	return array( (int) $id, gsm_clean_url( wp_get_attachment_url( $id ) ) );
 }
 
 $total = 0;
@@ -135,18 +144,18 @@ foreach ( $MAP as $post_id => $cfg ) {
 
 	foreach ( $items as $item ) {
 		$blocks[] = $item['heading']
-			? '<h2>' . esc_html( $item['text'] ) . '</h2>'
-			: '<p>' . esc_html( $item['text'] ) . '</p>';
+			? "<!-- wp:heading -->\n<h2>" . esc_html( $item['text'] ) . "</h2>\n<!-- /wp:heading -->"
+			: "<!-- wp:paragraph -->\n<p>" . esc_html( $item['text'] ) . "</p>\n<!-- /wp:paragraph -->";
 	}
 
 	if ( 'flyer' === $cfg['mode'] ) {
 		preg_match( '/<img[^>]+src="([^"]+)"/', $html, $img );
 		$src = $img[1] ?? '';
-		$url = $src ? gsm_import_image( $src, $post_id, $title ) : '';
+		list( $att_id, $url ) = $src ? gsm_import_image( $src, $post_id, $title ) : array( 0, '' );
 
 		// Flyer first, then any caption text the live post carries.
 		if ( $url ) {
-			array_unshift( $blocks, '<figure class="wp-block-image size-large"><img src="' . esc_url( $url ) . '" alt="' . esc_attr( $title ) . '" /></figure>' );
+			array_unshift( $blocks, gsm_image_block( $att_id, $url, $title ) );
 		}
 	} elseif ( 'gallery' === $cfg['mode'] ) {
 		preg_match_all( '/<img[^>]+src="([^"]+)"/', $html, $all );
@@ -158,9 +167,9 @@ foreach ( $MAP as $post_id => $cfg ) {
 
 		foreach ( $urls as $i => $src ) {
 			$alt = sprintf( '%s — photo %d', $title, $i + 1 );
-			$url = gsm_import_image( $src, $post_id, $alt );
+			list( $att_id, $url ) = gsm_import_image( $src, $post_id, $alt );
 			if ( $url ) {
-				$blocks[] = '<figure class="wp-block-image size-large"><img src="' . esc_url( $url ) . '" alt="' . esc_attr( $alt ) . '" /></figure>';
+				$blocks[] = gsm_image_block( $att_id, $url, $alt );
 			}
 		}
 	}
