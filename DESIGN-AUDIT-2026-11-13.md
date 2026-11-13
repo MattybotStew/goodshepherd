@@ -27,20 +27,11 @@ Remaining below: news article copy, placeholder captions, mail transport, News/E
 
 ## P0 — blockers
 
-### 1. News article bodies are Lorem ipsum
-`/news/35th-annual-fall-festival/` renders `Lorem ipsum…` as the body copy. Every article uses the same placeholder source, and `/news/` cards link into them. The site cannot launch with placeholder article text.
-**Fix:** real copy per post (or unpublish article cards until copy lands).
+### 1. ~~News article bodies are Lorem ipsum~~ — FIXED 2026-11-13
+All four `/news` posts now carry the client's real copy and images, pulled from the live site over its REST API (`_tools/import_live_news.php`): Fall Festival (8 paragraphs), Digital Den (2 paragraphs + 3 photos), Golf sponsors and Family cookouts (flyer images). Post dates, excerpts and alt text set; image URLs stored host-relative so the same content works on Local and stage.
 
-### 2. Wire captions visible in production copy
-Literal wire text sits under real photos on three program pages:
-
-| Page | Caption |
-|---|---|
-| Residential Living | `Placeholder photo — homes on the Momence campus.` |
-| Health & Well Being | `Placeholder photo — the McAllister Infirmary.` |
-| Community Engagement | `Placeholder photo — outings, athletics, and community events.` |
-
-**Fix:** delete the captions (the photos are self-explanatory) or write real ones.
+### 2. ~~Wire captions visible in production copy~~ — FIXED 2026-11-13
+The three `Placeholder photo — …` caption widgets (Residential, Health, Community Engagement — plus one on the retired Vocational draft) were deleted with `_tools/remove_placeholder_captions.php`. The photos are self-explanatory, so removing the captions was the right fix rather than inventing new ones.
 
 ### 3. No mail transport — every form fails silently
 `GSM_SMTP_PASS` is not defined, so `mu-plugins/gsm-mail.php` is inert. `wp_mail()` returns false with no log line: newsletter signups, contact messages, thank-a-staff notes, password resets and new-user mail all disappear without an error. The UI shows no failure because SureForms treats the submission as accepted.
@@ -65,9 +56,8 @@ Measurement artifact. Every inline CTA ("Learn more →", "Read More", "View ope
 Present on every page: `ast-desktop-header`, `ast-mobile-header`, `ast-mobile-site-navigation`, `ast-hf-mobile-menu`, `srfm-error-message`. Worse on form pages: `/contact/` repeats `srfm-sender-email`, `srfm-page-break`, `srfm-submit-btn`; `/newsletters/` repeats the whole `srfm-form-2202` id set because the newsletter form is embedded twice (band + page).
 **Fix:** newsletters page uses the same form twice — give the inline instance a distinct id, or rely on the band only. The Astra ones are theme-generated; low risk but they do break `for`/`aria-describedby` uniqueness.
 
-### 8. Events and News cards have no imagery or metadata
-`/events/` has **0 images** on the page; `/news/` cards have **0 images** and no date or category line — just headline, excerpt, "Read More". Next to the rest of the site (every other page leads with photography) these two read as unfinished.
-**Fix:** add a photo per event/news card, plus date + category on news cards.
+### 8. Events and News cards have no imagery or metadata — matches the live site
+`/events/` has **0 images**; `/news/` cards have no photo, date or category. The client's own production site is the same: its Events page is text-only and its newsletter archive is "under construction". So this is a content/design choice, not drift — flag it to the client rather than treating it as a defect.
 
 ### 9. Newsletter band is missing its eyebrow
 The design has `STAY CONNECTED` above the band copy; stage renders only `Newsletter` + copy. The label element exists in template 2375 but is empty.
