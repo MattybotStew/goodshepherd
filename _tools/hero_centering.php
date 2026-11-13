@@ -1,16 +1,22 @@
 <?php
 /**
- * Vertically centre the hero content on every inner page.
+ * Centre the hero content in the VISIBLE hero area.
  *
- * The heroes already used `justify-content: center`, but the padding was
- * asymmetric (140 top / 96 bottom), which pushed the copy ~22px below the true
- * centre — visible as a heavier gap above the headline than below it. Heights
- * also varied (480 / 520 / 560) for no design reason.
+ * The transparent header sits on top of the hero, so geometric centring puts
+ * the copy ~header-height too high (it looked pinned under the nav). The
+ * header covers the top of the hero:
  *
- * This sets one rhythm across the 13 sub-pages: min-height 520, symmetric
- * padding (120 / 120 desktop, 110 tablet, 96 mobile), content centred.
+ *   desktop 176px (51 banner + 125 nav)
+ *   tablet  190px
+ *   mobile  177px
  *
- * The single-post hero is handled by _tools/build_post_template.php.
+ * So the top padding has to be `header + base` while the bottom stays `base`.
+ * Any extra height then splits evenly, which preserves that offset, and the
+ * copy lands in the middle of what the visitor actually sees below the nav.
+ *
+ *   desktop  min-height 560, padding 296 / 120
+ *   tablet   min-height 520, padding 300 / 110
+ *   mobile   min-height 480, padding 273 / 96
  *
  * Run:  wp eval-file _tools/hero_centering.php
  */
@@ -31,7 +37,12 @@ $PAGES = array(
 	319  => 'Contact Us',
 );
 
-$MIN_HEIGHT = 520;
+// header height + breathing room, per breakpoint
+$BREAKPOINTS = array(
+	''       => array( 'min' => 560, 'top' => 296, 'bottom' => 120, 'side' => '24' ),   // >=1025, header 176
+	'_tablet' => array( 'min' => 520, 'top' => 300, 'bottom' => 110, 'side' => '24' ), // 768-1024, header 190
+	'_mobile' => array( 'min' => 480, 'top' => 273, 'bottom' => 96,  'side' => '20' ),  // <=767, header 177
+);
 
 function gsm_pad( $t, $r, $b, $l ) {
 	return array( 'unit' => 'px', 'top' => (string) $t, 'right' => (string) $r, 'bottom' => (string) $b, 'left' => (string) $l, 'isLinked' => false );
@@ -59,15 +70,12 @@ foreach ( $PAGES as $page_id => $label ) {
 
 		$s = isset( $node['settings'] ) && is_array( $node['settings'] ) ? $node['settings'] : array();
 
-		$left  = $s['padding']['left']  ?? '24';
-		$right = $s['padding']['right'] ?? '24';
+		foreach ( $BREAKPOINTS as $suffix => $bp ) {
+			$s[ 'min_height' . $suffix ] = array( 'unit' => 'px', 'size' => $bp['min'], 'sizes' => array() );
+			$s[ 'padding' . $suffix ]    = gsm_pad( $bp['top'], $bp['side'], $bp['bottom'], $bp['side'] );
+		}
 
-		$s['min_height']          = array( 'unit' => 'px', 'size' => $MIN_HEIGHT, 'sizes' => array() );
-		$s['min_height_mobile']   = array( 'unit' => 'px', 'size' => 420, 'sizes' => array() );
 		$s['flex_justify_content'] = 'center';
-		$s['padding']             = gsm_pad( 120, $right, 120, $left );
-		$s['padding_tablet']      = gsm_pad( 110, $right, 110, $left );
-		$s['padding_mobile']      = gsm_pad( 96, '20', 96, '20' );
 
 		$node['settings'] = $s;
 		$done = true;
@@ -83,7 +91,7 @@ foreach ( $PAGES as $page_id => $label ) {
 	delete_post_meta( $page_id, '_elementor_element_cache' );
 	delete_post_meta( $page_id, '_elementor_page_assets' );
 
-	WP_CLI::log( "{$page_id} {$label}: hero centred, min-height {$MIN_HEIGHT}" );
+	WP_CLI::log( "{$page_id} {$label}: hero centred below the header" );
 }
 
-WP_CLI::success( 'Sub-page heroes centred.' );
+WP_CLI::success( 'Sub-page heroes centred in the visible area.' );
