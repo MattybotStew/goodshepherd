@@ -65,6 +65,9 @@ Refreshed **2026-11-14** to match Local + stage after the client content-documen
   the 7 document fixes and 4 client decisions, with the document cell references.
 - The notes cards grew with the added lines, so the whole top row was re-aligned to `y = -149` to keep a
   ≥20px gap above every page frame (two of them had started to overlap their frame).
+- The 13 inner-frame headers were laid out with a 502px left padding, so the 697px nav list spilled left
+  over the white logo. Their header containers are now 1200 wide with 40px padding and `SPACE_BETWEEN`:
+  logo left, nav centre, Support GSM button right, no overlap.
 
 Traps found while editing the frames: the notes and page frames are plain frames, not auto-layout
 containers, so they do **not** reflow when a text grows — check `Main Content` is `HUG` (Home and
