@@ -50,8 +50,10 @@ Refreshed **2026-11-14** to match Local + stage after the client content-documen
 - Footer column renamed **Get Involved** and **Volunteer** added before Memorial or Tribute, on all 14 frames.
 - Newsletter band gained the **STAY CONNECTED** eyebrow (Home, About, Programs, Community Day, Contact
   were missing it) and the line **"No spam – just stories worth opening."** under the form.
-- Programs: cards now carry the Programs-sheet copy and **Learn more →**; the mosaic is the client's
-  grid set; the frame follows the live card order.
+- Programs: **Our Programs & Services** H2 + lede restored above the cards; the four cards carry the
+  Programs-sheet copy and **Learn more →**; equal-height cards with the links on one baseline; the frame
+  follows the live card order. (The mosaic photos are design assets in the frame — the live page uses
+  media 2429–2432, see the Programs notes card.)
 - Support GSM: H1 is **GSM Foundation**; jump tab singular, section eyebrow plural.
 - About: both partner pills (ARC of Illinois, Intersect For Ability).
 - New card **`Dev notes — Content audit 2026-11-14`** (right of the "Do not implement" card) summarises
