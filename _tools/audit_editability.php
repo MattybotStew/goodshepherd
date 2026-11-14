@@ -1,14 +1,31 @@
 <?php
 /**
  * Read-only: report anything that would make a page non-editable in Elementor.
+ *
+ * The "Single Post — News" template is resolved by title, not by ID: it is built
+ * independently on each host (2491 on stage, 2496 on Local), so a hardcoded ID
+ * made this audit print "NO ELEMENTOR DATA" on Local and silently skip the doc.
  */
-$ids = array( 315, 316, 317, 2088, 2090, 2091, 2127, 2092, 2093, 2094, 318, 2095, 2096, 319, 2491, 2375 );
+$ids = array( 315, 316, 317, 2088, 2090, 2091, 2127, 2092, 2093, 2094, 318, 2095, 2096, 319 );
 $names = array(
 	315 => 'Home', 316 => 'About', 317 => 'Programs', 2088 => 'CDS', 2090 => 'Residential',
 	2091 => 'Health', 2127 => 'Engagement', 2092 => 'Support', 2093 => 'Endowment',
 	2094 => 'Events', 318 => 'News', 2095 => 'Newsletters', 2096 => 'Careers', 319 => 'Contact',
-	2491 => 'Post template', 2375 => 'Newsletter band',
 );
+
+$tpl = get_posts( array( 'post_type' => 'elementor_library', 'title' => 'Single Post — News', 'posts_per_page' => 1, 'fields' => 'ids', 'post_status' => 'any' ) );
+if ( $tpl ) {
+	$ids[] = (int) $tpl[0];
+	$names[ (int) $tpl[0] ] = 'Post template';
+}
+$band = get_posts( array( 'post_type' => 'elementor_library', 'title' => 'Newsletter band', 'posts_per_page' => 1, 'fields' => 'ids', 'post_status' => 'any' ) );
+if ( $band ) {
+	$ids[] = (int) $band[0];
+	$names[ (int) $band[0] ] = 'Newsletter band';
+} else {
+	$ids[] = 2375;
+	$names[2375] = 'Newsletter band';
+}
 
 foreach ( $ids as $id ) {
 	$raw = get_post_meta( $id, '_elementor_data', true );
