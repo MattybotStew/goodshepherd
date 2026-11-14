@@ -623,12 +623,12 @@ Applied by `build_pages.py` (pages 317, 2092) and `_tools/newsletter_underform.p
 - **Document typos** — "Afilliations", "Engagment", "Chistmas", "Oympics" — are already correct on the site.
 - **Global "Get Involved" lorem block and the "Projects" nav row** (Global!D5–D15) are placeholders, not content.
 
-### Client decisions (recommendation in bold; do not apply until the user confirms)
+### Client decisions (all four applied on Local 2026-11-14; see below)
 
-1. **Footer links** — Global!D26 lists "Volunteer"; the site has "Memorial or Tribute" (client direction 2026-11-04). **Keep both; Volunteer → `/support-gsm#events`.**
-2. **Footer column heading** — Global!D25 says "GET INVOLVED"; the site shows "Ways to Give". **Switch to "GET INVOLVED".**
-3. **About › Affiliations buttons** — About!D36–D37 list ARC of Illinois and Intersect For Ability; the site has only ARC, linked to `#`. **Add both, linking to `https://www.thearcofil.org/` and `https://intersectforability.com/` in a new tab** (both return 200, checked 2026-11-14; the `.org` guesses do not resolve).
-4. **Programs landing card order** — Programs!D9–D12 order is CDS, Community Engagement, Residential, Health. **Keep the 2026-11-06 client order** (CDS, Residential, Health, Community Engagement) used everywhere else.
+1. **Footer links** — Global!D26 lists "Volunteer"; the site has "Memorial or Tribute" (client direction 2026-11-04). **Keep both; Volunteer → `/support-gsm#events`.** ✅ Applied — `_tools/footer_get_involved.php` updates `widget_block` 16 (rendered) and 17 (unused copy).
+2. **Footer column heading** — Global!D25 says "GET INVOLVED"; the site shows "Ways to Give". **Switch to "GET INVOLVED".** ✅ Applied as title case **"Get Involved"** to match the other footer headings ("About Us", "Contact Info"); the document's caps are a label style, not copy.
+3. **About › Affiliations buttons** — About!D36–D37 list ARC of Illinois and Intersect For Ability; the site has only ARC, linked to `#`. **Add both, linking to `https://www.thearcofil.org/` and `https://intersectforability.com/` in a new tab** (both return 200, checked 2026-11-14; the `.org` guesses do not resolve). ✅ Applied — page 316 widgets `affiliations_link` + `affiliations_link2`, `is_external: "on"`.
+4. **Programs landing card order** — Programs!D9–D12 order is CDS, Community Engagement, Residential, Health. **Keep the 2026-11-06 client order** (CDS, Residential, Health, Community Engagement) used everywhere else. ✅ Non-change, confirmed.
 
 ### opencode verification — agreement and implementation notes (2026-11-14)
 
@@ -661,7 +661,7 @@ Method: the same 14-sheet document was extracted cell-by-cell and matched agains
 | Mosaic photos | `IMG` map + `pi_img1..4` | `src/pages/ProgramsPage.jsx` / `ProgramsIntroSection` image set |
 | Support GSM H1 + tab | `page_support` (2092) | `FoundationPage.jsx`, `src/data/getInvolved.js` (`tabLabel`) |
 | Newsletter note | template 2375, new script | Newsletter band is WordPress-only; no React equivalent. |
-| Footer links/heading | `widget_block` **16** (rendered through `sidebars_widgets['footer-widget-3'] = block-16`); block 17 is an identical stale duplicate — update both or delete 17 | `src/components/Layout.jsx` footer column |
+| Footer links/heading | `widget_block` **16** (rendered through `sidebars_widgets['footer-widget-3'] = block-16`); block 17 is an unused older paragraph-style copy of the same column — update both or delete 17. Script: `_tools/footer_get_involved.php` | `src/components/Layout.jsx` footer column |
 | About partners | `build_pages.py` About `split` call (316) | `src/pages/AboutPage.jsx` + `AffiliationsSection` |
 
 **Do not run `_tools/fix_footer.php` for the footer change.** It is stale: it writes a lorem tagline, the old `.gsm-signup` HTML band (the band is now Elementor template 2375), and Astra Pro `footer-widget-3/4` keys. Edit the `widget_block` option directly with a small idempotent script instead, or update `fix_footer.php` to current state first.

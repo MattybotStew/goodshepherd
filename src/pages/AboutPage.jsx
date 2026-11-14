@@ -81,8 +81,16 @@ function AboutPage() {
         title="Member Organizations or Affiliations"
         description="GSM is a member of a variety of local professional and civic organizations, as well as statewide organizations such as the Kankakee & Momence Chamber of Commerce, Intersect For Ability, United Way of Kankakee County, Special Olympics & ARC of IL."
         links={[
-          { label: 'ARC of Illinois', to: '#' },
-          { label: 'Intersect For Ability', to: '#' },
+          {
+            label: 'ARC of Illinois',
+            to: 'https://www.thearcofil.org/',
+            external: true,
+          },
+          {
+            label: 'Intersect For Ability',
+            to: 'https://intersectforability.com/',
+            external: true,
+          },
         ]}
       />
 

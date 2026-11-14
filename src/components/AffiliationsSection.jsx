@@ -23,11 +23,23 @@ export default function AffiliationsSection({
       <p>{description}</p>
       <div className="partners">
         {links
-          ? links.map((link) => (
-              <Link className="partner-pill" key={link.label} to={link.to}>
-                {link.label}
-              </Link>
-            ))
+          ? links.map((link) =>
+              link.external || /^https?:/.test(link.to) ? (
+                <a
+                  className="partner-pill"
+                  key={link.label}
+                  href={link.to}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link className="partner-pill" key={link.label} to={link.to}>
+                  {link.label}
+                </Link>
+              ),
+            )
           : names.map((name) => (
               <span className="partner-pill" key={name}>
                 {name}

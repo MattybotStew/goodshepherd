@@ -217,7 +217,8 @@ def hero(title, lede, img="hero", height=520, align="center"):
 
 
 def split(cid, eyebrow, title, paragraphs, img, flip=False, bg="#FFFFFF",
-          padding=(88, 24, 88, 24), link=None, list_items=None, side_note=None):
+          padding=(88, 24, 88, 24), link=None, list_items=None, side_note=None,
+          links=None):
     att, url = IMG[img]
     copy_children = []
     if eyebrow:
@@ -233,6 +234,12 @@ def split(cid, eyebrow, title, paragraphs, img, flip=False, bg="#FFFFFF",
                                   margin=(0, 0, 16, 0)))
     if link:
         copy_children.append(link_button(f"{cid}_link", link[0], link[1], margin=(12, 0, 0, 0)))
+    for i, item in enumerate(links or []):
+        label, url = item[0], item[1]
+        external = len(item) > 2 and bool(item[2])
+        cid_i = f"{cid}_link" if i == 0 else f"{cid}_link{i + 1}"
+        copy_children.append(
+            link_button(cid_i, label, url, margin=(12, 0, 0, 0), external=external))
 
     copy_col = container(f"{cid}_copy", {
         "content_width": "full",
@@ -1075,7 +1082,10 @@ def page_about():
         ])]),
         split("affiliations", "Memberships", "Member Organizations or Affiliations", [
             "GSM is a member of a variety of local professional and civic organizations, as well as statewide organizations such as the Kankakee & Momence Chamber of Commerce, Intersect For Ability, United Way of Kankakee County, Special Olympics & ARC of IL.",
-        ], "about_4", bg="#FFFFFF", link=("ARC of Illinois", "#")),
+        ], "about_4", bg="#FFFFFF", links=[
+            ("ARC of Illinois", "https://www.thearcofil.org/", True),
+            ("Intersect For Ability", "https://intersectforability.com/", True),
+        ]),
         split("accessibility", "Accessibility Statement", "Website Accessibility Statement", [
             "Good Shepherd Manor is committed to treating every person with dignity and respect. In keeping with our mission of providing high-quality, compassionate care to men with intellectual and developmental disabilities, we strive to make our website accessible and welcoming to people of all abilities. Our goal is to continually improve the accessibility and usability of our website so everyone can learn about our programs, access resources, and connect with our mission.",
             "If you experience difficulty accessing any part of our website or need information in an alternative format, please contact us at 815-472-3700 or info@goodshepherdmanor.org. Please include the page address and a brief description of the difficulty so we can better assist you.",

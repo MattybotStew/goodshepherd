@@ -103,10 +103,10 @@ def text(cid, html, color="#303336", size_px=16, line_height=1.65,
 
 
 def link_button(cid, label, url, color="#006BB3", size_px=16, weight="700",
-                align="left", margin=None):
+                align="left", margin=None, external=False):
     return widget(cid, "button", {
         "text": label,
-        "link": {"url": url, "is_external": "", "nofollow": ""},
+        "link": {"url": url, "is_external": "on" if external else "", "nofollow": ""},
         "align": align,
         "background_color": "rgba(0,0,0,0)",
         "button_text_color": color,

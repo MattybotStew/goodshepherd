@@ -20,6 +20,7 @@ const FOOTER_GIVE = [
   { label: 'GSM Foundation', path: '/support-gsm' },
   { label: 'Shepherd Endowment Society', path: '/shepherd-endowment-society' },
   { label: 'Events', path: '/events' },
+  { label: 'Volunteer', path: '/support-gsm#events' },
   { label: 'Memorial or Tribute', path: '/support-gsm#ways-to-give' },
 ]
 
@@ -377,8 +378,8 @@ function Layout() {
             </ul>
           </nav>
 
-          <nav className="footer__nav" aria-label="Ways to give">
-            <h3 className="footer__heading">Ways To Give</h3>
+          <nav className="footer__nav" aria-label="Get involved">
+            <h3 className="footer__heading">Get Involved</h3>
             <ul className="footer__links">
               {FOOTER_GIVE.map((item) => (
                 <li key={item.path}>
