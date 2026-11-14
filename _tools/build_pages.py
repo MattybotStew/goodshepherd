@@ -442,7 +442,7 @@ def page_programs_landing():
         }, [
             container("prog_intro_copy", {
                 "content_width": "full",
-                "width": {"unit": "%", "size": 46, "sizes": []},
+                "width": {"unit": "%", "size": 36, "sizes": []},
                 "width_mobile": {"unit": "%", "size": 100, "sizes": []},
                 "flex_direction": "column",
             }, [
@@ -451,15 +451,42 @@ def page_programs_landing():
                         margin=(0, 0, 20, 0)),
                 text("pi_p", "<p>Through personalized support and engaging experiences, each man discovers his strengths, develops everyday skills, builds lasting friendships, and gains confidence to try new things.</p>"),
             ], inner=True),
+            # Mosaic from the React wire (ProgramsIntroSection): a tall photo, a
+            # wide photo, and two stacked short photos. Stacks on mobile.
             container("prog_intro_imgs", {
                 "content_width": "full",
-                "width": {"unit": "%", "size": 46, "sizes": []},
+                "width": {"unit": "%", "size": 60, "sizes": []},
                 "width_mobile": {"unit": "%", "size": 100, "sizes": []},
                 "flex_direction": "row",
+                "flex_direction_mobile": "column",
                 "flex_gap": gap(20),
             }, [
-                image("pi_img1", IMG["prog_1"][0], IMG["prog_1"][1], radius=16),
-                image("pi_img2", IMG["prog_2"][0], IMG["prog_2"][1], radius=16),
+                container("pi_col_a", {
+                    "content_width": "full",
+                    "width": {"unit": "%", "size": 30, "sizes": []},
+                    "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                    "flex_direction": "column",
+                }, [
+                    image("pi_img1", IMG["prog_1"][0], IMG["prog_1"][1], radius=16),
+                ], inner=True),
+                container("pi_col_b", {
+                    "content_width": "full",
+                    "width": {"unit": "%", "size": 40, "sizes": []},
+                    "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                    "flex_direction": "column",
+                }, [
+                    image("pi_img2", IMG["prog_2"][0], IMG["prog_2"][1], radius=16),
+                ], inner=True),
+                container("pi_col_c", {
+                    "content_width": "full",
+                    "width": {"unit": "%", "size": 30, "sizes": []},
+                    "width_mobile": {"unit": "%", "size": 100, "sizes": []},
+                    "flex_direction": "column",
+                    "flex_gap": gap(20),
+                }, [
+                    image("pi_img3", IMG["cds_1"][0], IMG["cds_1"][1], radius=16),
+                    image("pi_img4", IMG["ce_2"][0], IMG["ce_2"][1], radius=16),
+                ], inner=True),
             ], inner=True),
         ], inner=True),
     ])])
