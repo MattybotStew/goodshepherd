@@ -466,6 +466,15 @@ The header is four different heights, and Elementor only has three breakpoints:
 - **Consequence: hero padding is not editable in Elementor.** Changing it there has no effect. Edit the CSS block (`/* GSM hero vertical centring */` in Additional CSS, written by `_tools/hero_centering_css.php`) or re-measure the header first.
 - Scripts: `_tools/hero_centering.php` (Elementor values), `_tools/hero_centering_css.php` (band overrides + nav band fix).
 - Measured result: content sits exactly 120px below the header and 120px above the hero bottom at 1440/1260/1150/1000, 110/110 at 900/768, 96/96 at 390.
+- **Card strips that overlap the hero count against the bottom.** Five pages pull a white card strip up over the hero, so "bottom" means the top of the cards, not the hero edge. Bottom padding on those pages is `base + overlap`, set per page (`.page-id-N`) in the same CSS block (fixed 2026-11-13; before it the copy sat 0–32px above the cards):
+
+  | Page | Overlap desktop / tablet / mobile | padding-bottom ≥1025 / 922–1024 / 768–921 / ≤767 |
+  |---|---|---|
+  | Home 315 (`#home-intro`) | 160 / 96 / 64 | 280 / 216 / 206 / 160 |
+  | Support GSM 2092, Endowment 2093, Events 2094 (`cards_strip`) | 120 / 80 / 56 | 240 / 200 / 190 / 152 |
+  | Contact 319 (`contact_bar`) | 56 / 56 / 56 | 176 / 176 / 166 / 152 |
+
+  If you change a strip's negative margin in `build_pages.py` / `build_home_replica.py`, change these numbers too. Measure the gap against the strip's top, not the hero's bottom.
 
 ### Header nav wrapped at 1230–1269px
 
