@@ -512,7 +512,11 @@ Both pages were reusing the shared `hero.jpg`, so they looked identical to Home 
 
 `pg_content` (article column) carries 64px bottom padding so the gallery does not run flush into the band below. Script: `_tools/gallery_bottom_padding.php`.
 
-Gallery tiles are **square** (2026-11-14). The image widgets (`gal_0`–`gal_3`) were rendering at each photo's natural aspect ratio, so a 2-up row mixed 444×592 with 444×333. They now use Elementor's own Image Resolution = Custom, 800×800 — a hard-cropped square served from `uploads/elementor/thumbs/`, square at every column width with no CSS. Rule lives in `_tools/design_patches.json` (`re:^gal_\d+$`), so a rebuild keeps it; the live-page applier is `_tools/square_gallery_images.php` (idempotent, run it on Local and on stage after a push, because each host generates its own crops).
+Gallery tiles are **square** (2026-11-14). The image widgets (`gal_0`–`gal_3`) were rendering at each photo's natural aspect ratio, so a 2-up row mixed 444×592 with 444×333. They now use Elementor's own Image Resolution = Custom, **600×600** — a hard-cropped square served from `uploads/elementor/thumbs/`, square at every column width with no CSS, and still editable as an ordinary image widget. 600 rather than 800 because the custom-size path emits one file with no srcset: it is what every viewport downloads, and 600 already covers the 444px desktop and 342px mobile tile at ≥1.35×; four tiles cost ~290KB instead of ~470KB. Rule lives in `_tools/design_patches.json` (`re:^gal_\d+$`), so a rebuild keeps it; the live-page applier is `_tools/square_gallery_images.php` (idempotent, run it on Local and on stage after a push, because each host generates its own crops).
+
+### Footer / newsletter-band depth
+
+`_tools/footer_newsletter_depth.php` owns the footer gradient and the newsletter band's navy gradient + blue bloom (`.elementor-element-nlband::before`). Those three declarations existed **only** in stage's Additional CSS for a while, so the next Local → stage push would have deleted them silently; they are now scripted, and the script strips the old inline copies so both hosts hold exactly one. After it ran, Local and stage Additional CSS were byte-identical (28,822 bytes, same sha1) — use that as the drift check.
 
 ### Content pulled from the live site
 

@@ -39,11 +39,11 @@
       }
     },
     "re:^gal_\\d+$": {
-      "_why": "Gallery tiles rendered at each photo's own aspect ratio (444x592 next to 444x333 at 1440) so the 2-up rows were ragged. Elementor's custom 800x800 resolution serves a hard-cropped square, making every tile square at any column width - no CSS involved.",
+      "_why": "Gallery tiles rendered at each photo's own aspect ratio (444x592 next to 444x333 at 1440) so the 2-up rows were ragged. Elementor's custom 600x600 resolution serves a hard-cropped square, making every tile square at any column width - no CSS involved. 600 is deliberate: a custom size emits one file with no srcset, so it is the size every viewport downloads.",
       "image_size": "custom",
       "image_custom_dimension": {
-        "width": 800,
-        "height": 800
+        "width": 600,
+        "height": 600
       }
     }
   },

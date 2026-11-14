@@ -11,16 +11,19 @@
  * (measured 444x592 next to 444x333 at 1440).
  *
  * The fix is Elementor-native, no CSS: the image widget's own Image Resolution is
- * set to "Custom" with an 800x800 dimension. Elementor then serves a hard-cropped
+ * set to "Custom" with a square dimension. Elementor then serves a hard-cropped
  * square (bfi_thumb, crop=true), so every tile is square at any column width.
  *
- * 800px covers a 444px tile at ~2x. Generating a custom size writes one file per
- * photo into uploads; both Local and stage generate their own on first render.
+ * 600px, not larger: the custom-size path emits a single file with no srcset, so
+ * the tile downloads at every breakpoint. A 444px desktop tile and a 342px mobile
+ * tile are both covered at >=1.35x, and four tiles cost ~230KB instead of ~470KB.
+ * Generating a custom size writes one file per photo into uploads; both Local and
+ * stage generate their own on first render.
  */
 
 $SQUARE = array(
 	'image_size'             => 'custom',
-	'image_custom_dimension' => array( 'width' => 800, 'height' => 800 ),
+	'image_custom_dimension' => array( 'width' => 600, 'height' => 600 ),
 );
 
 $docs = get_posts( array(
@@ -50,8 +53,8 @@ function gsm_square_walk( array &$nodes, array $square, int &$found, int &$chang
 				? $s['image_custom_dimension']
 				: array();
 			$already = ( 'custom' === ( $s['image_size'] ?? '' ) )
-				&& 800 === (int) ( $dim['width'] ?? 0 )
-				&& 800 === (int) ( $dim['height'] ?? 0 );
+				&& (int) ( $square['image_custom_dimension']['width'] ) === (int) ( $dim['width'] ?? 0 )
+				&& (int) ( $square['image_custom_dimension']['height'] ) === (int) ( $dim['height'] ?? 0 );
 			if ( ! $already ) {
 				$n['settings'] = array_merge( $s, $square );
 				$changed++;
@@ -66,6 +69,7 @@ function gsm_square_walk( array &$nodes, array $square, int &$found, int &$chang
 $docs_written = 0;
 $tiles_found  = 0;
 $tiles_fixed  = 0;
+$w            = (int) $SQUARE['image_custom_dimension']['width'];
 
 foreach ( $docs as $doc_id ) {
 	$data = json_decode( (string) get_post_meta( $doc_id, '_elementor_data', true ), true );
@@ -87,7 +91,7 @@ foreach ( $docs as $doc_id ) {
 	delete_post_meta( $doc_id, '_elementor_element_cache' );
 	delete_post_meta( $doc_id, '_elementor_css' );
 	( new Elementor\Core\Files\CSS\Post( $doc_id ) )->update();
-	WP_CLI::log( "{$doc_id}: {$changed} of {$found} gallery tiles set to an 800x800 square crop" );
+	WP_CLI::log( "{$doc_id}: {$changed} of {$found} gallery tiles set to a {$w}x{$w} square crop" );
 	$docs_written++;
 	$tiles_fixed += $changed;
 }
