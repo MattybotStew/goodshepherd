@@ -67,19 +67,22 @@ Refreshed **2026-11-14** to match Local + stage after the client content-documen
 - About: both partner pills (ARC of Illinois, Intersect For Ability).
 - New card **`Dev notes — Content audit 2026-11-14`** (right of the "Do not implement" card) summarises
   the 7 document fixes and 4 client decisions, with the document cell references.
-- The notes cards grew with the added lines, so the whole top row was re-aligned to `y = -149` to keep a
-  ≥20px gap above every page frame (two of them had started to overlap their frame).
+- The notes cards grew with the added lines, so the whole top row was re-aligned to a common top edge, kept
+  ≥20px clear of every page frame (two of them had started to overlap their frame). The row sits at
+  `y = -179` since the annotation pass — see §Dev Layer cleanup below.
 - The 13 inner-frame headers were laid out with a 502px left padding, so the 697px nav list spilled left
   over the white logo. Their header containers are now 1200 wide with 40px padding and `SPACE_BETWEEN`:
   logo left, nav centre, Support GSM button right, no overlap.
 - The newsletter band sits **flush on the footer** in all 14 frames (`band.bottom == footer.top`, and the
   frame ends exactly at the footer). Seven frames had drifted — Programs 81px short, Contact 51px short,
   Support GSM −64, Endowment −59, Events −2, News −139 and Newsletters −217 — because the band `Section`
-  is a plain body child positioned by hand next to an empty `Placeholder for Section` spacer. The spacer is
-  now resized to the band and shares its y, so the two cannot drift apart again. Programs and Contact are
-  33px taller than before: their band (309px) did not fit the 276px gap, so the footer moved down rather
-  than the band covering the Support GSM card. Verify with `band.bottom == footer.top` on the Body-child
-  ancestor of the "No spam" text — measuring up to the first ancestor named `Section` gives false gaps.
+  is a plain body child positioned by hand next to an empty spacer. The spacer (`Spacer — newsletter band
+  slot`) is now resized to the band and shares its y, so the two cannot drift apart again. Programs and
+  Contact are 33px taller than before: their band (309px) did not fit the 276px gap, so the footer moved
+  down rather than the band covering the Support GSM card. Verify with `band.bottom == footer.top` on the
+  Body-child ancestor of the "No spam" text — measuring up to the first ancestor named `Section` (or any
+  other container name) gives false gaps. Home and About keep the band **inside** the footer, so their
+  measurement is `n/a`, not a failure.
 
 Traps found while editing the frames: the notes and page frames are plain frames, not auto-layout
 containers, so they do **not** reflow when a text grows — check `Main Content` is `HUG` (Home and
@@ -87,6 +90,54 @@ About were `FILL` and silently clipped their last section), and a footer column 
 `List` will clip a new item until the list is switched to `HUG`. Text **layer names** do not follow the
 characters either, so a renamed string still shows the old copy in the layers panel until it is renamed
 too — check names, not just text, when auditing a frame against the live page.
+
+## Dev Layer cleanup and annotations (2026-11-14)
+
+The page is now a handoff surface rather than a working file: 33 top-level nodes, no overlaps, and every
+annotation written from the same text as its notes card.
+
+**Dev Mode annotations.** Each of the 14 `[DEV]` frames carries exactly one annotation (category
+`2011:0`), and its text is the body of that page's `Dev notes` card. They had drifted badly — the Programs
+annotation still had no content-document update, News still said article bodies *may* be placeholder — so
+treat the card as the single source and re-write the frame's annotation from it whenever a card changes.
+`node.annotations` is writable from the plugin (`node.annotations = [{ label, categoryId: '2011:0' }]`);
+`labelMarkdown` is derived from `label`, so plain text is what you control.
+
+**Body-child names are the same on every frame** (and unique inside each body, which they were not before —
+every frame had two layers called `Section` and one called `Header`):
+
+| Layer | What it is |
+|---|---|
+| `Content — page wrapper` | Home only — the wrapper holding hero → footer |
+| `Banner — above-header` | the “A Place to Belong…” bar (real content, plus its × ) |
+| `Spacer — banner slot` | the empty 42px placeholder above it (artboards without the banner) |
+| `Header — transparent nav` | the nav frame (108px inner pages, 176px Home, transparent over the hero) |
+| `Main Content` / `Article` | the page body (News uses `Article`) |
+| `Section — Page content` | the last content section |
+| `Spacer — newsletter band slot` | the empty area the band is seated in |
+| `Section — Newsletter band` | the newsletter band itself (inside `Footer` on Home and About) |
+| `Footer` | footer |
+
+Notes-card text layers are `Notes — title` and `Notes — body`, so a name no longer encodes stale copy.
+
+**Row geometry.** Notes cards share a top edge (`y = -179` as of 2026-11-14) so the tallest card — Programs,
+359px — clears the frames at `y = 200` by 20px. The legend sits *above* that row with a 40px gap; it used to
+sit at `y = -200` and overlapped the Home card by 124px. `Dev notes — Content audit 2026-11-14` sits 40px
+under `Dev notes — Do not implement`, in the same right-hand column.
+
+**Removed as clutter.** A `Support cards` frame and a loose “Donate to help the men of GSM…” paragraph were
+sitting at the page origin, on top of the Home frame — they are build fragments, now on the `BIN` page. Five
+empty text layers were deleted from the QA pack. The 356 default-named `Vector` / `Text` nodes inside logo
+and icon groups were left alone: renaming those is churn, not clarity.
+
+**The QA pack** (`🧪 QA — Stage QA pack (2026-11-13)`, a section to the left of Home) is the pre-launch
+checklist — page index, anchor map, redirects, form specs, breakpoint checklist — not page designs. Keep it
+content-accurate; it is not part of the 14 frames.
+
+**Stale claims corrected** when the annotations were resynced: the Programs card says the frame keeps the
+original Figma mock photography (it claimed to match the live page, and listed the media IDs as if the frames
+used them); the News card documents the Elementor Pro Posts widget, the `include/singular/post` template and
+real imported article bodies; the Endowment card no longer says its CTA band is placeholder copy.
 
 When implementing from Figma, call `get_design_context` on the **frame node** (e.g. `9179:32`), not the canvas parent alone. If MCP returns “nothing selected”, retry with the inner frame ID from `get_metadata`.
 
