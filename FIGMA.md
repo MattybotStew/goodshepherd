@@ -68,6 +68,14 @@ Refreshed **2026-11-14** to match Local + stage after the client content-documen
 - The 13 inner-frame headers were laid out with a 502px left padding, so the 697px nav list spilled left
   over the white logo. Their header containers are now 1200 wide with 40px padding and `SPACE_BETWEEN`:
   logo left, nav centre, Support GSM button right, no overlap.
+- The newsletter band sits **flush on the footer** in all 14 frames (`band.bottom == footer.top`, and the
+  frame ends exactly at the footer). Seven frames had drifted — Programs 81px short, Contact 51px short,
+  Support GSM −64, Endowment −59, Events −2, News −139 and Newsletters −217 — because the band `Section`
+  is a plain body child positioned by hand next to an empty `Placeholder for Section` spacer. The spacer is
+  now resized to the band and shares its y, so the two cannot drift apart again. Programs and Contact are
+  33px taller than before: their band (309px) did not fit the 276px gap, so the footer moved down rather
+  than the band covering the Support GSM card. Verify with `band.bottom == footer.top` on the Body-child
+  ancestor of the "No spam" text — measuring up to the first ancestor named `Section` gives false gaps.
 
 Traps found while editing the frames: the notes and page frames are plain frames, not auto-layout
 containers, so they do **not** reflow when a text grows — check `Main Content` is `HUG` (Home and
