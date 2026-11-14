@@ -14,7 +14,11 @@
 $start = '/* GSM newsletter placeholder centring */';
 $end   = '/* end GSM newsletter placeholder centring */';
 
-$rule = '.elementor-element-nlright .srfm-input-email::placeholder{text-align:center!important;line-height:54px!important;}';
+$rule = '.elementor-element-nlright .srfm-input-email::placeholder{text-align:center!important;line-height:54px!important;}' . "\n" .
+	// The "This field is required." error is SureForms' field error. Taken out of
+	// flow, it no longer grows the field block and pushes the input up in the pill.
+	'.elementor-element-nlright .srfm-block-single{position:relative!important;}' . "\n" .
+	'.elementor-element-nlright .srfm-error-wrap,.elementor-element-nlright .srfm-error-message{position:absolute!important;top:calc(100% + 14px)!important;left:0!important;margin:0!important;}';
 
 $css = wp_get_custom_css();
 
