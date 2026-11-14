@@ -77,7 +77,7 @@ def heading(cid, text, tag="h2", color="#002A4E", size_px=44, weight="600",
 
 def text(cid, html, color="#303336", size_px=16, line_height=1.65,
          weight="400", align="left", margin=None, max_width=None,
-         flex_grow=False):
+         flex_grow=False, paragraph_spacing=None):
     s = {
         "editor": html,
         "text_color": color,
@@ -94,6 +94,10 @@ def text(cid, html, color="#303336", size_px=16, line_height=1.65,
         s["_element_custom_width"] = size(max_width)
     if flex_grow:
         s["_flex_size"] = "grow"
+    if paragraph_spacing is not None:
+        # Elementor's own control (`{{WRAPPER}} p { margin-block-end }`); without
+        # it the theme's 1.6em paragraph margin stacks on top of `margin`.
+        s["paragraph_spacing"] = size(paragraph_spacing)
     return widget(cid, "text-editor", s)
 
 
@@ -293,7 +297,8 @@ def build_hero():
         text("hero_p",
              "<p>Supporting men with intellectual and developmental disabilities through compassionate care, meaningful opportunities, and a life rich with possibility</p>",
              color="rgba(255,255,255,0.92)", size_px=19, line_height=1.65,
-             align="center", margin=(0, 0, 40, 0), max_width=660),
+             align="center", margin=(0, 0, 32, 0), max_width=660,
+             paragraph_spacing=0),  # wire: h1 +20, p +32 (Layout.css)
         cta_button("hero_cta", "Learn more", "/about"),
     ], width=1080, flex_align_items="center")
 

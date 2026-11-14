@@ -196,9 +196,10 @@ def hero(title, lede, img="hero", height=520, align="center"):
         inner("hero_inner", [
             heading("hero_h1", title, "h1", color="#FFFFFF", size_px=54,
                     weight="600", line_height=1.12, letter_spacing=-1,
-                    align=align, margin=(0, 0, 16, 0)),
+                    align=align, margin=(0, 0, 20, 0)),  # wire: h1 +20
             text("hero_p", f"<p>{lede}</p>", color="rgba(255,255,255,0.92)",
-                 size_px=19, align=align, margin=(0, 0, 0, 0), max_width=760),
+                 size_px=19, align=align, margin=(0, 0, 0, 0), max_width=760,
+                 paragraph_spacing=0),  # lede is last: no hidden 1.6em under it
         ], width=1200, flex_align_items="center" if align == "center" else "flex-start"),
     ])
 

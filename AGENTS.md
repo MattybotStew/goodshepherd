@@ -158,7 +158,7 @@ Edit the scripts and re-apply when the wire changes, rather than editing pages i
 
 Section order:
 
-1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: **“Learn more” → `/about`** (the React wire is authoritative; an earlier “Now Hiring! Apply Today” CTA lives in the above-header banner, not the hero). Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header.
+1. Hero — Figma `9046:787` (photo overlay, one CTA). Headline: “A Community of Compassion, Dignity, and Purpose.” CTA: **“Learn more” → `/about`** (the React wire is authoritative; an earlier “Now Hiring! Apply Today” CTA lives in the above-header banner, not the hero). Button uses GSM blue, not 04 lime. **Every page uses the hero header** (transparent at top, white on scroll) — `PageHero` renders the shared `.home-hero` photo-overlay hero, and the slug list is `HERO_HEADER_PATHS` in `src/data/header.js`. The sitemap artifact (`/sitemap`) keeps its own header. Inner spacing matches the wire (`Layout.css`): H1 → lede **20px**, lede → button **32px**. `hero_p` sets Elementor's `paragraph_spacing: 0`; otherwise the theme's 1.6em `<p>` margin stacks on the widget margin and the button drifts 70px away.
 2. Intro strip — Figma `9046:813` overlapping the hero (3 cards, white card with 1px dividers, pulled up 160px): 01 Get Involved → `/events` / 02 Donate → `/support-gsm` / 03 News You Can Use → `/news`, Learn more.
 3. Our Impact — Figma `9046:948`: “Our Mission & Vision: Serving with Dignity” + mission statement + 4 counters (**55+** years / 100+ men / **2** core programs / 1971 founded). Heading left / statement right, then the counters. No eyebrow label above the h2, no donate band.
 4. Our Programs & Services — **4** cards, in client order (2026-11-06): Community Day, Residential Living, Health & Well Being, Community Engagement, + View all. **Community Engagement** is the page at `/programs/special-olympics`; Special Olympics is a section there. Vocational is not a page and not in this row.
@@ -455,27 +455,27 @@ The transparent header floats **on top of** the hero, so geometric centring puts
 
 The header is four different heights, and Elementor only has three breakpoints:
 
-| Viewport | Header | Hero min-height | padding-top | padding-bottom |
+| Viewport | Header | Hero min-height | page hero top / bottom | post hero top / bottom |
 |---|---|---|---|---|
-| ≥1230 | 176px | 560 | 296 | 120 |
-| 922–1229 | 151px | 520 | 271 | 120 |
-| 768–921 | 190px | 520 | 300 | 110 |
-| ≤767 | 177px | 480 | 273 | 96 |
+| ≥1230 | 176px | 560 | 282 / 134 | 296 / 120 |
+| 922–1229 | 151px | 520 | 257 / 134 | 271 / 120 |
+| 768–921 | 190px | 520 | 286 / 124 | 300 / 110 |
+| ≤767 | 177px | 480 | 259 / 110 | 273 / 96 |
 
-- Elementor carries the desktop/tablet/mobile `min_height` and `padding`; **Additional CSS** adds the per-band `padding-top` (and the 922–1229 `padding-bottom`) with `!important` because the header height does not follow Elementor's breakpoints.
+- Elementor carries the `min_height` (and stale desktop/tablet/mobile padding); **Additional CSS** sets every hero's padding per band with `!important`, because the header height does not follow Elementor's breakpoints.
 - **Consequence: hero padding is not editable in Elementor.** Changing it there has no effect. Edit the CSS block (`/* GSM hero vertical centring */` in Additional CSS, written by `_tools/hero_centering_css.php`) or re-measure the header first.
-- Scripts: `_tools/hero_centering.php` (Elementor values), `_tools/hero_centering_css.php` (band overrides + nav band fix).
-- Measured result: content sits exactly 120px below the header and 120px above the hero bottom at 1440/1260/1150/1000, 110/110 at 900/768, 96/96 at 390.
-- **Card strips that overlap the hero count against the bottom.** Five pages pull a white card strip up over the hero, so "bottom" means the top of the cards, not the hero edge. Bottom padding on those pages is `base + overlap`, set per page (`.page-id-N`) in the same CSS block (fixed 2026-11-13; before it the copy sat 0–32px above the cards):
+- Scripts: `_tools/hero_centering.php` (Elementor values), `_tools/hero_centering_css.php` (all hero padding + nav band fix), `_tools/hero_inner_spacing.php` (H1 → lede gap).
+- **Centred by eye, not by box.** Measure from the lowest header ink (logo or nav text) to the H1 cap top, and from the last text baseline or button bottom to the visible hero edge (or the top of the card strip). Every hero, Home included, sits at the same optical offset for a given width: −10 at ≥1230, −5 at 1150, −8 at 1000, −14 at 768–921, −15 at 390, all within 1px (2026-11-13). Page heroes are `header + base − 14` on top and `base + 14` on the bottom. Home is `header + base − 20` / `overlap + base + 20`, because its copy ends on a hard-edged button. Don't re-equalise the boxes.
+- **Hero inner spacing matches the wire (`Layout.css`):** H1 → lede **20px**, and no margin under the lede. On Home, lede → button is **32px**. `hero_p` sets Elementor's `paragraph_spacing: 0`, because the theme's 1.6em `<p>` margin otherwise adds ~30px of hidden space under the lede and throws the centring off. The post template hero (eyebrow / title / date, 16 / 16) is separate and keeps its own padding.
+- **Card strips that overlap the hero count against the bottom.** Five pages pull a white card strip up over the hero, so "bottom" means the top of the cards, not the hero edge. Bottom padding on those pages is the page-hero bottom plus the overlap, set per page (`.page-id-N`) in the same CSS block:
 
   | Page | Overlap desktop / tablet / mobile | padding-bottom ≥1025 / 922–1024 / 768–921 / ≤767 |
   |---|---|---|
-  | Home 315 (`#home-intro`) | 160 / 96 / 64 | 300 / 236 / 226 / 180 (incl. the +20 optical shift below) |
-  | Support GSM 2092, Endowment 2093, Events 2094 (`cards_strip`) | 120 / 80 / 56 | 240 / 200 / 190 / 152 |
-  | Contact 319 (`contact_bar`) | 56 / 56 / 56 | 176 / 176 / 166 / 152 |
+  | Home 315 (`#home-intro`) | 160 / 96 / 64 | 300 / 236 / 226 / 180 (top 276 / 251 / 280 / 253) |
+  | Support GSM 2092, Endowment 2093, Events 2094 (`cards_strip`) | 120 / 80 / 56 | 254 / 214 / 204 / 166 |
+  | Contact 319 (`contact_bar`) | 56 / 56 / 56 | 190 / 190 / 180 / 166 |
 
-  If you change a strip's negative margin in `build_pages.py` / `build_home_replica.py`, change these numbers too. Measure the gap against the strip's top, not the hero's bottom.
-- **Home is centred by eye, not by box.** Equal boxes still read ~20–34px low on Home: its copy ends on a hard-edged button, while sub-pages end on a paragraph whose box adds ~40px under the text. Home therefore moves 20px of padding from top to bottom in every band (top 276 / 251 / 280 / 253, bottom 300 / 236 / 226 / 180), leaving the hero height unchanged. Measured from the lowest header ink (logo or nav text) to the H1 cap top, and from the last baseline or button to the strip, Home and every sub-page now sit 5–17px above the optical centre, the same amount on each page at a given width. Don't "re-equalise" Home's boxes.
+  If you change a strip's negative margin in `build_pages.py` / `build_home_replica.py`, change these numbers too.
 
 ### Header nav wrapped at 1230–1269px
 

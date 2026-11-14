@@ -36,43 +36,51 @@ $add = "\n/* GSM hero vertical centring */\n" .
 	"/* keep the flex centring even if a per-post CSS file is stale */\n" .
 	".elementor-element-hero{justify-content:center!important;}\n" .
 	".elementor-element-post_hero{justify-content:center!important;}\n" .
-	"/* top padding = transparent header height + base rhythm */\n" .
-	"@media (min-width:1230px){.elementor-element-hero,.elementor-element-post_hero{padding-top:296px!important;}}\n" .
-	"@media (min-width:922px) and (max-width:1229px){.elementor-element-hero,.elementor-element-post_hero{padding-top:271px!important;padding-bottom:120px!important;}}\n" .
-	"@media (min-width:768px) and (max-width:921px){.elementor-element-hero,.elementor-element-post_hero{padding-top:300px!important;}}\n" .
-	"@media (max-width:767px){.elementor-element-hero,.elementor-element-post_hero{padding-top:273px!important;}}\n" .
-	"/* bottom padding = base + the card strip pulled up over the hero, so the copy\n" .
-	"   centres in what is visible between the header and the cards.\n" .
-	"   Overlaps follow Elementor breakpoints (desktop >=1025 / tablet / mobile <=767):\n" .
+	"/* top padding = transparent header height + base rhythm.\n" .
+	"   Header: >=1230 176px, 922-1229 151px, 768-921 190px, <=767 177px. */\n" .
+	"/* post template hero: header + base, bottom base */\n" .
+	"@media (min-width:1230px){.elementor-element-post_hero{padding-top:296px!important;}}\n" .
+	"@media (min-width:922px) and (max-width:1229px){.elementor-element-post_hero{padding-top:271px!important;padding-bottom:120px!important;}}\n" .
+	"@media (min-width:768px) and (max-width:921px){.elementor-element-post_hero{padding-top:300px!important;}}\n" .
+	"@media (max-width:767px){.elementor-element-post_hero{padding-top:273px!important;}}\n" .
+	"/* page heroes: base 120/110/96, then 14px moved from top to bottom. The lede is\n" .
+	"   the last element and carries no margin (hero_inner_spacing.php), so equal\n" .
+	"   boxes read ~28px low; this puts the copy back at the optical position Home\n" .
+	"   uses (5-17px above centre, measured header ink -> H1 cap, baseline -> edge). */\n" .
+	"@media (min-width:1230px){.elementor-element-hero{padding-top:282px!important;padding-bottom:134px!important;}}\n" .
+	"@media (min-width:922px) and (max-width:1229px){.elementor-element-hero{padding-top:257px!important;padding-bottom:134px!important;}}\n" .
+	"@media (min-width:768px) and (max-width:921px){.elementor-element-hero{padding-top:286px!important;padding-bottom:124px!important;}}\n" .
+	"@media (max-width:767px){.elementor-element-hero{padding-top:259px!important;padding-bottom:110px!important;}}\n" .
+	"/* bottom padding on pages with a card strip pulled up over the hero = the\n" .
+	"   page-hero bottom above + the overlap, so the copy centres between the header\n" .
+	"   and the cards. Overlaps follow Elementor breakpoints (>=1025 / tablet / <=767):\n" .
 	"   home intro 160/96/64, cards_strip 120/80/56, contact bar 56. */\n" .
 	"@media (min-width:1025px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:300px!important;}\n" .
-	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:240px!important;}\n" .
-	"  .page-id-319 .elementor-element-hero{padding-bottom:176px!important;}\n" .
+	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:254px!important;}\n" .
+	"  .page-id-319 .elementor-element-hero{padding-bottom:190px!important;}\n" .
 	"}\n" .
 	"@media (min-width:922px) and (max-width:1024px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:236px!important;}\n" .
-	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:200px!important;}\n" .
-	"  .page-id-319 .elementor-element-hero{padding-bottom:176px!important;}\n" .
+	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:214px!important;}\n" .
+	"  .page-id-319 .elementor-element-hero{padding-bottom:190px!important;}\n" .
 	"}\n" .
 	"@media (min-width:768px) and (max-width:921px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:226px!important;}\n" .
-	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:190px!important;}\n" .
-	"  .page-id-319 .elementor-element-hero{padding-bottom:166px!important;}\n" .
+	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:204px!important;}\n" .
+	"  .page-id-319 .elementor-element-hero{padding-bottom:180px!important;}\n" .
 	"}\n" .
 	"@media (max-width:767px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:180px!important;}\n" .
-	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:152px!important;}\n" .
-	"  .page-id-319 .elementor-element-hero{padding-bottom:152px!important;}\n" .
+	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:166px!important;}\n" .
+	"  .page-id-319 .elementor-element-hero{padding-bottom:166px!important;}\n" .
 	"}\n" .
-	"/* Home ends on a hard-edged button while sub-pages end on a paragraph whose box\n" .
-	"   adds ~40px below the text, so with equal boxes Home read ~20-34px low by eye.\n" .
-	"   Move 20px of Home padding from top to bottom (bottoms above already +20):\n" .
-	"   same hero height, copy sits at the same optical position as the sub-pages. */\n" .
+	"/* Home ends on a hard-edged button (no trailing text box), so it takes its\n" .
+	"   own top/bottom: intro overlap + base, 20px moved from top to bottom. */\n" .
 	"@media (min-width:1230px){.page-id-315 .elementor-element-hero{padding-top:276px!important;}}\n" .
 	"@media (min-width:922px) and (max-width:1229px){.page-id-315 .elementor-element-hero{padding-top:251px!important;}}\n" .
 	"@media (min-width:768px) and (max-width:921px){.page-id-315 .elementor-element-hero{padding-top:280px!important;}}\n" .
 	"@media (max-width:767px){.page-id-315 .elementor-element-hero{padding-top:253px!important;}}\n" .
+	"@media (min-width:1025px){.page-id-315 .elementor-element-hero{padding-bottom:300px!important;}}\n" .
+	"@media (min-width:922px) and (max-width:1024px){.page-id-315 .elementor-element-hero{padding-bottom:236px!important;}}\n" .
+	"@media (min-width:768px) and (max-width:921px){.page-id-315 .elementor-element-hero{padding-bottom:226px!important;}}\n" .
+	"@media (max-width:767px){.page-id-315 .elementor-element-hero{padding-bottom:180px!important;}}\n" .
 	"/* header nav wrapped onto a second row in this band (masthead 251px) */\n" .
 	"@media (min-width:1230px) and (max-width:1269px){\n" .
 	"  .main-header-menu > .menu-item > .menu-link{padding-left:5px!important;padding-right:5px!important;font-size:15px!important;}\n" .

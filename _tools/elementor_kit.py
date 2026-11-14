@@ -78,7 +78,7 @@ def heading(cid, text, tag="h2", color="#002A4E", size_px=44, weight="600",
 
 def text(cid, html, color="#303336", size_px=16, line_height=1.65,
          weight="400", align="left", margin=None, max_width=None,
-         flex_grow=False):
+         flex_grow=False, paragraph_spacing=None):
     s = {
         "editor": html,
         "text_color": color,
@@ -95,6 +95,10 @@ def text(cid, html, color="#303336", size_px=16, line_height=1.65,
         s["_element_custom_width"] = size(max_width)
     if flex_grow:
         s["_flex_size"] = "grow"
+    if paragraph_spacing is not None:
+        # Elementor's own control (`{{WRAPPER}} p { margin-block-end }`); without
+        # it the theme's 1.6em paragraph margin stacks on top of `margin`.
+        s["paragraph_spacing"] = size(paragraph_spacing)
     return widget(cid, "text-editor", s)
 
 
