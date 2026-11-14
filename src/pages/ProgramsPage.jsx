@@ -16,7 +16,7 @@ function ProgramsPage() {
 
       <ProgramsIntroSection />
 
-      <ProgramsServicesSection showViewAll={false} />
+      <ProgramsServicesSection showViewAll={false} variant="programs" />
     </article>
   )
 }

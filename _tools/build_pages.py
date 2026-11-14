@@ -71,6 +71,9 @@ IMG = {
     "health_4": (2464, "2026/11/health-well-being-05-andy.jpg"),
     "prog_1": (2428, "2026/11/programs-01-programs-and-services-pagemutiple-digital-den.jpg"),
     "prog_2": (2429, "2026/11/programs-02-don-c-experiment.jpg"),
+    "prog_3": (2430, "2026/11/programs-03-birdfeeder.jpg"),
+    "prog_4": (2431, "2026/11/programs-04-nursing-w-tim-k.jpg"),
+    "prog_5": (2432, "2026/11/programs-05-staff-and-tim-new-para.jpg"),
     "about_1": (2435, "2026/11/about-03-page-mike-c.jpg"),
     "about_2": (2403, "2026/11/about-01-accessibility-mark-and-phil-digital-den.jpg"),
     "about_3": (2438, "2026/11/about-06-partners-for-about-us-page-white-soxc-on-jumbotron.jpg"),
@@ -467,7 +470,7 @@ def page_programs_landing():
                     "width_mobile": {"unit": "%", "size": 100, "sizes": []},
                     "flex_direction": "column",
                 }, [
-                    image("pi_img1", IMG["prog_1"][0], IMG["prog_1"][1], radius=16),
+                    image("pi_img1", IMG["prog_2"][0], IMG["prog_2"][1], radius=16),
                 ], inner=True),
                 container("pi_col_b", {
                     "content_width": "full",
@@ -475,7 +478,7 @@ def page_programs_landing():
                     "width_mobile": {"unit": "%", "size": 100, "sizes": []},
                     "flex_direction": "column",
                 }, [
-                    image("pi_img2", IMG["prog_2"][0], IMG["prog_2"][1], radius=16),
+                    image("pi_img2", IMG["prog_3"][0], IMG["prog_3"][1], radius=16),
                 ], inner=True),
                 container("pi_col_c", {
                     "content_width": "full",
@@ -484,8 +487,8 @@ def page_programs_landing():
                     "flex_direction": "column",
                     "flex_gap": gap(20),
                 }, [
-                    image("pi_img3", IMG["cds_1"][0], IMG["cds_1"][1], radius=16),
-                    image("pi_img4", IMG["ce_2"][0], IMG["ce_2"][1], radius=16),
+                    image("pi_img3", IMG["prog_4"][0], IMG["prog_4"][1], radius=16),
+                    image("pi_img4", IMG["prog_5"][0], IMG["prog_5"][1], radius=16),
                 ], inner=True),
             ], inner=True),
         ], inner=True),
@@ -493,16 +496,16 @@ def page_programs_landing():
 
     cards = [
         ("cds", "Community Day Services",
-         "Our Community Day Services build skills, friendships, and meaningful community connections.",
+         "Classes explore vocational skills, economics, personal living skills, technology and more.",
          "/programs/community-day-services"),
         ("residential", "Residential Living",
-         "Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence",
+         "Welcoming homes where personalized support encourages independence, comfort, and belonging.",
          "/programs/residential-living"),
         ("health", "Health & Well Being",
-         "Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.",
+         "Personalized nursing, therapy, and wellness services help each man stay healthy, active, and engaged.",
          "/programs/health-well-being"),
         ("engagement", "Community Engagement",
-         "Explore interests and connect with others through activities, outings and Special Olympics.",
+         "From Special Olympics to everyday shopping, group outings, Mass, and more our men enjoy active and fulfilling lives.",
          "/programs/special-olympics"),
     ]
     tiles = []
@@ -534,7 +537,7 @@ def page_programs_landing():
                     weight="700", line_height=1.2, letter_spacing=0, margin=(0, 0, 10, 0)),
             text(f"pl_desc{i}", f"<p>{desc}</p>", color="#4B4D50",
                  line_height=1.5, margin=(0, 0, 20, 0), flex_grow=True),
-            link_button(f"pl_link{i}", "Learn more+", path, color=INK),
+            link_button(f"pl_link{i}", "Learn more →", path, color=INK),
         ], inner=True))
 
     grid = container("pl_grid", {
@@ -558,12 +561,26 @@ def page_programs_landing():
         "background_color": SOFT,
         "padding": px(72, 24, 96, 24),
         "padding_mobile": px(48, 24, 64, 24),
-    }, [inner("prog_cards_inner", [grid])])
+    }, [inner("prog_cards_inner", [
+        container("pl_head", {
+            "content_width": "full",
+            "flex_direction": "column",
+            "flex_align_items": "center",
+            "margin": px(0, 0, 40, 0),
+        }, [
+            heading("pl_h2", "Our Programs &amp; Services", "h2", size_px=40,
+                    weight="600", line_height=1.2, letter_spacing=-0.8,
+                    align="center", margin=(0, 0, 16, 0)),
+            text("pl_lede", "<p>Explore the programs and services that bring care, opportunity, and purpose to everyday life.</p>",
+                 align="center", max_width=640, margin=(0, 0, 0, 0)),
+        ], inner=True),
+        grid,
+    ])])
 
     return [
         hero("Programs & Services",
              "From welcoming homes and engaging day programs to personalized health and wellness support, we help each man build skills, explore interests, form friendships, and enjoy a meaningful, fulfilling life.",
-             height=560, align="left"),
+             img="prog_1", height=560, align="left"),
         intro, sec,
     ]
 
@@ -952,14 +969,14 @@ def page_support():
          "/shepherd-endowment-society"),
     ]
     return [
-        hero("Support GSM Foundation",
+        hero("GSM Foundation",
              "Founded in 1981, GSM’s Foundation has provided continual support for the programs, services and operating costs of the Manor, allowing us to go above and beyond what the state mandates and provides.",
              height=520, align="left"),
         cards_strip("sg", cards),
         section_tabs("sgt", [
             ("foundation", "GSM Foundation"),
             ("ways-to-give", "Ways to Give"),
-            ("endowment-society", "Shepherds Endowment Society"),
+            ("endowment-society", "Shepherd Endowment Society"),
             ("events", "Events"),
         ]),
         split("foundation", "GSM Foundation", "Supporting the Manor for over 45 years", [

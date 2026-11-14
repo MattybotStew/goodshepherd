@@ -595,6 +595,81 @@ The last pass (2026-11-13) measured **0 axe violations** on all 17 routes, ident
 3. ~~**News hub scale**~~ — done 2026-11-13: `/news` lists posts automatically with pagination (see News hub above).
 4. **News card imagery** — cards are text-only because no post has a featured image. Setting featured images and switching the widget's `classic_thumbnail` to `top` would add them; note the post template's hero would then also use that image.
 
+## Content audit against the client content document (2026-11-14) — Claude's recommendations
+
+Source of truth: `~/Desktop/The Good Shepherd Manor __ Website Content Document .xlsx` (unmarked copy, newest). The `.BACKUP-2026-11-05` copy differs only in Global!D2 (top banner). The copy in `Desktop - Matthew’s MacBook Pro/` is from 2026-10-20 and stale (still has a Vocational sheet and lorem) — do not use it. The user's rule: **the document is truth for what it has.** Cells are cited as `Sheet!Cell`. Ignore pure punctuation/case/whitespace differences, lorem/"Needs Client Copy" cells, image notes, and "(Active)" sidebar markers.
+
+Already applied (commit `2009a8f`): program hero leads for CDS / Residential / Health / Community Engagement (each sheet's D3, via `tagline` in `src/data/programs.js` and `src/data/health.js`), homepage programs lede (Homepage!D21), the accessibility "We welcome your feedback…" sentence (About!D42), and the footer tagline "Compassionate care for men with developmental disabilities" (Global!D22, database only).
+
+### Fix — all seven applied 2026-11-14 (Local, then stage)
+
+Applied by `build_pages.py` (pages 317, 2092) and `_tools/newsletter_underform.php` (template 2375, idempotent). React parity: `ProgramsServicesSection` takes `variant="home" | "programs"`; `SectionTabs` prefers `section.tabLabel` over `eyebrow`. The Programs hero now uses 2428 (the client's background photo). The newsletter line renders as "No spam – just…": WordPress turns a spaced hyphen into an en dash.
+
+| # | Change | Source | Where |
+|---|---|---|---|
+| 1 | Add "Our Programs & Services" H2 + "Explore the programs and services that bring care, opportunity, and purpose to everyday life." above the cards on the Programs landing | Programs!D7–D8 | `build_pages.py` `page_programs_landing` (page 317) |
+| 2 | Programs landing card bodies → Programs sheet copy: CDS "Classes explore vocational skills, economics, personal living skills, technology and more."; Residential "Welcoming homes where personalized support encourages independence, comfort, and belonging."; Health "Personalized nursing, therapy, and wellness services help each man stay healthy, active, and engaged."; Community Engagement "From Special Olympics to everyday shopping, group outings, Mass, and more our men enjoy active and fulfilling lives." | Programs!D9–D12 | `build_pages.py` `cards` in `page_programs_landing`. Not `site.js` — Home keeps the Homepage-sheet wording |
+| 3 | Programs landing card link label "Learn more+" → "Learn more →" | Programs!D9–D12 (`Learn more+` is the Homepage label, Homepage!D25) | `build_pages.py` `pl_link{i}` |
+| 4 | Programs mosaic uses the client's four GRID photos: 2429 Don C experiment, 2430 birdfeeder, 2431 nursing w Tim K, 2432 staff and Tim new para. 2428 (digital den) is filed as the page **background**, not a grid tile | `Good Shepard Images/Program & Services/` file names; Programs!D6 "4 Image Placeholders" | `build_pages.py` `prog_intro_imgs` + `IMG` keys |
+| 5 | Support GSM H1 "Support GSM Foundation" → "GSM Foundation" (nav and metadata keep "Support GSM Foundation") | Get Involved!D2; already stated in this file under §Support GSM Foundation wire | `build_pages.py` `page_support` hero (page 2092) |
+| 6 | Support GSM jump-bar **tab** "Shepherds Endowment Society" → "Shepherd Endowment Society". The section **eyebrow** stays plural "Shepherds Endowment Society" | Tab: Get Involved!D7 (singular). Eyebrow: Get Involved!D17 (plural) | `build_pages.py` `section_tabs("sgt", …)`; React needs a separate `tabLabel` in `src/data/getInvolved.js`, because `SectionTabs` labels tabs from `eyebrow` |
+| 7 | Add "No spam - just stories worth opening." under the newsletter form | Global!D21 | Newsletter band template 2375 (scripted, like `newsletter_eyebrow.php`) |
+
+### Keep the site as is (document is stale or conflicts)
+
+- **Newsletter lede:** keep Homepage!D49 ("Stay connected with GSM stories, news, and highlights in The Messenger, published twice a year."). Global!D18 ("Our twice-yearly Messenger shares…") conflicts with it and would repeat the eyebrow. Flag D18 to the client as superseded.
+- **Social profiles:** Facebook only. Contact!D9 lists Instagram and LinkedIn, but GSM maintains no such profiles; adding them would create dead links.
+- **News & Updates sheet:** the "Our Impact" stats, "Help Make Home Happen" band, and old hub lede (News!D3–D13) were removed on purpose on 2026-11-13. Do not restore them.
+- **Document typos** — "Afilliations", "Engagment", "Chistmas", "Oympics" — are already correct on the site.
+- **Global "Get Involved" lorem block and the "Projects" nav row** (Global!D5–D15) are placeholders, not content.
+
+### Client decisions (recommendation in bold; do not apply until the user confirms)
+
+1. **Footer links** — Global!D26 lists "Volunteer"; the site has "Memorial or Tribute" (client direction 2026-11-04). **Keep both; Volunteer → `/support-gsm#events`.**
+2. **Footer column heading** — Global!D25 says "GET INVOLVED"; the site shows "Ways to Give". **Switch to "GET INVOLVED".**
+3. **About › Affiliations buttons** — About!D36–D37 list ARC of Illinois and Intersect For Ability; the site has only ARC, linked to `#`. **Add both, linking to `https://www.thearcofil.org/` and `https://intersectforability.com/` in a new tab** (both return 200, checked 2026-11-14; the `.org` guesses do not resolve).
+4. **Programs landing card order** — Programs!D9–D12 order is CDS, Community Engagement, Residential, Health. **Keep the 2026-11-06 client order** (CDS, Residential, Health, Community Engagement) used everywhere else.
+
+### opencode verification — agreement and implementation notes (2026-11-14)
+
+Method: the same 14-sheet document was extracted cell-by-cell and matched against (a) the Local rendered HTML for all 15 routes, (b) each page's `_elementor_data`, and (c) `src/` + `_tools/`. The raw string diff returned 81 "missing" fragments; after removing the noise Claude named (sidebar "(Active)", SureForms button labels, PDF placeholders, document typos, fragments split by markup) the real set is the seven fixes above. Nothing has been applied yet.
+
+**Agreement:** all seven "Fix" items are confirmed, with the evidence below. The four client decisions are confirmed as Claude recommended, except the partner URLs.
+
+| # | Confirmed finding | Live evidence (Local, 2026-11-14) |
+|---|---|---|
+| 1 | Programs landing has no catalog H2/intro | `_elementor_data` for 317: `hero` → `prog_intro_sec` ("Building Skills…") → `prog_cards_sec` (`pl_grid`). No "Our Programs & Services" heading or "Explore the programs…" line anywhere on the page. |
+| 2 | Programs cards reuse the Homepage copy | `pl_desc0` "Our Community Day Services build skills…" = Homepage!D24; `pl_desc1` "Our 13 CILA homes…" = Homepage!D30; `pl_desc2` "Personalized support helps…" = Homepage!D33; `pl_desc3` "Explore interests and connect…" = Homepage!D26. None of Programs!D9–D12 is present. |
+| 3 | Card labels are "Learn more+" | `pl_link{i}`; "Learn more+" is Homepage!D25. |
+| 4 | Mosaic uses the wrong four photos | `pi_img1` = 2428 (digital den), `pi_img2` = 2429, `pi_img3` = 2441 `cds_1` (Bill), `pi_img4` = 2410 `ce_2` (Harold/Mike/Josh). 2430 birdfeeder, 2431 nursing w Tim K, 2432 staff and Tim are in the library and unused. |
+| 5 | Support GSM hero still says "Support GSM Foundation" | `page_support` hero (`build_pages.py:955`), page 2092. |
+| 6 | Jump-bar tab is plural | `build_pages.py:962` and `eyebrow` on the `endowment-society` entry in `src/data/getInvolved.js`. |
+| 7 | No under-form line | Template 2375 tree is `nlband › nlin › [nlleft(nl_eyebrow, nlh, nlt), nlright(nllab, nlform)]`; nothing follows `nlform`. The line exists nowhere else. |
+
+**Corrections to the client-decision wording**
+
+1. **Partner URLs.** `arcillinois.org` and `intersectforability.org` (both spellings tried) do not resolve. Use **`https://www.thearcofil.org/`** (ARC of Illinois) and **`https://intersectforability.com/`** (Intersect for Ability). Both open in a new tab. The current ARC pill is `split(..., link=("ARC of Illinois", "#"))` at `build_pages.py:1057`; `split()` only accepts one `link`, so it needs a `links=[(label, url, external)]` list (same change in `src/pages/AboutPage.jsx` + `AffiliationsSection`, which renders a router `Link` even for `#`).
+2. **#6 is two different edits.** The React tab label comes from `section.eyebrow`, and the document wants the *section eyebrow* plural (`Get Involved!D17` "SHEPHERDS ENDOWMENT SOCIETY") while the *tab* is singular (`Get Involved!D7`). Add `tabLabel: 'Shepherd Endowment Society'` to the `endowment-society` entry and have `SectionTabs` prefer `section.tabLabel ?? section.eyebrow`. Do **not** change `eyebrow`. In WordPress the tab list is separate (`section_tabs("sgt", …)`), so it is a clean swap.
+3. **#7 must be scripted.** Add `_tools/newsletter_underform.php` (idempotent, in the style of `newsletter_eyebrow.php`) that appends a `text-editor` widget `nlnote` to `nlright` after `nlform`, with the "No spam - just stories worth opening." line styled like `nlt` at a smaller size. A hand edit to 2375 would be lost on the next rebuild.
+4. **#5 also has a React side.** `src/pages/FoundationPage.jsx` renders the hero title; keep it "GSM Foundation" so the wire and WordPress agree. Page 2092's WordPress `post_title` and the nav stay "Support GSM Foundation".
+
+**Where else the same change must land (so it is "everywhere")**
+
+| Change | WordPress | Repo |
+|---|---|---|
+| Programs header + card copy + label | `build_pages.py` `page_programs_landing` (317) | `src/components/ProgramsServicesSection.jsx` + `src/pages/ProgramsPage.jsx` — the component is shared with Home, so add a `variant="programs"` prop rather than editing the shared copy. The React Programs page already renders the H2/intro via that component; WordPress is the side missing it. |
+| Mosaic photos | `IMG` map + `pi_img1..4` | `src/pages/ProgramsPage.jsx` / `ProgramsIntroSection` image set |
+| Support GSM H1 + tab | `page_support` (2092) | `FoundationPage.jsx`, `src/data/getInvolved.js` (`tabLabel`) |
+| Newsletter note | template 2375, new script | Newsletter band is WordPress-only; no React equivalent. |
+| Footer links/heading | `widget_block` **16** (rendered through `sidebars_widgets['footer-widget-3'] = block-16`); block 17 is an identical stale duplicate — update both or delete 17 | `src/components/Layout.jsx` footer column |
+| About partners | `build_pages.py` About `split` call (316) | `src/pages/AboutPage.jsx` + `AffiliationsSection` |
+
+**Do not run `_tools/fix_footer.php` for the footer change.** It is stale: it writes a lorem tagline, the old `.gsm-signup` HTML band (the band is now Elementor template 2375), and Astra Pro `footer-widget-3/4` keys. Edit the `widget_block` option directly with a small idempotent script instead, or update `fix_footer.php` to current state first.
+
+**Programs card order is a non-change.** The 2026-11-06 order (CDS, Residential, Health, Community Engagement) stays, as everywhere else on the site. Only the copy moves to the Programs sheet wording.
+
+**Application order agreed:** repo generators/data first → rebuild 317 / 2092 / 316 → template 2375 + footer widgets → verify Local → hand stage back to Claude for the push. Do not apply the four client decisions until the user confirms.
+
 ## Build order (WordPress)
 
 1. Import Non-Profit Organization 04 on staging

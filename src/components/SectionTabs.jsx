@@ -62,7 +62,7 @@ export default function SectionTabs({ sections }) {
             onClick={() => setActiveId(section.id)}
             aria-current={activeId === section.id ? 'location' : undefined}
           >
-            {section.eyebrow}
+            {section.tabLabel ?? section.eyebrow}
           </a>
         ))}
       </div>

@@ -88,6 +88,8 @@ export const getInvolvedSections = [
   },
   {
     id: 'endowment-society',
+    // Tab is singular (content doc Get Involved!D7); the eyebrow stays plural (D17).
+    tabLabel: 'Shepherd Endowment Society',
     eyebrow: 'Shepherds Endowment Society',
     title: 'Your Legacy. Their Future.',
     paragraphs: [

@@ -16,7 +16,34 @@ const PROGRAM_ICONS = {
   '/programs/health-well-being': healthIcon,
 }
 
-export default function ProgramsServicesSection({ showViewAll = true }) {
+// Copy per page, from the client content document. Home uses the Homepage
+// sheet (D21, D24–D34); the Programs landing uses the Programs & Services sheet
+// (D8–D12). Card order is the 2026-11-06 client order on both.
+const COPY = {
+  home: {
+    lede: 'Our residential care, day programs, and enriching activities help men with disabilities lead fulfilling lives.',
+    linkLabel: 'Learn more+',
+    cards: {
+      '/programs/community-day-services': 'Our Community Day Services build skills, friendships, and meaningful community connections.',
+      '/programs/residential-living': 'Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence',
+      '/programs/health-well-being': 'Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.',
+      '/programs/special-olympics': 'Explore interests and connect with others through activities, outings and Special Olympics.',
+    },
+  },
+  programs: {
+    lede: 'Explore the programs and services that bring care, opportunity, and purpose to everyday life.',
+    linkLabel: 'Learn more →',
+    cards: {
+      '/programs/community-day-services': 'Classes explore vocational skills, economics, personal living skills, technology and more.',
+      '/programs/residential-living': 'Welcoming homes where personalized support encourages independence, comfort, and belonging.',
+      '/programs/health-well-being': 'Personalized nursing, therapy, and wellness services help each man stay healthy, active, and engaged.',
+      '/programs/special-olympics': 'From Special Olympics to everyday shopping, group outings, Mass, and more our men enjoy active and fulfilling lives.',
+    },
+  },
+}
+
+export default function ProgramsServicesSection({ showViewAll = true, variant = 'home' }) {
+  const copy = COPY[variant] ?? COPY.home
   const scrollRef = useRef(null)
   const barRef = useRef(null)
   const [thumb, setThumb] = useState({ width: 100, left: 0 })
@@ -70,7 +97,7 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
         <div className="programs-services__header">
           <div className="programs-services__intro">
             <h2>Our Programs &amp; Services</h2>
-            <p>Explore the programs and services that bring care, opportunity, and purpose to everyday life.</p>
+            <p>{copy.lede}</p>
           </div>
           {showViewAll && (
             <Link to="/programs" className="programs-services__more">
@@ -82,28 +109,7 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
           <div
             className="programs-services__grid"
           >
-            {[
-              {
-                name: 'Community Day Services',
-                path: '/programs/community-day-services',
-                text: 'Our Community Day Services build skills, friendships, and meaningful community connections.',
-              },
-              {
-                name: 'Residential Living',
-                path: '/programs/residential-living',
-                text: 'Our 13 CILA homes offer welcoming living across our 60-acre campus and the city of Momence',
-              },
-              {
-                name: 'Health & Well Being',
-                path: '/programs/health-well-being',
-                text: 'Personalized support helps each man stay active, feel his best, and enjoy a fulfilling life.',
-              },
-              {
-                name: 'Community Engagement',
-                path: '/programs/special-olympics',
-                text: 'Explore interests and connect with others through activities, outings and Special Olympics.',
-              },
-            ].map((p) => (
+            {programs.map((p) => (
               <article className="programs-services__card" key={p.path}>
                 <div className="programs-services__icon" aria-hidden="true">
                   {PROGRAM_ICONS[p.path] && (
@@ -111,9 +117,9 @@ export default function ProgramsServicesSection({ showViewAll = true }) {
                   )}
                 </div>
                 <h3>{p.name}</h3>
-                <p>{p.text}</p>
+                <p>{copy.cards[p.path]}</p>
                 <Link to={p.path} className="programs-services__link">
-                  Learn more+
+                  {copy.linkLabel}
                 </Link>
               </article>
             ))}
