@@ -36,6 +36,31 @@ File key: `U5wiJ2dHCvnJXEkCYTZtZ9`
 |---|---|---|
 | Homepage | `9009:2` | `design/node-9009-2.png` → `HomePage.jsx` |
 | Get Involved landing (`/support-gsm`) | `9179:32` (canvas `6:124`) | `design/figma-node-6-124.png` → `FoundationPage.jsx`, `src/data/getInvolved.js` |
+| **Dev Layer page** (handoff) | `9712:32` | 14 `[DEV]` page frames + a `Dev notes — X` card per page |
+
+### Dev Layer page (`9712:32`)
+
+The Dev Layer is the handoff surface: one `[DEV]` frame per SOW page (DOM copies at 1440 wide)
+with a `Dev notes — <page>` card pinned above it. The cards carry slug, WP ID, React file,
+canonical frame, section IDs and locked decisions. They are the fastest way to see whether a
+frame is current.
+
+Refreshed **2026-11-14** to match Local + stage after the client content-document audit:
+
+- Footer column renamed **Get Involved** and **Volunteer** added before Memorial or Tribute, on all 14 frames.
+- Newsletter band gained the **STAY CONNECTED** eyebrow (Home, About, Programs, Community Day, Contact
+  were missing it) and the line **"No spam – just stories worth opening."** under the form.
+- Programs: cards now carry the Programs-sheet copy and **Learn more →**; the mosaic is the client's
+  grid set; the frame follows the live card order.
+- Support GSM: H1 is **GSM Foundation**; jump tab singular, section eyebrow plural.
+- About: both partner pills (ARC of Illinois, Intersect For Ability).
+- New card **`Dev notes — Content audit 2026-11-14`** (right of the "Do not implement" card) summarises
+  the 7 document fixes and 4 client decisions, with the document cell references.
+
+Traps found while editing the frames: the notes and page frames are plain frames, not auto-layout
+containers, so they do **not** reflow when a text grows — check `Main Content` is `HUG` (Home and
+About were `FILL` and silently clipped their last section), and a footer column with a fixed-height
+`List` will clip a new item until the list is switched to `HUG`.
 
 When implementing from Figma, call `get_design_context` on the **frame node** (e.g. `9179:32`), not the canvas parent alone. If MCP returns “nothing selected”, retry with the inner frame ID from `get_metadata`.
 
