@@ -16,6 +16,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
+from design_patches import apply_patches
 from elementor_kit import (BASE, px, gap, size, container, widget, heading,
                            text, link_button, cta_button, image, section, inner)
 
@@ -1061,7 +1062,7 @@ BUILDERS = {
 
 def build(pid):
     name, fn = BUILDERS[pid]
-    data = fn()
+    data = apply_patches(pid, fn())  # design sweep fixes (design_patches.json)
     # give every top-level section a stable id based on its element id
     out = f"/tmp/page_{pid}.json"
     with open(out, "w") as f:

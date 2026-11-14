@@ -212,7 +212,7 @@ while ( false !== strpos( $css, $start ) ) {
 
 $add = "\n/* GSM post template */\n" .
 	".single-post .site-content > .ast-container{max-width:100%!important;padding-left:0!important;padding-right:0!important;}\n" .
-	".elementor-element-post_content{max-width:904px!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;flex:0 1 904px!important;}\n" .
+	".elementor-element-post_content{max-width:100%!important;width:100%!important;margin-left:auto!important;margin-right:auto!important;flex:0 0 auto!important;}\n" .
 	".gsm-post-content{font-size:17px;line-height:1.65;color:#303336;}\n" .
 	".gsm-post-content p{margin:0 0 24px!important;}\n" .
 	".gsm-post-content h2{font-size:30px;line-height:1.25;color:#002A4E;font-weight:600;margin:48px 0 16px;}\n" .

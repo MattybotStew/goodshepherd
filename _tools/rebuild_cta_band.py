@@ -136,7 +136,7 @@ def build_band():
                 "title": "Support GSM Foundation", "header_size": "h2", "align": "center",
                 "title_color": WHITE,
                 "typography_typography": "custom",
-                "typography_font_size": {"unit": "custom", "size": "clamp(40px, 6vw, 76px)", "sizes": []},
+                "typography_font_size": {"unit": "px", "size": 48, "sizes": []},  # was clamp(40px,6vw,76px); see design_patches.json
                 "typography_font_weight": "600",
                 "typography_line_height": {"unit": "em", "size": 1.06, "sizes": []},
                 "typography_letter_spacing": {"unit": "px", "size": -1.8, "sizes": []},

@@ -9,6 +9,10 @@ Elementor editor.
 """
 
 import json
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from design_patches import apply_patches
 
 # Host-agnostic: the same JSON has to render on Local and on stage.
 BASE = "/wp-content/uploads/"
@@ -606,7 +610,7 @@ def build():
 
 
 if __name__ == "__main__":
-    data = build()
+    data = apply_patches(315, build())  # design sweep fixes (design_patches.json)
     with open("/tmp/home_replica.json", "w") as f:
         json.dump(data, f)
     print("wrote /tmp/home_replica.json", len(json.dumps(data)), "bytes")

@@ -50,7 +50,7 @@ $add = "\n/* GSM hero vertical centring */\n" .
 	"@media (min-width:1230px){.elementor-element-hero{padding-top:282px!important;padding-bottom:134px!important;}}\n" .
 	"@media (min-width:922px) and (max-width:1229px){.elementor-element-hero{padding-top:257px!important;padding-bottom:134px!important;}}\n" .
 	"@media (min-width:768px) and (max-width:921px){.elementor-element-hero{padding-top:286px!important;padding-bottom:124px!important;}}\n" .
-	"@media (max-width:767px){.elementor-element-hero{padding-top:259px!important;padding-bottom:110px!important;}}\n" .
+	"@media (max-width:767px){.elementor-element-hero{padding-top:259px!important;padding-bottom:110px!important;padding-left:24px!important;padding-right:24px!important;}}\n" .
 	"/* bottom padding on pages with a card strip pulled up over the hero = the\n" .
 	"   page-hero bottom above + the overlap, so the copy centres between the header\n" .
 	"   and the cards. Overlaps follow Elementor breakpoints (>=1025 / tablet / <=767):\n" .

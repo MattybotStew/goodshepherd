@@ -532,6 +532,32 @@ The four `/news` posts were placeholder bodies. `_tools/import_live_news.php` fe
 
 Keep it that way: copy and photos go in heading / text-editor / button / image widgets, styling goes in Additional CSS or the theme, never in raw HTML or Elementor's per-element CSS. Known non-editable-by-design pieces: hero padding (CSS bands), the news card stretch, and the newsletter band being a **global** template (editing it changes every page).
 
+### Design sweep (2026-11-13)
+
+A site-wide design audit (16 routes × 320–1440, automated checks plus a screenshot review) produced the fixes below. They are applied by **`_tools/design_sweep_fixes.php`** (idempotent; on stage, pass the uploaded JSON path as the first argument). The Elementor half lives in **`_tools/design_patches.json`**, which `_tools/design_patches.py` also applies to the output of `build_pages.py` and `build_home_replica.py`, so a rebuild keeps them. Add new layout fixes there rather than hand-editing pages.
+
+| Problem | Fix |
+|---|---|
+| Above-header banner blank on Privacy and every news post (white text on white) | Astra `hba-header-bg-obj-responsive` → `#002A4E`. Hero pages hid it under the transparent header |
+| News posts: ~900px empty body under short content | `.elementor-element-post_content` had `flex:0 1 904px` inside a **column** flex box, so 904px became its *height*. Now `flex:0 0 auto` |
+| News posts: Back button 148px left of the article | `post_body_inner` was `content_width: boxed`, so Elementor dropped its 904px width (same trap as §container width). Now `full` |
+| Privacy H1 (32px) smaller than its H2s (36px); ~160-character lines | Customizer → Page → Title `ast-dynamic-single-page-title-font-size` 48/40/34; page layout `narrow-width-container` |
+| Overlapping card strips ~1416px wide, off the 1200 grid | `max-width:1200px` on `#home-intro`, `#*-cards`, `contact_bar` (wire: `.home-intro__card`) |
+| Home About/mosaic copy 24px from the viewport edge | `mis_row` boxed at 1200 |
+| Program card icons became full-width bars ≤767px | Elementor prints a container's desktop width only ≥768px; below that `.e-con.e-flex{--width:100%}` wins. Any px-width container now gets `width_mobile` (done automatically by the patch tools) |
+| Rows stopping 6–44px short of the grid (`%` widths + px gaps) | `calc()` widths or `space-between`: Home impact/stats, About timeline, program galleries, Programs intro, Contact rows, News grid |
+| Home stats wrapped 3 + 1 at 1024 | `calc((100% - 60px) / 4)` |
+| CTA band headline 76px (bigger than the 54px H1) | 48 / 40 / 32 |
+| Separate paragraph widgets 42px apart vs 26px inside one widget | `.elementor-widget-text-editor:has(+ .elementor-widget-text-editor) p:last-child{margin-bottom:10px}` |
+| Program articles ~113 characters per line at 1440, ~122 at 1024 | body text capped at 720px (`!important` beats Elementor's `.elementor.elementor .e-con > .elementor-widget{max-width:100%}`) |
+| Misc | two story cards centred; Contact map band centred; Newsletters issue cards bordered (white on white); 12px eyebrows → 13px; footer Facebook target 18 → 34px; mobile hero inset 20 → 24px |
+
+Checked but **not** changed: link buttons look 13–16px tall but the global `::after` rule gives every one a 44px hit area (verified by hit-testing); "Learn more+" is the wire's own label.
+
+The three *Winter/Spring/Fall Newsletter* posts (2153/2155/2157) had a body of "Lorem ipsum" and were set to **draft** on Local and stage (their URLs now 404; nothing linked to them). Publish them only once real issue content exists.
+
+Open (not layout): heading order still skips levels (footer widget titles are `h4`; card titles are `h3` with no `h2` before them on Home and News). Body H2 sizes still vary by page type (30px in articles, 32 on Events, 44 in sections).
+
 ### Verification loop used for all of the above
 
 ```sh

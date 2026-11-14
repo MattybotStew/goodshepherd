@@ -93,7 +93,7 @@ $css   = wp_get_custom_css();
 $marker = 'GSM newsletter eyebrow';
 
 if ( false === strpos( $css, $marker ) ) {
-	$add = "\n/* {$marker} */\n.elementor-element-nl_eyebrow .elementor-heading-title{color:#9FD0FF!important;font-size:12px!important;font-weight:700!important;letter-spacing:1.6px!important;text-transform:uppercase;margin:0 0 12px!important;}\n";
+	$add = "\n/* {$marker} */\n.elementor-element-nl_eyebrow .elementor-heading-title{color:#9FD0FF!important;font-size:13px!important;font-weight:700!important;letter-spacing:1.6px!important;text-transform:uppercase;margin:0 0 12px!important;}\n";
 	wp_update_custom_css_post( $css . $add );
 	WP_CLI::log( 'Eyebrow CSS added.' );
 }

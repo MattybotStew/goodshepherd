@@ -1,0 +1,189 @@
+{
+  "_doc": [
+    "Elementor setting patches from the 2026-11-13 design sweep, keyed by document then element id.",
+    "Applied to live pages by _tools/design_sweep_fixes.php and to generator output by",
+    "_tools/design_patches.py (build_pages.py / build_home_replica.py), so a rebuild keeps them.",
+    "'all' applies to every document that contains the element. Keys starting 're:' are regexes.",
+    "Settings are merged into the element's existing settings (shallow)."
+  ],
+  "all": {
+    "cta_h2": {
+      "_why": "CTA band headline was clamp(40px,6vw,76px): 76px at 1440, bigger than the 54px page H1",
+      "typography_font_size": {
+        "unit": "px",
+        "size": 48,
+        "sizes": []
+      },
+      "typography_font_size_tablet": {
+        "unit": "px",
+        "size": 40,
+        "sizes": []
+      },
+      "typography_font_size_mobile": {
+        "unit": "px",
+        "size": 32,
+        "sizes": []
+      },
+      "typography_letter_spacing": {
+        "unit": "px",
+        "size": -1,
+        "sizes": []
+      }
+    },
+    "re:^gal_\\d+_cell$": {
+      "_why": "2 x 48.5% + 16px gap left the gallery 11px short of the article edge",
+      "width": {
+        "unit": "custom",
+        "size": "calc(50% - 8px)",
+        "sizes": []
+      }
+    }
+  },
+  "315": {
+    "mis_row": {
+      "_why": "About/mosaic row was full-bleed: copy sat 24px from the viewport edge instead of on the 1200 grid (wire: .home-mission__inner max-width 1200)",
+      "content_width": "boxed",
+      "boxed_width": {
+        "unit": "px",
+        "size": 1200,
+        "sizes": []
+      }
+    },
+    "imp_head": {
+      "_why": "44% + 44% + 100px gap stopped 44px short of the grid; stacked on mobile it left a 100px hole between H2 and statement",
+      "flex_justify_content": "space-between",
+      "flex_gap_tablet": {
+        "unit": "px",
+        "size": 48,
+        "column": "48",
+        "row": "48",
+        "isLinked": true
+      },
+      "flex_gap_mobile": {
+        "unit": "px",
+        "size": 20,
+        "column": "20",
+        "row": "20",
+        "isLinked": true
+      }
+    },
+    "re:^imp_stat\\d$": {
+      "_why": "4 x 23.75% + 60px gap wrapped 3 + 1 at 1024",
+      "width": {
+        "unit": "custom",
+        "size": "calc((100% - 60px) / 4)",
+        "sizes": []
+      },
+      "width_mobile": {
+        "unit": "custom",
+        "size": "calc((100% - 20px) / 2)",
+        "sizes": []
+      }
+    },
+    "st_grid": {
+      "_why": "two story cards sat left in a 3-column row under a centred heading",
+      "flex_justify_content": "center"
+    }
+  },
+  "316": {
+    "re:^ab_hist\\d$": {
+      "_why": "4 x 23% + 60px gap stopped the timeline 36px short of the grid",
+      "width": {
+        "unit": "custom",
+        "size": "calc((100% - 60px) / 4)",
+        "sizes": []
+      },
+      "width_tablet": {
+        "unit": "custom",
+        "size": "calc((100% - 20px) / 2)",
+        "sizes": []
+      }
+    }
+  },
+  "317": {
+    "prog_intro_row": {
+      "_why": "image pair stopped 24px short of the grid",
+      "flex_justify_content": "space-between"
+    }
+  },
+  "318": {
+    "nw_grid": {
+      "_why": "2-up cards at tablet stopped 35px short",
+      "flex_justify_content": "space-between"
+    }
+  },
+  "319": {
+    "ct_touch_row": {
+      "_why": "row 8px short of the grid",
+      "flex_justify_content": "space-between"
+    },
+    "ct_dir": {
+      "_why": "row 6px short",
+      "flex_justify_content": "space-between"
+    },
+    "ct_thank_row": {
+      "_why": "row 8px short",
+      "flex_justify_content": "space-between"
+    },
+    "ct_map_eb": {
+      "_why": "map band mixed a left heading with centred address and button",
+      "align": "center"
+    },
+    "ct_map_h2": {
+      "_why": "see ct_map_eb",
+      "align": "center"
+    }
+  },
+  "2095": {
+    "re:^nl_issue\\d$": {
+      "_why": "white issue cards on a white section were invisible; read as large empty gaps",
+      "border_border": "solid",
+      "border_width": {
+        "unit": "px",
+        "top": "1",
+        "right": "1",
+        "bottom": "1",
+        "left": "1",
+        "isLinked": true
+      },
+      "border_color": "#E2E8F0",
+      "border_radius": {
+        "unit": "px",
+        "top": "16",
+        "right": "16",
+        "bottom": "16",
+        "left": "16",
+        "isLinked": true
+      }
+    }
+  },
+  "2375": {
+    "nl_eyebrow": {
+      "_why": "12px; every other eyebrow is 13px",
+      "typography_font_size": {
+        "unit": "px",
+        "size": 13,
+        "sizes": []
+      }
+    }
+  },
+  "post_template": {
+    "post_eyebrow": {
+      "_why": "12px; every other eyebrow is 13px",
+      "typography_font_size": {
+        "unit": "px",
+        "size": 13,
+        "sizes": []
+      }
+    },
+    "post_body_inner": {
+      "_why": "content_width boxed made Elementor drop width:904 (the column was 1360px); only the content widget was centred by a CSS hack, so the Back button sat 148px left of the text",
+      "content_width": "full",
+      "width_tablet": {
+        "unit": "%",
+        "size": 100,
+        "sizes": []
+      }
+    }
+  }
+}
