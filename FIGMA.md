@@ -47,22 +47,31 @@ frame is current.
 
 Refreshed **2026-11-14** to match Local + stage after the client content-document audit:
 
-- Footer column renamed **Get Involved** and **Volunteer** added before Memorial or Tribute, on all 14 frames.
+- Footer column renamed **Get Involved** and **Volunteer** added before Memorial or Tribute, on all 14 frames;
+  the footer tagline is **"Compassionate care for men with developmental disabilities"** (Global!D22), not the
+  old "A residential care community in Momence…" line.
+- Header nav reads **News & Updates** with no dropdown (it was "News" plus a submenu caret on 13 frames; the
+  live nav has three dropdowns only — About, Programs & Services, Support GSM).
 - Newsletter band gained the **STAY CONNECTED** eyebrow (Home, About, Programs, Community Day, Contact
   were missing it) and the line **"No spam – just stories worth opening."** under the form.
 - Programs: **Our Programs & Services** H2 + lede restored above the cards; the four cards carry the
   Programs-sheet copy and **Learn more →**; equal-height cards with the links on one baseline; the frame
-  follows the live card order. (The mosaic photos are design assets in the frame — the live page uses
-  media 2429–2432, see the Programs notes card.)
+  follows the live card order. **Photography in the frames is the original Figma mock set** — the live page
+  uses media 2428 for the Programs hero and 2429–2432 for the mosaic (IDs are in the Programs notes card).
+  The photos were deliberately left alone: frames show layout and copy, not the client's photo picks.
 - Support GSM: H1 is **GSM Foundation**; jump tab singular, section eyebrow plural.
 - About: both partner pills (ARC of Illinois, Intersect For Ability).
 - New card **`Dev notes — Content audit 2026-11-14`** (right of the "Do not implement" card) summarises
   the 7 document fixes and 4 client decisions, with the document cell references.
+- The notes cards grew with the added lines, so the whole top row was re-aligned to `y = -149` to keep a
+  ≥20px gap above every page frame (two of them had started to overlap their frame).
 
 Traps found while editing the frames: the notes and page frames are plain frames, not auto-layout
 containers, so they do **not** reflow when a text grows — check `Main Content` is `HUG` (Home and
 About were `FILL` and silently clipped their last section), and a footer column with a fixed-height
-`List` will clip a new item until the list is switched to `HUG`.
+`List` will clip a new item until the list is switched to `HUG`. Text **layer names** do not follow the
+characters either, so a renamed string still shows the old copy in the layers panel until it is renamed
+too — check names, not just text, when auditing a frame against the live page.
 
 When implementing from Figma, call `get_design_context` on the **frame node** (e.g. `9179:32`), not the canvas parent alone. If MCP returns “nothing selected”, retry with the inner frame ID from `get_metadata`.
 
