@@ -1,4 +1,10 @@
 <?php
+/*
+ * SUPERSEDED 2026-11-13 by _tools/news_posts_loop.php: /news now lists posts with an
+ * Elementor Pro Posts widget. Do not re-run this script; it targets the old
+ * hand-built nw_card0-3 cards, which no longer exist, and its CSS block marker
+ * ("GSM news hub") is now owned by news_posts_loop.php.
+ */
 /**
  * Fix the /news/ hub (page 318).
  *

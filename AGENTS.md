@@ -493,9 +493,12 @@ Both pages were reusing the shared `hero.jpg`, so they looked identical to Home 
 
 - Hero H1 is **"What's Happening at GSM"** with the learning/connecting lede; the duplicate heading further down was removed.
 - The Home "Our Impact" stats block and the navy "Help Make Home Happen" band were removed (the page asked for money twice).
-- Four cards `nw_card0…nw_card3`, each with a `nw_mN` meta widget (`DATE · CATEGORY`), equal width (`flex: 1 1 0` at ≥1025px), and **whole-card clickable** — the Read More link is stretched over the card.
-- The stretch needs three things together: `position: static` on `.elementor-widget-button` **and** `.elementor-button-wrapper`, and `height: auto; transform: none` on the button's `::after` (otherwise the global 44px hit-area rule keeps it a 44px band).
-- Script: `_tools/fix_news_hub.php`.
+- **Posts are listed automatically** (2026-11-13). One Elementor Pro **Posts** widget, `nw_posts` (Classic skin), lists every published post newest first: 4 columns / 2 at tablet / 1 on mobile, 8 per page, numbered pagination (`/news/page/2/`). Publishing a post is all it takes — no page edit. Widget settings live in `_tools/news_posts_widget.json`, shared by `_tools/news_posts_loop.php` (live page) and `build_pages.py` (generator).
+- Card text = date, title, **the post's Excerpt** (Posts › Edit › Excerpt; if empty, the first 30 words), Read More. The four existing posts got the old hand-written card summaries as excerpts, so the page reads the same; WordPress revisions hold the earlier excerpts of 2145 and 2147. No featured images are shown (no post has one).
+- Additional CSS block `GSM news hub` (owned by `news_posts_loop.php`): date above title (`order:-1`), equal-height cards with Read More pinned to the bottom and stretched over the card, hover lift, 44px pagination buttons. Selectors carry a doubled class because Elementor Pro prints its Posts CSS later in the page.
+- `_tools/fix_news_hub.php` is **superseded** — it targets the removed `nw_card0–3`; do not re-run it.
+- `verify_site.php` asserts the widget is present and no static cards remain (49 checks).
+- axe flags `role="listitem"` on the widget's `<article>` elements (best-practice, minor) — Elementor Pro markup, accepted.
 
 ### News post template (Theme Builder)
 
@@ -583,8 +586,8 @@ The last pass (2026-11-13) measured **0 axe violations** on all 17 routes, ident
 
 1. **Mail transport** — no `GSM_SMTP_PASS`, so all three forms, password resets and new-user mail fail silently.
 2. **Newsletter archive** — three placeholder issues; the live site has no 2025/2026 PDFs to import.
-3. **News hub scale** — four static cards, no archive or pagination, so older posts are unreachable once this ships. A Posts loop would replace both the cards and this limitation.
-4. **News card imagery** — cards are text-only.
+3. ~~**News hub scale**~~ — done 2026-11-13: `/news` lists posts automatically with pagination (see News hub above).
+4. **News card imagery** — cards are text-only because no post has a featured image. Setting featured images and switching the widget's `classic_thumbnail` to `top` would add them; note the post template's hero would then also use that image.
 
 ## Build order (WordPress)
 

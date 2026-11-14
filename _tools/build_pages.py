@@ -17,6 +17,14 @@ import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
 from design_patches import apply_patches
+
+
+def news_posts_widget():
+    """Elementor Pro Posts widget for /news, shared with news_posts_loop.php."""
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_posts_widget.json")) as f:
+        w = json.load(f)
+    w.pop("_doc", None)
+    return w
 from elementor_kit import (BASE, px, gap, size, container, widget, heading,
                            text, link_button, cta_button, image, section, inner)
 
@@ -694,12 +702,7 @@ def page_news():
                     margin=(0, 0, 16, 0)),
             text("nw_cards_p", "<p>See how the men of GSM are learning, connecting, and thriving. Explore the new stories, events, and everyday moments your support helps make possible.</p>",
                  align="center", margin=(0, 0, 40, 0), max_width=760),
-            container("nw_grid", {
-                "content_width": "full",
-                "flex_direction": "row",
-                "flex_gap": gap(24),
-                "flex_wrap": "wrap",
-            }, cards, inner=True),
+            news_posts_widget(),  # automatic post list; was the static nw_grid cards
         ])]),
     ]
 

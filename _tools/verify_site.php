@@ -165,17 +165,14 @@ foreach ( $anchors as $pid => $slugs ) {
 }
 check( "all $total program section anchors present", 0 === $missing, "$missing missing" );
 
-/* ---- /news hub links ---- */
-$raw318 = (string) get_post_meta( 318, '_elementor_data', true );
-preg_match_all( '#/news/([a-z0-9-]+)"#', $raw318, $m );
-$bad = 0;
-foreach ( array_unique( $m[1] ) as $slug ) {
-	$post = get_page_by_path( $slug, OBJECT, 'post' );
-	if ( ! $post || 'publish' !== $post->post_status ) {
-		$bad++;
-	}
-}
-check( 'every /news hub link resolves to a published post', 0 === $bad, "$bad broken" );
+/* ---- /news lists posts automatically (news_posts_loop.php) ---- */
+$raw318  = (string) get_post_meta( 318, '_elementor_data', true );
+$has_pw  = (bool) preg_match( '#"id":"nw_posts"[^}]*"widgetType":"posts"|"widgetType":"posts"[^{]*"id":"nw_posts"#', $raw318 ) || false !== strpos( $raw318, '"nw_posts"' );
+$static  = preg_match_all( '#"id":"nw_card\d#', $raw318 );
+check( '/news uses the Posts widget (nw_posts)', $has_pw && false !== strpos( $raw318, '"widgetType":"posts"' ), $has_pw ? 'ok' : 'missing' );
+check( '/news has no hand-coded news cards', 0 === $static, "$static static cards" );
+$published = (int) wp_count_posts( 'post' )->publish;
+check( 'at least one published post for /news to list', $published > 0, "$published published" );
 
 /* ---- images on disk ---- */
 $missing_files = 0;
