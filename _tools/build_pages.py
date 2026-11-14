@@ -446,6 +446,7 @@ def page_programs_landing():
             container("prog_intro_copy", {
                 "content_width": "full",
                 "width": {"unit": "%", "size": 36, "sizes": []},
+                "width_tablet": {"unit": "%", "size": 100, "sizes": []},
                 "width_mobile": {"unit": "%", "size": 100, "sizes": []},
                 "flex_direction": "column",
             }, [
@@ -456,9 +457,12 @@ def page_programs_landing():
             ], inner=True),
             # Mosaic from the React wire (ProgramsIntroSection): a tall photo, a
             # wide photo, and two stacked short photos. Stacks on mobile.
+            # 36% copy + 72px gap + this = 100%; a plain 60% overflowed the row
+            # and wrapped the mosaic under the copy at every width.
             container("prog_intro_imgs", {
                 "content_width": "full",
-                "width": {"unit": "%", "size": 60, "sizes": []},
+                "width": {"unit": "custom", "size": "calc(64% - 72px)", "sizes": []},
+                "width_tablet": {"unit": "%", "size": 100, "sizes": []},
                 "width_mobile": {"unit": "%", "size": 100, "sizes": []},
                 "flex_direction": "row",
                 "flex_direction_mobile": "column",
