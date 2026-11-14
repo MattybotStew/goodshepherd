@@ -127,11 +127,11 @@ def link_button(cid, label, url, color="#006BB3", size_px=16, weight="700",
 
 
 def cta_button(cid, label, url, bg="#006BB3", color="#FFFFFF",
-               padding=(18, 28), radius=8, size_px=16, border=None):
+               padding=(18, 28), radius=8, size_px=16, border=None, align="center"):
     return widget(cid, "button", {
         "text": label,
         "link": {"url": url, "is_external": "", "nofollow": ""},
-        "align": "center",
+        "align": align,
         "background_color": bg,
         "button_text_color": color,
         "hover_color": "#FFFFFF",
@@ -505,7 +505,8 @@ def build_mission():
              "<p>Founded in 1971 by families seeking a brighter future for their sons, Good Shepherd Manor carries forward a legacy of faith and compassionate care. Today, we support men with intellectual and developmental disabilities build community, discover possibilities, and live with dignity and purpose.</p>",
              margin=(0, 0, 0, 0)),
         cta_button("mis_cta", "Read More", "/about", bg="rgba(0,0,0,0)",
-                   color="#002A4E", padding=(16, 24), radius=8, border=(1, 1, 1, 1)),
+                   color="#002A4E", padding=(16, 24), radius=8, border=(1, 1, 1, 1),
+                   align="left"),
     ], inner=True)
 
     def mosaic_img(cid, att, url):
