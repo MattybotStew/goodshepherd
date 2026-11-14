@@ -697,7 +697,7 @@ Local: `npm install` then `npm run dev` (default http://localhost:5173). Use `np
 
 ## Deployment: Local is canonical
 
-**Local is the source of truth. Stage is a rebuilt copy — never edit stage directly.**
+**Local is the source of truth. Never hand-edit stage.** Every change lands on Local first. Stage gets it either by a full database push or, for small scripted changes, by running the same generated artifact or idempotent script on stage (see §Small, scripted changes below). Never run a script on stage only.
 Edits go into Local, get verified, then the database is pushed to WP Engine stage.
 
 | Env | URL |
