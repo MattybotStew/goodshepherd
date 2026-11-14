@@ -56,9 +56,13 @@ Refreshed **2026-11-14** to match Local + stage after the client content-documen
   were missing it) and the line **"No spam – just stories worth opening."** under the form.
 - Programs: **Our Programs & Services** H2 + lede restored above the cards; the four cards carry the
   Programs-sheet copy and **Learn more →**; equal-height cards with the links on one baseline; the frame
-  follows the live card order. **Photography in the frames is the original Figma mock set** — the live page
-  uses media 2428 for the Programs hero and 2429–2432 for the mosaic (IDs are in the Programs notes card).
-  The photos were deliberately left alone: frames show layout and copy, not the client's photo picks.
+  follows the live card order. **Photography matches the live page**: the hero is media 2428 (digital den),
+  the mosaic is 2429 Don C. (tall), 2430 birdfeeder (wide), 2431 nursing w Tim K. and 2432 staff and Tim
+  (stacked). Other frames still carry the original Figma mock photos.
+  How the photos got in, since the plugin has no network access: `upload_assets` (no `nodeIds`) drops each
+  file on the page as a loose frame and returns its `imageHash`; a `use_figma` script then copies that hash
+  into the target node's existing `IMAGE` paint only (the mosaic tiles also carry a `SOLID` and a
+  `GRADIENT_LINEAR` fill that a direct `nodeIds` upload could replace) and deletes the loose frames.
 - Support GSM: H1 is **GSM Foundation**; jump tab singular, section eyebrow plural.
 - About: both partner pills (ARC of Illinois, Intersect For Ability).
 - New card **`Dev notes — Content audit 2026-11-14`** (right of the "Do not implement" card) summarises
