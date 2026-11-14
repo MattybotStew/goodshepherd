@@ -428,7 +428,7 @@ def build_programs():
                     weight="600", line_height=1.2, letter_spacing=-1,
                     margin=(0, 0, 20, 0)),
             text("prog_lede",
-                 "<p>Explore the programs and services that bring care, opportunity, and purpose to everyday life.</p>",
+                 "<p>Our residential care, day programs, and enriching activities help men with disabilities lead fulfilling lives.</p>",
                  max_width=600, margin=(0, 0, 0, 0)),
         ], inner=True),
         link_button("prog_more", "Explore Our Programs →", "/programs", size_px=18,

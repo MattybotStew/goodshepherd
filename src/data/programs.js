@@ -9,7 +9,7 @@ import {
 
 export const communityDay = {
   name: 'Community Day Services',
-  tagline: 'Building Skills. Exploring Interests. Connecting with Others.',
+  tagline: 'Classes explore vocational skills, economics, personal living skills, technology and more, with hands-on activities tailored to each resident’s needs.',
   overview: {
     blocks: [
       {
@@ -221,7 +221,7 @@ export const communityDay = {
 
 export const residential = {
   name: 'Residential Living',
-  tagline: 'Making Home Happen',
+  tagline: 'Our welcoming homes offer personalized support, friendship, and opportunities for each man to build independence and enjoy a life filled with purpose.',
   overview: {
     blocks: [
       {
@@ -355,7 +355,7 @@ export const residential = {
 
 export const communityEngagement = {
   name: 'Community Engagement',
-  tagline: 'Building Connections Beyond Our Doors',
+  tagline: 'From Special Olympics to local outings, the men build friendships, explore interests, and enjoy opportunities to connect with their world around them.',
   overview: {
     blocks: [
       {

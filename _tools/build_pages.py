@@ -1058,6 +1058,7 @@ def page_about():
         split("accessibility", "Accessibility Statement", "Website Accessibility Statement", [
             "Good Shepherd Manor is committed to treating every person with dignity and respect. In keeping with our mission of providing high-quality, compassionate care to men with intellectual and developmental disabilities, we strive to make our website accessible and welcoming to people of all abilities. Our goal is to continually improve the accessibility and usability of our website so everyone can learn about our programs, access resources, and connect with our mission.",
             "If you experience difficulty accessing any part of our website or need information in an alternative format, please contact us at 815-472-3700 or info@goodshepherdmanor.org. Please include the page address and a brief description of the difficulty so we can better assist you.",
+            "We welcome your feedback as we work toward a more accessible online experience.",
         ], "garden", flip=True, bg=ALT, link=("Contact Us for More Information", "/contact")),
     ]
 

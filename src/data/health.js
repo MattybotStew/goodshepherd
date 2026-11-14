@@ -1,6 +1,6 @@
 export const healthData = {
   name: 'Health & Well Being',
-  tagline: 'Personalized Care for a Full Life',
+  tagline: 'Personalized health and wellness support helps each man feel well, stay active, and enjoy daily life with comfort, confidence, and compassionate care.',
   sections: [
     {
       id: 'supporting-health',
