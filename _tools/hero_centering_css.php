@@ -46,25 +46,33 @@ $add = "\n/* GSM hero vertical centring */\n" .
 	"   Overlaps follow Elementor breakpoints (desktop >=1025 / tablet / mobile <=767):\n" .
 	"   home intro 160/96/64, cards_strip 120/80/56, contact bar 56. */\n" .
 	"@media (min-width:1025px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:280px!important;}\n" .
+	"  .page-id-315 .elementor-element-hero{padding-bottom:300px!important;}\n" .
 	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:240px!important;}\n" .
 	"  .page-id-319 .elementor-element-hero{padding-bottom:176px!important;}\n" .
 	"}\n" .
 	"@media (min-width:922px) and (max-width:1024px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:216px!important;}\n" .
+	"  .page-id-315 .elementor-element-hero{padding-bottom:236px!important;}\n" .
 	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:200px!important;}\n" .
 	"  .page-id-319 .elementor-element-hero{padding-bottom:176px!important;}\n" .
 	"}\n" .
 	"@media (min-width:768px) and (max-width:921px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:206px!important;}\n" .
+	"  .page-id-315 .elementor-element-hero{padding-bottom:226px!important;}\n" .
 	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:190px!important;}\n" .
 	"  .page-id-319 .elementor-element-hero{padding-bottom:166px!important;}\n" .
 	"}\n" .
 	"@media (max-width:767px){\n" .
-	"  .page-id-315 .elementor-element-hero{padding-bottom:160px!important;}\n" .
+	"  .page-id-315 .elementor-element-hero{padding-bottom:180px!important;}\n" .
 	"  .page-id-2092 .elementor-element-hero,.page-id-2093 .elementor-element-hero,.page-id-2094 .elementor-element-hero{padding-bottom:152px!important;}\n" .
 	"  .page-id-319 .elementor-element-hero{padding-bottom:152px!important;}\n" .
 	"}\n" .
+	"/* Home ends on a hard-edged button while sub-pages end on a paragraph whose box\n" .
+	"   adds ~40px below the text, so with equal boxes Home read ~20-34px low by eye.\n" .
+	"   Move 20px of Home padding from top to bottom (bottoms above already +20):\n" .
+	"   same hero height, copy sits at the same optical position as the sub-pages. */\n" .
+	"@media (min-width:1230px){.page-id-315 .elementor-element-hero{padding-top:276px!important;}}\n" .
+	"@media (min-width:922px) and (max-width:1229px){.page-id-315 .elementor-element-hero{padding-top:251px!important;}}\n" .
+	"@media (min-width:768px) and (max-width:921px){.page-id-315 .elementor-element-hero{padding-top:280px!important;}}\n" .
+	"@media (max-width:767px){.page-id-315 .elementor-element-hero{padding-top:253px!important;}}\n" .
 	"/* header nav wrapped onto a second row in this band (masthead 251px) */\n" .
 	"@media (min-width:1230px) and (max-width:1269px){\n" .
 	"  .main-header-menu > .menu-item > .menu-link{padding-left:5px!important;padding-right:5px!important;font-size:15px!important;}\n" .

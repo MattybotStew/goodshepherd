@@ -470,11 +470,12 @@ The header is four different heights, and Elementor only has three breakpoints:
 
   | Page | Overlap desktop / tablet / mobile | padding-bottom ≥1025 / 922–1024 / 768–921 / ≤767 |
   |---|---|---|
-  | Home 315 (`#home-intro`) | 160 / 96 / 64 | 280 / 216 / 206 / 160 |
+  | Home 315 (`#home-intro`) | 160 / 96 / 64 | 300 / 236 / 226 / 180 (incl. the +20 optical shift below) |
   | Support GSM 2092, Endowment 2093, Events 2094 (`cards_strip`) | 120 / 80 / 56 | 240 / 200 / 190 / 152 |
   | Contact 319 (`contact_bar`) | 56 / 56 / 56 | 176 / 176 / 166 / 152 |
 
   If you change a strip's negative margin in `build_pages.py` / `build_home_replica.py`, change these numbers too. Measure the gap against the strip's top, not the hero's bottom.
+- **Home is centred by eye, not by box.** Equal boxes still read ~20–34px low on Home: its copy ends on a hard-edged button, while sub-pages end on a paragraph whose box adds ~40px under the text. Home therefore moves 20px of padding from top to bottom in every band (top 276 / 251 / 280 / 253, bottom 300 / 236 / 226 / 180), leaving the hero height unchanged. Measured from the lowest header ink (logo or nav text) to the H1 cap top, and from the last baseline or button to the strip, Home and every sub-page now sit 5–17px above the optical centre, the same amount on each page at a given width. Don't "re-equalise" Home's boxes.
 
 ### Header nav wrapped at 1230–1269px
 
