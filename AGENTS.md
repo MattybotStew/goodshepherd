@@ -705,6 +705,39 @@ Edits go into Local, get verified, then the database is pushed to WP Engine stag
 | Local | https://goodshepherd.local |
 | WPE stage | https://goodshephe3dev.wpenginepowered.com |
 
+### Small, scripted changes: patch both hosts instead of a DB push
+
+A full export/import replaces users, `admin_email`, object caches and every
+option — too much blast radius for one page edit. When the change is a single
+generated page or an idempotent option script, apply the same artifact on each
+host instead. Both paths are scripted, so Local and stage converge on the same
+bytes.
+
+```sh
+# Local (regenerates Elementor CSS and flushes caches)
+./_tools/apply_elementor.sh 316 /tmp/page_316.json
+
+# stage: upload the JSON + scripts over the shell (scp is blocked), then
+ssh -i "$KEY" goodshephe3dev@goodshephe3dev.ssh.wpengine.net \
+  'cat > /sites/goodshephe3dev/gsm-page-316.json' < /tmp/page_316.json
+ssh -i "$KEY" goodshephe3dev@goodshephe3dev.ssh.wpengine.net \
+  '/usr/local/bin/wp --path=/sites/goodshephe3dev --allow-root eval-file \
+     /sites/goodshephe3dev/gsm-stage-apply-page.php 316 /sites/goodshephe3dev/gsm-page-316.json'
+```
+
+`_tools/stage_apply_page.php` is the stage twin of `apply_elementor.sh`: it
+refuses data that contains `goodshepherd.local`, rewrites `_elementor_data`,
+clears Elementor CSS and **regenerates every builder document** (clearing
+without regenerating strips styling from every other page), then flushes the
+object cache — which WP Engine needs after any DB write.
+
+Idempotent option scripts (`footer_get_involved.php`, `newsletter_underform.php`,
+…) run the same way on both hosts: `wp eval-file <script>`. Never run them only
+on stage.
+
+Use the full push sequence below when the change is structural (menus,
+Customizer settings, plugins, templates, media).
+
 ### Push sequence
 
 1. **Export.** `_tools/wp.sh db export` does not work in this environment. `mysqldump` is not on PATH, and once it is, it does not inherit the socket the wrapper sets for PHP — it fails with `Can't connect to local MySQL server through socket '/tmp/mysql.sock'`. Drive Local's own mysqldump with a throwaway client config instead:
