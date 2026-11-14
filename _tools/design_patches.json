@@ -83,6 +83,10 @@
     "st_grid": {
       "_why": "two story cards sat left in a 3-column row under a centred heading",
       "flex_justify_content": "center"
+    },
+    "re:^hi_title\\d$": {
+      "_why": "card strip directly under the hero: h3 came before any h2 (axe heading-order); typography is set on the widget so the look is unchanged",
+      "header_size": "h2"
     }
   },
   "316": {
@@ -110,6 +114,10 @@
     "nw_grid": {
       "_why": "2-up cards at tablet stopped 35px short",
       "flex_justify_content": "space-between"
+    },
+    "re:^nw_t\\d$": {
+      "_why": "news card titles were h3 directly under the H1 (axe heading-order)",
+      "header_size": "h2"
     }
   },
   "319": {
@@ -184,6 +192,24 @@
         "size": 100,
         "sizes": []
       }
+    }
+  },
+  "2092": {
+    "re:^sg_title\\d$": {
+      "_why": "card strip directly under the hero: h3 came before any h2 (axe heading-order); typography is set on the widget so the look is unchanged",
+      "header_size": "h2"
+    }
+  },
+  "2094": {
+    "re:^ev_title\\d$": {
+      "_why": "card strip directly under the hero: h3 came before any h2 (axe heading-order); typography is set on the widget so the look is unchanged",
+      "header_size": "h2"
+    }
+  },
+  "2093": {
+    "re:^en_title\\d$": {
+      "_why": "card strip directly under the hero: h3 came before any h2 (axe heading-order); typography is set on the widget so the look is unchanged",
+      "header_size": "h2"
     }
   }
 }

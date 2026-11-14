@@ -110,6 +110,27 @@ $s['footer-social-1-bg-space'] = 8;
 update_option( 'astra-settings', $s );
 WP_CLI::log( 'Astra: above-header navy, page title 48/40/34, footer social padding 8' );
 
+/* ---------- 2b. Footer column titles: h4 -> h2 ----------
+ * They followed the newsletter band's h2, skipping h3 (axe heading-order).
+ * Styled by `.site-primary-footer-wrap .wp-block-heading`, so the look is unchanged. */
+
+$blocks = get_option( 'widget_block', array() );
+$fixed  = 0;
+foreach ( $blocks as $k => $b ) {
+	if ( ! is_array( $b ) || empty( $b['content'] ) ) {
+		continue;
+	}
+	$new = preg_replace( '#<!-- wp:heading \{"level":4\} --><h4 class="wp-block-heading">(.*?)</h4><!-- /wp:heading -->#', '<!-- wp:heading --><h2 class="wp-block-heading">$1</h2><!-- /wp:heading -->', $b['content'] );
+	if ( $new !== $b['content'] ) {
+		$blocks[ $k ]['content'] = $new;
+		$fixed++;
+	}
+}
+if ( $fixed ) {
+	update_option( 'widget_block', $blocks );
+}
+WP_CLI::log( "Footer titles h4 -> h2: {$fixed} blocks" );
+
 /* ---------- 3. Privacy layout ---------- */
 
 update_post_meta( 3, 'ast-site-content-layout', 'narrow-width-container' );
@@ -159,6 +180,12 @@ $add = "\n/* GSM design sweep */\n" .
 	"   `.elementor.elementor .e-con > .elementor-widget{max-width:100%}`. */\n" .
 	".elementor-element-pg_content .elementor-widget-text-editor,\n" .
 	".elementor-widget-text-editor[data-id^=\"ev_\"],.elementor-widget-text-editor[data-id^=\"cr_\"]{max-width:720px!important;}\n" .
+	"/* newsletter email: its <label> was display:none (old rule + SureForms control), so it was\n" .
+	"   labelled only by title (axe label-title-only). Visually hidden instead; the visible\n" .
+	"   EMAIL ADDRESS text is the separate nllab heading. */\n" .
+	".elementor-element-nlright .srfm-block-label{display:block!important;position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important;}\n" .
+	"/* footer titles are h2 now (were h4): keep the h4 line-height */\n" .
+	".site-primary-footer-wrap .wp-block-heading{line-height:1.3!important;}\n" .
 	"/* end GSM design sweep */\n";
 
 wp_update_custom_css_post( rtrim( $css ) . "\n" . $add );

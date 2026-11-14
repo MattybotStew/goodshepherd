@@ -558,6 +558,16 @@ The three *Winter/Spring/Fall Newsletter* posts (2153/2155/2157) had a body of "
 
 Open (not layout): heading order still skips levels (footer widget titles are `h4`; card titles are `h3` with no `h2` before them on Home and News). Body H2 sizes still vary by page type (30px in articles, 32 on Events, 44 in sections).
 
+### Launch checks (2026-11-13)
+
+Run after the design sweep, on Local (accessibility) and stage (performance, assets):
+
+- **Accessibility:** axe-core 4.14 (WCAG 2.0/2.1/2.2 A+AA plus best-practice) on 17 routes × 1440/390 — **0 violations** on every content page. Fixed on the way: card-strip and News card titles `h3` → `h2` (patch table), footer column titles `h4` → `h2` (`widget_block`; line-height pinned so the look is identical), newsletter email `<label>` changed from `display:none` to visually hidden (it was labelled only by `title`). Remaining: Astra's own 404 template has no `<main>` and an `h3` subtitle — best-practice only, and fixing it means a theme template override, which this build does not do.
+- **Assets on stage:** 0 failed requests and 0 console errors on 16 routes × 2 widths after the font fix above.
+- **Performance (stage, desktop, unthrottled):** LCP 0.4–1.4s, CLS ≤ 0.04, static assets `max-age=31536000` + br/gzip. Page weight is images: 0.4–2.2MB per page. `hero.jpg` (LCP on six pages) and `cta-greenhouse.jpg` (CTA band, 13 pages) are CSS backgrounds, so they bypass the WebP passthru and responsive sizes; they were re-encoded in place (703 → 437KB, 397 → 213KB, visually identical under the 62% overlay). Originals: `~/Local Sites/goodshepherd/_backups/2026-11-13-originals/`. Throttled mobile numbers were not trustworthy (CDP throttling did not apply) — run Lighthouse before launch.
+- **Analytics:** `ga-google-analytics` loads gtag with the placeholder ID **`G-XXXXXXXXXX`** on every page (154KB JS, tracks nothing). Needs the client's real GA4 ID, or deactivate it until then. Also decide on a consent banner if GA stays.
+- **Cross-browser:** Chromium, Firefox 160 (the stock app, driven over WebDriver BiDi) and WebKit 27.2 (Safari's engine, via an offscreen `WKWebView`) give **identical measurements on all 16 routes × 1440/1024/390** (48/48 per engine): no overflow, no broken images, DM Sans loads, same hero geometry and grid alignment. Visual spot checks of forms, the glass newsletter pill and mobile Home match. Tools and how to run them: `_tools/xbrowser/`. Not covered: real iOS/Android devices and touch behaviour.
+
 ### Verification loop used for all of the above
 
 ```sh
@@ -651,6 +661,7 @@ The import replaces tables only. These live on the filesystem and must already b
 | `mu-plugins/gsm-redirects.php`, `gsm-security.php`, `gsm-seo.php` | `/ways-to-give/` and `/donate/` 404 instead of 301; SureForms URLs return to the sitemap |
 | `uploads/elementor/css/post-*.css` | pages serve stale CSS — flush and regenerate after the import |
 | `uploads/` media | any photo added locally breaks on stage |
+| `wp-content/astra-local-fonts/` (DM Sans, 5 files) | **every page silently falls back to the system sans-serif** — no error, no 404 in the page, only a 404 on the `.woff2`. Stage was missing it until 2026-11-13; rsync it like uploads |
 | plugin and theme files | the DB references widgets/options the stage code cannot render |
 
 Before pushing, confirm stage runs the same versions as Local (Elementor 4.3.3, Astra 4.14.0, SureForms 2.12.8 at time of writing).
