@@ -6,8 +6,27 @@ alwaysApply: true
 
 # Project instructions
 
-- Read `AGENTS.md` before any work. It is the canonical source for IA, slugs, stack, and hard rules.
+- Read `AGENTS.md` before any work. It is the canonical source for IA, slugs, stack, hard rules, deployment and the **§Stage fixes 2026-11-13** ledger.
 - Read `FIGMA.md` before implementing from a Figma URL.
-- **Get Involved landing** (`/support-gsm`): Figma `9179:32` — hero + `HomeIntroStrip` + four stacked `SplitSection` blocks from `src/data/getInvolved.js`. No horizontal tabs.
-- **Reusable modules:** prefer `SplitSection`, `AboutMissionSection`, `HistoryTimelineSection`, `AffiliationsSection`, `HomeIntroStrip` over new layout CSS.
-- On conflicts: `AGENTS.md` wins over chat history; `src/pages/SitemapPage.jsx` wins over `design/sitemap-structure.md`.
+
+## Environments
+
+| Env | URL |
+|---|---|
+| Local (canonical — edit here) | `https://goodshepherd.local` |
+| Stage (rebuilt from Local) | `https://goodshephe3dev.wpenginepowered.com` |
+| Live (being replaced) | `https://www.goodshepherdmanor.org` |
+
+## Build invariants
+
+- **14 SOW pages + Privacy.** Vocational is retired (`/programs/vocational/` 301s to the CDS vocational section).
+- Pages are **generated**, not hand-built: `_tools/build_pages.py`, `_tools/build_home_replica.py`, then `_tools/apply_elementor.sh`. Fixes are scripts in `_tools/` too — re-run them instead of editing pages in Elementor.
+- **Hero padding is CSS-owned** (it tracks the transparent header height per band: 176 / 151 / 190 / 177px). Changing it in Elementor does nothing; edit the `/* GSM hero vertical centring */` block or re-measure the header first.
+- **Post template** is Theme Builder `Single Post — News`, condition `include/singular/post` (never `include/general` — that leaked onto `/news/` and duplicated the H1 and CTA band).
+- **Editability contract:** `_tools/audit_editability.php` must report 0 raw HTML widgets, 0 shortcodes, 0 per-element custom CSS, 0 inline `<style>`/`<script>`.
+- Reusable modules only: `PageHero`, `SplitSection`, `AboutMissionSection`, `HomeIntroStrip`, `HistoryTimelineSection`, `AffiliationsSection`, `SectionTabs`.
+- `AGENTS.md` wins over chat history; `src/pages/SitemapPage.jsx` wins over `design/sitemap-structure.md`; locked slugs win over hash links.
+
+## Still open
+
+Form mail transport (`GSM_SMTP_PASS`), newsletter archive PDFs, news archive/pagination, news card imagery.

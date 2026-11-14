@@ -317,6 +317,8 @@ Applied to: `.text-link`, card/CTA links, eyebrows and labels in the article sid
 
 **When the site moves to WordPress:** set the Astra *button* and *link* colours to `#006BB3` in the Customizer (or accept AA failure). This is a client decision — the brand accent stays `#0089DF` for graphics.
 
+Stage already does this where axe flagged it: header CTA `#006BB3`, program sidebar current item `#006BB3` (in Elementor data so it stays editable), required asterisk `#B42318`, and the nav's active **parent** white over hero pages only (see §Stage fixes 2026-11-13).
+
 
 ## Content sources in this repo
 
@@ -443,6 +445,101 @@ A page is "done" when it renders at 1440/1024/390 with no horizontal overflow, t
 
 The last full pass (2026-11-04) checked all 16 pages at **320 / 360 / 390 / 768 / 921 / 922 / 1024 / 1440** with no overflow anywhere.
 
+## Stage fixes 2026-11-13 (verified) — do not regress
+
+Everything below is live on stage **and** Local, verified by measurement (not by eye), and driven by scripts in `_tools/` so it can be re-applied instead of hand-edited.
+
+### Hero system: content is centred in the *visible* area
+
+The transparent header floats **on top of** the hero, so geometric centring puts the copy one header-height too high. The top padding is therefore `header height + base`, the bottom stays at base, and `justify-content: center` does the rest — any extra hero height then splits evenly and the offset survives.
+
+The header is four different heights, and Elementor only has three breakpoints:
+
+| Viewport | Header | Hero min-height | padding-top | padding-bottom |
+|---|---|---|---|---|
+| ≥1230 | 176px | 560 | 296 | 120 |
+| 922–1229 | 151px | 520 | 271 | 120 |
+| 768–921 | 190px | 520 | 300 | 110 |
+| ≤767 | 177px | 480 | 273 | 96 |
+
+- Elementor carries the desktop/tablet/mobile `min_height` and `padding`; **Additional CSS** adds the per-band `padding-top` (and the 922–1229 `padding-bottom`) with `!important` because the header height does not follow Elementor's breakpoints.
+- **Consequence: hero padding is not editable in Elementor.** Changing it there has no effect. Edit the CSS block (`/* GSM hero vertical centring */` in Additional CSS, written by `_tools/hero_centering_css.php`) or re-measure the header first.
+- Scripts: `_tools/hero_centering.php` (Elementor values), `_tools/hero_centering_css.php` (band overrides + nav band fix).
+- Measured result: content sits exactly 120px below the header and 120px above the hero bottom at 1440/1260/1150/1000, 110/110 at 900/768, 96/96 at 390.
+
+### Header nav wrapped at 1230–1269px
+
+Six nav items plus the Support GSM button overflowed onto a second row in that band (masthead grew to 251px). Additional CSS tightens menu spacing to 5px / 15px and hides the duplicate header CTA between 1230 and 1269. The nav's own Support GSM item covers the CTA there. Re-check this band if nav labels or the logo change.
+
+### CTA band on 13 content pages
+
+`gsm_cta_band` (photo overlay, "Support GSM Foundation" + Donate / Volunteer / Careers) is inserted on every content page **except Home**. `_tools/rebuild_cta_band.py` only *replaces* an existing band — use `_tools/insert_cta_band.php <fragment.json>` to insert one. The fragment must stay host-relative (`/wp-content/uploads/...`), and the card copy is real prose, not lorem.
+
+### News & Events: gradient heroes, no photo
+
+Both pages were reusing the shared `hero.jpg`, so they looked identical to Home with white type over a busy photo. Their `hero` containers now use an Elementor gradient (`#002A4E → #0C4E86`, 160°) with the photo and overlay removed. Script: `_tools/hero_gradient.php`.
+
+### News hub (`/news`, page 318)
+
+- Hero H1 is **"What's Happening at GSM"** with the learning/connecting lede; the duplicate heading further down was removed.
+- The Home "Our Impact" stats block and the navy "Help Make Home Happen" band were removed (the page asked for money twice).
+- Four cards `nw_card0…nw_card3`, each with a `nw_mN` meta widget (`DATE · CATEGORY`), equal width (`flex: 1 1 0` at ≥1025px), and **whole-card clickable** — the Read More link is stretched over the card.
+- The stretch needs three things together: `position: static` on `.elementor-widget-button` **and** `.elementor-button-wrapper`, and `height: auto; transform: none` on the button's `::after` (otherwise the global 44px hit-area rule keeps it a 44px band).
+- Script: `_tools/fix_news_hub.php`.
+
+### News post template (Theme Builder)
+
+`Single Post — News` (elementor_library) gives every post the site template: photo hero with eyebrow + 54px title + date, 904px article column, CTA band, "Back to News & Updates".
+
+- Condition is **`include/singular/post`**. `include/general` renders the template on *every* single page — it once leaked onto `/news/` and produced two H1s, two CTA bands and a stray back-link.
+- The condition must be written to **both** `_elementor_conditions` meta **and** the `elementor_pro_theme_builder_conditions` option (`['single' => [<id> => ['include/singular/post']]]`). Meta alone does nothing.
+- Script: `_tools/build_post_template.php`.
+
+### Program galleries
+
+`pg_content` (article column) carries 64px bottom padding so the gallery does not run flush into the band below. Script: `_tools/gallery_bottom_padding.php`.
+
+### Content pulled from the live site
+
+The four `/news` posts were placeholder bodies. `_tools/import_live_news.php` fetches each post from `goodshepherdmanor.org/wp-json/wp/v2/posts`, sideloads its images into the media library, and writes **Gutenberg blocks** (paragraph / heading / image with attachment id) so the client can edit block by block. Image URLs are stored **host-relative**; `_gsm_live_source` marks imported posts, `force` re-imports. The newsletter archive has no source on the live site (only a 2013 PDF), so those stay placeholders.
+
+### Accessibility fixes applied in Additional CSS / Elementor data
+
+| What | Rule | Where |
+|---|---|---|
+| Header CTA | `#006BB3` (white on `#0089DF` was 3.59:1) | `_tools/ada_contrast_fixes.php` |
+| Program sidebar current item | `#006BB3` — set in **Elementor data**, not CSS, so it stays editable | `_tools/ada_contrast_fixes.php` |
+| Program sidebar label | `#006BB3` (was 3.72:1) | `_tools/accessibility_css_fixes.php` |
+| Required asterisk | `#B42318` (was `#DC2626`, 4.41:1) | `_tools/accessibility_css_fixes.php` |
+| Nav parent over hero | `current-menu-parent` / `current-menu-ancestor` were `#006BB3` on navy (~2.4:1) — now white on hero pages only | `_tools/nav_hero_contrast.php` |
+| About → Accessibility | section flipped, image left (`row-reverse`), DOM order kept | `_tools/flip_accessibility_image.php` |
+| Newsletter band | `STAY CONNECTED` eyebrow added to template 2375 | `_tools/newsletter_eyebrow.php` |
+| Placeholder captions | `Placeholder photo — …` widgets deleted | `_tools/remove_placeholder_captions.php` |
+
+### Editability contract
+
+`_tools/audit_editability.php` walks every `_elementor_data` document (14 pages, post template, newsletter band) and must report **0 html widgets, 0 shortcodes, 0 per-element custom CSS, 0 inline `<style>`/`<script>`**. Current state: 651 native widgets, all checks 0.
+
+Keep it that way: copy and photos go in heading / text-editor / button / image widgets, styling goes in Additional CSS or the theme, never in raw HTML or Elementor's per-element CSS. Known non-editable-by-design pieces: hero padding (CSS bands), the news card stretch, and the newsletter band being a **global** template (editing it changes every page).
+
+### Verification loop used for all of the above
+
+```sh
+# content/copy inventory: no lorem, no placeholder captions, band + eyebrow present
+# axe-core WCAG 2.1 AA: 0 violations on 17 routes at 1440 (and 390 for key pages)
+# hero geometry: (content top − header height) == (hero bottom − content bottom)
+./_tools/wp.sh eval-file _tools/verify_site.php   # 47/47
+```
+
+The last pass (2026-11-13) measured **0 axe violations** on all 17 routes, identical hero gaps at 1440/1260/1150/1000/900/768/390, and `verify_site.php` at 47/47.
+
+### Still open (content / ops, not build)
+
+1. **Mail transport** — no `GSM_SMTP_PASS`, so all three forms, password resets and new-user mail fail silently.
+2. **Newsletter archive** — three placeholder issues; the live site has no 2025/2026 PDFs to import.
+3. **News hub scale** — four static cards, no archive or pagination, so older posts are unreachable once this ships. A Posts loop would replace both the cards and this limitation.
+4. **News card imagery** — cards are text-only.
+
 ## Build order (WordPress)
 
 1. Import Non-Profit Organization 04 on staging
@@ -564,6 +661,9 @@ Uploads are a separate rsync of `wp-content/uploads/` (additive, never `--delete
 - Support GSM Foundation uses a `SectionTabs` jump bar above stacked `SplitSection`s (client direction) — tabs scroll to anchors, all content stays visible. Do not replace the stacked content with hidden tab panels.
 - Vocational was the approved scope cut and is now done: the page is a draft, `/programs/vocational/` 301s to the CDS vocational section, and no menu links to it.
 - Purge WP Engine cache after Elementor edits.
+- Hero padding is owned by the CSS band block (it tracks the transparent header). Do not "fix" it in Elementor — re-measure the header first.
+- No raw HTML widgets, no shortcodes, no Elementor per-element custom CSS. `_tools/audit_editability.php` must stay at 0.
+- The post template's Display Condition is `include/singular/post`, never `include/general`.
 
 ## Conflicts
 
