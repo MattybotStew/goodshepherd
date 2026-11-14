@@ -512,6 +512,8 @@ Both pages were reusing the shared `hero.jpg`, so they looked identical to Home 
 
 `pg_content` (article column) carries 64px bottom padding so the gallery does not run flush into the band below. Script: `_tools/gallery_bottom_padding.php`.
 
+Gallery tiles are **square** (2026-11-14). The image widgets (`gal_0`–`gal_3`) were rendering at each photo's natural aspect ratio, so a 2-up row mixed 444×592 with 444×333. They now use Elementor's own Image Resolution = Custom, 800×800 — a hard-cropped square served from `uploads/elementor/thumbs/`, square at every column width with no CSS. Rule lives in `_tools/design_patches.json` (`re:^gal_\d+$`), so a rebuild keeps it; the live-page applier is `_tools/square_gallery_images.php` (idempotent, run it on Local and on stage after a push, because each host generates its own crops).
+
 ### Content pulled from the live site
 
 The four `/news` posts were placeholder bodies. `_tools/import_live_news.php` fetches each post from `goodshepherdmanor.org/wp-json/wp/v2/posts`, sideloads its images into the media library, and writes **Gutenberg blocks** (paragraph / heading / image with attachment id) so the client can edit block by block. Image URLs are stored **host-relative**; `_gsm_live_source` marks imported posts, `force` re-imports. The newsletter archive has no source on the live site (only a 2013 PDF), so those stay placeholders.
