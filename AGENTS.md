@@ -623,7 +623,7 @@ Applied by `build_pages.py` (pages 317, 2092) and `_tools/newsletter_underform.p
 - **Document typos** — "Afilliations", "Engagment", "Chistmas", "Oympics" — are already correct on the site.
 - **Global "Get Involved" lorem block and the "Projects" nav row** (Global!D5–D15) are placeholders, not content.
 
-### Client decisions (all four applied on Local 2026-11-14; see below)
+### Client decisions (all four applied on Local + stage 2026-11-14)
 
 1. **Footer links** — Global!D26 lists "Volunteer"; the site has "Memorial or Tribute" (client direction 2026-11-04). **Keep both; Volunteer → `/support-gsm#events`.** ✅ Applied — `_tools/footer_get_involved.php` updates `widget_block` 16 (rendered) and 17 (unused copy).
 2. **Footer column heading** — Global!D25 says "GET INVOLVED"; the site shows "Ways to Give". **Switch to "GET INVOLVED".** ✅ Applied as title case **"Get Involved"** to match the other footer headings ("About Us", "Contact Info"); the document's caps are a label style, not copy.
